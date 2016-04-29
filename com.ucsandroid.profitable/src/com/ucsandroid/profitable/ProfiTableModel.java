@@ -11,7 +11,7 @@ import java.sql.Statement;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.ucsandroid.profitable.Utilities.Encrypt;
+import com.ucsandroid.profitable.utilities.SecUtilities.Encrypt;
 
 public class ProfiTableModel{
 
@@ -24,7 +24,7 @@ public class ProfiTableModel{
 	}
 
 	
-	/** Opens database connection. */
+	/**DEPRECATED Opens database connection. */
 	public void openConnection(){
 
 		try
@@ -47,7 +47,7 @@ public class ProfiTableModel{
 		
 	}
 
-	/**Closes database connection.*/
+	/**DEPRECATED Closes database connection.*/
 	public void closeConnection(){
 
 		try {
@@ -60,7 +60,7 @@ public class ProfiTableModel{
 
 	}
 
-
+	/**DEPRECATED */
 	public Connection getConnection(){
 		
 		return connection;
@@ -304,7 +304,7 @@ public class ProfiTableModel{
 	}
 
 
-	/**
+	/**DEPRECATED
 	 * Takes a resultSet and converts it into a JSONArray
 	 * 
 	 * @param resultSet

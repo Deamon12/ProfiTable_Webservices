@@ -1,15 +1,16 @@
-package com.ucsandroid.profitable;
+package com.ucsandroid.profitable.utilities;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Utilities {
+public class SecUtilities {
 
 	/**
 	 * A basic algorithm to convert strings to SHA1
 	 */
-	static class Encrypt {
-		static String get_SHA_1_SecurePassword(String passwordToHash)
+	public static class Encrypt {
+		
+		public static String get_SHA_1_SecurePassword(String passwordToHash)
 		{
 			String generatedPassword = null;
 			try {
