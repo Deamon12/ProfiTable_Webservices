@@ -25,5 +25,4 @@ public class StandardResult {
 		this.result = result;
 	}
 	
-	
 }

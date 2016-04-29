@@ -1,6 +1,11 @@
 package com.ucsandroid.profitable;
 
 import javax.ws.rs.GET;
+import org.json.JSONArray;
+
+import com.ucsandroid.profitable.dataaccess.MenuDAO;
+import com.ucsandroid.profitable.service.MenuService;
+
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -9,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 @Path ("/serviceclass")
 public class MainController {
 	
+	private MenuService menuService = new MenuService();
 	
 	
 	@Path ("/test")
@@ -18,6 +24,17 @@ public class MainController {
 		return "<html> " + "<title>" + "ProfiTable" + "</title>"
 				+ "<body><h1>" + "This is the controller for ProfiTable by UCSanDroid" 
 				+ "</body></h1>" + "</html> ";
+	}
+	
+	/**
+	 * Simple initial menu fetch test functionality
+	 * @return
+	 */
+	@Path ("/getMenu")
+	@GET
+	@Produces("application/json")
+	public JSONArray fetchMenu() {
+		return menuService.fetchMenu();
 	}
 	
 	@Path ("/dbstatus")
