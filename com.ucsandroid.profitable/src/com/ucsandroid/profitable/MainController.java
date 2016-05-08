@@ -30,7 +30,8 @@ public class MainController {
 		
 			String result = "";
 		try{
-			result = model.getConnection().toString();
+			result = "Successfully connected via: "+model.getConnection().getMetaData().getDriverName()+"";
+			
 		}
 		catch(Exception e){
 			result = "Error connecting to DB";

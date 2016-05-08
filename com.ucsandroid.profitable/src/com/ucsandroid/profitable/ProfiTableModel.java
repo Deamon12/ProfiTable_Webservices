@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -28,20 +29,18 @@ public class ProfiTableModel{
 
 		try
 		{
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			String connectionUrl = "jdbc:mysql://localhost:3306/ucsandroiddb";
-			String connectionUser = "ucsandroidadmin";
-			String connectionPassword = "password";
+			
+			
+			Class.forName("org.postgresql.Driver");
+			String connectionUrl = "jdbc:postgresql://profitabledbproduction.c1xpcxj1mum7.us-west-2.rds.amazonaws.com:5432/profitabledbprod";
+			String connectionUser = "profitable";
+			String connectionPassword = "ucsandroid";
 			connection = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
 
 			System.out.println("Connected to DB");
 
 		}catch (SQLException error){
 			System.out.print("Error connecting to database: " + error);
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
