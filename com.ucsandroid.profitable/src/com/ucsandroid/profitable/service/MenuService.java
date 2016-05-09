@@ -1,14 +1,8 @@
 package com.ucsandroid.profitable.service;
 
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.List;
-
-import org.json.JSONArray;
-
 import com.ucsandroid.profitable.dataaccess.MenuDAO;
-import com.ucsandroid.profitable.entities.MenuItem;
 import com.ucsandroid.profitable.utilities.Converters;
+import com.ucsandroid.profitable.utilities.StatementBuilder;
 
 public class MenuService {
 	
@@ -32,31 +26,16 @@ public class MenuService {
 				"mi.menu_id=hc.menu_id ";
 		
 		try {
-			boolean available = false;
-			int restId = 0;
-			String menuId = "";
-			String catId = "";
+			query = StatementBuilder.addBool(query, 
+					"and mi.available=", avail);
+			query = StatementBuilder.addInt(query, 
+					"and mi.restaurant=", restaurant);
+			query = StatementBuilder.addBool(query, 
+					"and mi.menu_id=", menu_item_id);
+			query = StatementBuilder.addInt(query, 
+					"and hc.cat_id=", category);
 			
-			if (avail!=null && avail.length()>0) {
-				available = Boolean.valueOf(avail);
-				query=query+"and mi.available="+available+" ";
-			}
-			
-			if (restaurant!=null && restaurant.length()>0) {
-				restId = Integer.parseInt(restaurant);
-				query=query+"and mi.restaurant="+restId+" ";
-			}
-			
-			if (menu_item_id!=null && menu_item_id.length()>0) {
-				menuId = ""+Integer.parseInt(menu_item_id);
-				query=query+"and mi.menu_id="+menuId+" ";
-			}
-			
-			if (category!=null && category.length()>0) {
-				catId = ""+Integer.parseInt(category);
-				query=query+"and hc.cat_id="+catId+" ";
-			}
-			
+			//log the query so we can analyze the sql generated
 			System.out.println(query);
 			
 			return Converters.convertToString(
@@ -90,21 +69,13 @@ public class MenuService {
 				"and c.cat_id=hs.cat_id ";
 		
 		try {
-			boolean available = false;
-			int restId = 0;
-			
-			if (avail!=null && avail.length()>0) {
-				available = Boolean.valueOf(avail);
-				query=query+"and mi.available="+available+" ";
-			}
-			
-			if (restaurant!=null && restaurant.length()>0) {
-				restId = Integer.parseInt(restaurant);
-				query=query+"and mi.restaurant="+restId+" ";
-			}
-			
+			query = StatementBuilder.addBool(query, 
+					"and mi.available=", avail);
+			query = StatementBuilder.addInt(query, 
+					"and mi.restaurant=", restaurant);
 			query=query+"ORDER BY category_name ASC";
 			
+			//log the query so we can analyze the sql generated
 			System.out.println(query);
 			
 			return Converters.convertToString(

@@ -2,6 +2,7 @@ package com.ucsandroid.profitable.service;
 
 import com.ucsandroid.profitable.dataaccess.MenuDAO;
 import com.ucsandroid.profitable.utilities.Converters;
+import com.ucsandroid.profitable.utilities.StatementBuilder;
 
 public class AdditionsService {
 	
@@ -34,27 +35,12 @@ private MenuDAO menuDAO;
 					"and fa.attr_id=ha.attr_id ";
 					
 		try {
-			boolean available = false;
-			int restId = 0;
-			String menuId = "";
-			
-			if (avail!=null && avail.length()>0) {
-				available = Boolean.valueOf(avail);
-				query=query+"and fa.available="+available+" ";
-			}
-			
-			if (rest!=null && rest.length()>0) {
-				restId = Integer.parseInt(rest);
-				query=query+"and mi.restaurant="+restId+" ";
-			}
-			
-			if (menu_item!=null && menu_item.length()>0) {
-				menuId = ""+Integer.parseInt(menu_item);
-				query=query+"and mi.menu_id="+menuId+" ";
-			}
-			
+			query = StatementBuilder.addBool(query, "and fa.available=", avail);
+			query = StatementBuilder.addInt(query, "and mi.restaurant=", rest);
+			query = StatementBuilder.addInt(query, "and mi.menu_id=", menu_item);
 			query=query+"ORDER BY ha.default_incl DESC ";
 			
+			//log the query so we can analyze the sql generated
 			System.out.println(query);
 			
 			return Converters.convertToString(

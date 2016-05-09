@@ -111,7 +111,7 @@ public class MainController {
 	@Produces ("application/json")
 	public String getTags(){
 		
-		ProfiTableModel model = new ProfiTableModel();
+		//ProfiTableModel model = new ProfiTableModel();
 		return null;
 	}
 	
