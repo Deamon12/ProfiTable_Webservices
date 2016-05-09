@@ -87,8 +87,13 @@ public class MainController {
 			@QueryParam("available") String available, 
 			@QueryParam("rest_id") String rest_id
 			) {
-		return additionService.AttributeGet(menu_item_id, 
+		if (menu_item_id!=null) {
+			return additionService.AttributeGet(menu_item_id, 
 				available, rest_id); 
+		} else {
+			return additionService.AttributeGetRest( 
+				available, rest_id); 
+		}
 	}
 	
 	@Path ("/dbstatus")

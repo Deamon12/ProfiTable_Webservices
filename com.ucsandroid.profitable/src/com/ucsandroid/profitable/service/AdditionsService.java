@@ -23,9 +23,9 @@ private MenuDAO menuDAO;
 			String rest) {
 		
 		String query = 
-				"SELECT "+
-					"fa.attribute, fa.attr_id, fa.available "+
-					"price_mod, ha.default_incl "+
+				"SELECT distinct "+
+					"fa.attribute, fa.attr_id, fa.available, "+
+					"fa.price_mod, ha.default_incl "+
 				"FROM "+
 					"has_attr ha, "+
 					"food_attribute fa, "+
@@ -35,10 +35,14 @@ private MenuDAO menuDAO;
 					"and fa.attr_id=ha.attr_id ";
 					
 		try {
-			query = StatementBuilder.addBool(query, "and fa.available=", avail);
-			query = StatementBuilder.addInt(query, "and mi.restaurant=", rest);
-			query = StatementBuilder.addInt(query, "and mi.menu_id=", menu_item);
-			query=query+"ORDER BY ha.default_incl DESC ";
+			query = StatementBuilder.addBool(query, 
+					"and fa.available=", avail);
+			query = StatementBuilder.addInt(query, 
+					"and mi.restaurant=", rest);
+			query = StatementBuilder.addInt(query, 
+					"and mi.menu_id=", menu_item);
+			query=query+
+					"ORDER BY ha.default_incl DESC, fa.attr_id ASC ";
 			
 			//log the query so we can analyze the sql generated
 			System.out.println(query);
@@ -49,7 +53,44 @@ private MenuDAO menuDAO;
 			System.out.println(e.getMessage());
 			return "ERROR";
 		}
+	}
+	
+	/**
+	 * TODO
+	 * @param menu_item
+	 * @param avail
+	 * @param rest
+	 * @return
+	 */
+	public String AttributeGetRest(String avail,
+			String rest) {
 		
+		String query = 
+				"SELECT distinct "+
+					"fa.attribute, fa.attr_id, fa.available, "+
+					"fa.price_mod "+
+				"FROM "+
+					"food_attribute fa "+
+				"WHERE ";
+					
+		try {
+			//mandatory
+			query = StatementBuilder.addInt(query, 
+					"fa.restaurant=", rest);
+			//optional
+			query = StatementBuilder.addBool(query, 
+					"and fa.available=", avail);
+			query=query+"ORDER BY fa.attr_id ASC ";
+			
+			//log the query so we can analyze the sql generated
+			System.out.println(query);
+			
+			return Converters.convertToString(
+					getMenuDAO().fetchData(query));
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "ERROR";
+		}
 	}
 	
 	
