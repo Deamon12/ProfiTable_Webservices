@@ -23,7 +23,7 @@ public class ConnUtil {
 		try {
 			Class.forName("org.postgresql.Driver");
 			connection = DriverManager.getConnection(sqlDatabaseURL, username, password);
-			System.out.println("Successfully connect to database: "+sqlDatabaseURL);
+			System.out.println("Successfully connected to database: "+sqlDatabaseURL);
 		} catch (Exception e){
 			System.out.println("ERROR unable to connect to: "+sqlDatabaseURL);
 			System.out.print(e);

@@ -6,6 +6,8 @@
 	<artifactId>com.ucsandroid.profitable</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
+	
+	
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
@@ -33,6 +35,7 @@
 			<artifactId>jersey-servlet</artifactId>
 			<version>1.19.1</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>

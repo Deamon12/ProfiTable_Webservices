@@ -18,151 +18,104 @@ public class MenuService {
 		menuDAO = new MenuDAO();
 	}
 	
-	/**
-	 * Fetches all menu items for a given restaurant
-	 * @param available - t/f show only available items or only unavailable items
-	 * @param restaurant - the restaurant id
-	 * @return
-	 */
-	public String fetchMenu(boolean available, int restaurant) {
-		String query = 
-				"select menu_id, menu_name, description, price, available "+
-				"from menu_item where available="+available+" and restaurant="+restaurant;
+	public String MenuItemGet(String restaurant, String menu_item_id,
+			String avail, String category) {
 		
-		return Converters.convertToString(getMenuDAO().fetchData(query));
-	}
-	
-	/**
-	 * Fetches all menu items for a given restaurant
-	 * NOTE: Returns both available and unavailable items
-	 * @param restaurant - the restaurant id
-	 * @return
-	 */
-	public String fetchMenu(int restaurant) {
 		String query = 
-				"select menu_id, menu_name, description, price, available "+
-				"from menu_item where restaurant="+restaurant;
+			"select "+
+				"mi.menu_id, mi.menu_name, mi.description, "+
+				"mi.price, mi.available, hc.cat_id "+
+			"from "+
+				"menu_item mi, "+
+				"has_cat hc "+
+			"where "+
+				"mi.menu_id=hc.menu_id ";
 		
-		return Converters.convertToString(getMenuDAO().fetchData(query));
-	}
-	
-	/**
-	 * Fetches a menu for the given restaurant sorted by category
-	 * @param available - t/f show only available items or only unavailable items
-	 * @param restaurant - the restaurant id
-	 * @return
-	 */
-	public String fetchMenuWithCats(boolean available, int restaurant) {
-		String query = 
-				"SELECT "+
-						"c.cat_name as category_name, c.cat_id as cat_id, "+
-						"mi.menu_name as menu_name, mi.menu_id as menu_id "+
-					"FROM "+
-						"has_cat hs, "+
-						"category c, "+
-						"menu_item mi "+
-					"WHERE "+
-						"mi.menu_id=hs.menu_id "+
-						"AND "+
-						"c.cat_id=hs.cat_id "+
-						"AND "+
-						"mi.available="+available+" "+
-						"AND "+
-						"mi.restaurant="+restaurant+" "+
-					"ORDER BY  "+
-						"category_name ASC";
+		try {
+			boolean available = false;
+			int restId = 0;
+			String menuId = "";
+			String catId = "";
+			
+			if (avail!=null && avail.length()>0) {
+				available = Boolean.valueOf(avail);
+				query=query+"and mi.available="+available+" ";
+			}
+			
+			if (restaurant!=null && restaurant.length()>0) {
+				restId = Integer.parseInt(restaurant);
+				query=query+"and mi.restaurant="+restId+" ";
+			}
+			
+			if (menu_item_id!=null && menu_item_id.length()>0) {
+				menuId = ""+Integer.parseInt(menu_item_id);
+				query=query+"and mi.menu_id="+menuId+" ";
+			}
+			
+			if (category!=null && category.length()>0) {
+				catId = ""+Integer.parseInt(category);
+				query=query+"and hc.cat_id="+catId+" ";
+			}
+			
+			System.out.println(query);
+			
+			return Converters.convertToString(
+					getMenuDAO().fetchData(query));
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "ERROR";
+		}
 		
-		return Converters.convertToString(getMenuDAO().fetchData(query));
 	}
 	
 	/**
 	 * Fetches a menu for the given restaurant sorted by category
-	 * NOTE: Returns both available and unavailable items
-	 * @param restaurant - the restaurant id
-	 * @return
-	 */
-	public String fetchMenuWithCats(int restaurant) {
-		String query = 
-				"SELECT "+
-						"c.cat_name as category_name, c.cat_id as cat_id, "+
-						"mi.menu_name as menu_name, mi.menu_id as menu_id, "+
-						"mi.available as available "+
-					"FROM "+
-						"has_cat hs, "+
-						"category c, "+
-						"menu_item mi "+
-					"WHERE "+
-						"mi.menu_id=hs.menu_id "+
-						"AND "+
-						"c.cat_id=hs.cat_id "+
-						"AND "+
-						"mi.restaurant="+restaurant+" "+
-					"ORDER BY  "+
-						"category_name ASC";
-		
-		return Converters.convertToString(getMenuDAO().fetchData(query));
-	}
-	
-	/**
-	 * Fetches a list of potential additions for a given menu item
-	 * @param menu_id - the identity of the menu item to search for
 	 * @param available - t/f show only available items or only unavailable items
 	 * @param restaurant - the restaurant id
 	 * @return
 	 */
-	public String fetchAdditions(int menu_id, boolean available, int restaurant) {
+	public String MenuCategoriesGet(String restaurant, String avail) {
+		
 		String query = 
 			"SELECT "+
-				"fa.attribute, fa.attr_id, price_mod, ha.default_incl "+
+				"c.cat_name as category_name, c.cat_id as cat_id, "+
+				"mi.menu_name as menu_name, mi.menu_id as menu_id, "+
+				"mi.available as available "+
 			"FROM "+
-				"has_attr ha, "+
-				"food_attribute fa, "+
+				"has_cat hs, "+
+				"category c, "+
 				"menu_item mi "+
 			"WHERE "+
-				"mi.menu_id="+menu_id+" AND "+
-				"mi.menu_id=ha.menu_id AND "+
-				"fa.attr_id=ha.attr_id AND "+
-				"fa.available="+available+" AND "+
-				"mi.restaurant="+restaurant+" "+
-			"ORDER BY "+
-				"ha.default_incl DESC ";
+				"mi.menu_id=hs.menu_id "+
+				"and c.cat_id=hs.cat_id ";
 		
-		return Converters.convertToString(getMenuDAO().fetchData(query));
-	}
-	
-	/**
-	 * Fetches a list of potential additions for a given menu item
-	 * NOTE: Returns both available and unavailable items
-	 * @param menu_id - the identity of the menu item to search for
-	 * @param restaurant - the restaurant id
-	 * @return
-	 */
-	public String fetchAdditions(int menu_id, int restaurant) {
-		String query = 
-			"SELECT "+
-				"fa.attribute, fa.attr_id, price_mod, "+
-				"fa.available, ha.default_incl "+
-			"FROM "+
-				"has_attr ha, "+
-				"food_attribute fa, "+
-				"menu_item mi "+
-			"WHERE "+
-				"mi.menu_id="+menu_id+" AND "+
-				"mi.menu_id=ha.menu_id AND "+
-				"fa.attr_id=ha.attr_id AND "+
-				"mi.restaurant="+restaurant+" "+
-			"ORDER BY "+
-				"ha.default_incl DESC ";
+		try {
+			boolean available = false;
+			int restId = 0;
+			
+			if (avail!=null && avail.length()>0) {
+				available = Boolean.valueOf(avail);
+				query=query+"and mi.available="+available+" ";
+			}
+			
+			if (restaurant!=null && restaurant.length()>0) {
+				restId = Integer.parseInt(restaurant);
+				query=query+"and mi.restaurant="+restId+" ";
+			}
+			
+			query=query+"ORDER BY category_name ASC";
+			
+			System.out.println(query);
+			
+			return Converters.convertToString(
+					getMenuDAO().fetchData(query));
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "ERROR";
+		}
 		
-		return Converters.convertToString(getMenuDAO().fetchData(query));
 	}
-	
-	
-	
-	
-	
-	
-	
+
 	/** returns a valid MenuDAO object */
 	private MenuDAO getMenuDAO() {
 		if (menuDAO==null) {menuDAO = new MenuDAO();}

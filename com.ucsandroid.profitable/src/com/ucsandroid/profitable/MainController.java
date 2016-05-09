@@ -1,25 +1,19 @@
 package com.ucsandroid.profitable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.ws.rs.GET;
-import org.json.JSONArray;
-
-import com.ucsandroid.profitable.dataaccess.MenuDAO;
-import com.ucsandroid.profitable.entities.MenuItem;
-import com.ucsandroid.profitable.service.MenuService;
-
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.ucsandroid.profitable.service.AdditionsService;
+import com.ucsandroid.profitable.service.MenuService;
+
 @Path ("/serviceclass")
 public class MainController {
 	
 	private MenuService menuService = new MenuService();
-	
+	private AdditionsService additionService = new AdditionsService();
 	
 	@Path ("/test")
 	@GET
@@ -39,27 +33,17 @@ public class MainController {
 	 * @param restaurant - integer id
 	 * @return String menu
 	 */
-	@Path ("/Menu")
+	@Path ("/menuItem")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String fetchMenu(
 			@QueryParam("available") String available, 
-			@QueryParam("restaurant") String restaurant
+			@QueryParam("restaurant") String rest_id,
+			@QueryParam("menu_item") String menu_item_id,
+			@QueryParam("category") String cat_id
 			) {
-		try {
-			
-		int restId = Integer.parseInt(restaurant);
-		
-		if (available!=null && available.length()>0) {
-			boolean avail = Boolean.valueOf(available);
-			return menuService.fetchMenu(avail, restId); 
-			}
-		else {return menuService.fetchMenu(restId);}
-		
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return "ERROR";
-		}
+		return menuService.MenuItemGet(rest_id, 
+				menu_item_id, available, cat_id);
 	}
 	
 	/**
@@ -68,31 +52,21 @@ public class MainController {
 	 * if available is not defined or provided, returns all items
 	 * if available is defined as true or false, returns only
 	 * those items matching the given availability
-	 * @param available - true or false
 	 * @param restaurant - integer id
+	 * @param available - true or false
 	 * @return String menu
 	 */
-	@Path ("/MenuCategories")
+	@Path ("/menuCategories")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String fetchMenuWithCats(
 			@QueryParam("available") String available, 
-			@QueryParam("restaurant") String restaurant
+			@QueryParam("rest_id") String rest_id
 			) {
-		try {
-			
-		int restId = Integer.parseInt(restaurant);
 		
-		if (available!=null && available.length()>0) {
-			boolean avail = Boolean.valueOf(available);
-			return menuService.fetchMenuWithCats(avail, restId); 
-			}
-		else {return menuService.fetchMenuWithCats(restId);}
-		
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return "ERROR";
-		}
+		return menuService.MenuCategoriesGet(rest_id, 
+			available);
+
 	}
 	
 	/**
@@ -105,29 +79,16 @@ public class MainController {
 	 * @param restaurant - integer id
 	 * @return
 	 */
-	@Path ("/MenuAdditions")
+	@Path ("/additions")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String fetchAdditions(
-			@QueryParam("menu_id") String menu_id, 
+			@QueryParam("menu_item_id") String menu_item_id, 
 			@QueryParam("available") String available, 
-			@QueryParam("restaurant") String restaurant
+			@QueryParam("rest_id") String rest_id
 			) {
-		try {
-			
-		int restId = Integer.parseInt(restaurant);
-		int mId = Integer.parseInt(menu_id);
-		
-		if (available!=null && available.length()>0) {
-			boolean avail = Boolean.valueOf(available);
-			return menuService.fetchAdditions(mId, avail, restId); 
-			}
-		else {return menuService.fetchAdditions(mId, restId);}
-		
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return "ERROR";
-		}
+		return additionService.AttributeGet(menu_item_id, 
+				available, rest_id); 
 	}
 	
 	@Path ("/dbstatus")
@@ -154,30 +115,4 @@ public class MainController {
 		return null;
 	}
 	
-	@GET
-	@Path ("/getRateList")
-	@Produces ("application/json")
-	public String getRateList(
-			@QueryParam("userId")String userId){
-		
-		ProfiTableModel model = new ProfiTableModel();
-		return null;
-	}
-	
-	@GET
-	@Path("/createUser")
-	@Produces("application/json")
-	public String createUser(
-			@QueryParam("firstName") String firstName, 
-			@QueryParam("lastName") String lastName,
-			@QueryParam("password") String password, 
-			@QueryParam("email") String email, 
-			@QueryParam("image") String image,
-			@QueryParam("deviceId") String deviceId){
-		
-		ProfiTableModel model = new ProfiTableModel();
-		return null;
-	}
-	
-
 }
