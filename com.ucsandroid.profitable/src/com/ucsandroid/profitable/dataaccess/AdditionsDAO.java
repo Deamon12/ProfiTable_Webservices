@@ -1,8 +1,5 @@
 package com.ucsandroid.profitable.dataaccess;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-
 public class AdditionsDAO extends MainDAO {
 	
 	private static String insertStatement = 
@@ -32,10 +29,7 @@ public class AdditionsDAO extends MainDAO {
 	 * @param restId
 	 * @return
 	 */
-	public String additionDelete(int attrib, int restId) {
-		
-		PreparedStatement pstmt = null;
-		Connection conn = null;
+	public String delete(int attrib, int restId) {
 		
 		try {
 			// Open the connection
@@ -51,13 +45,12 @@ public class AdditionsDAO extends MainDAO {
 	        // Attempt execution, return number affected 
 	        int rowCount = pstmt.executeUpdate();
 	        // Validate for expected and return status
-	        String insertStatus = deleteHelper(rowCount, 1, conn);
-	        conn.setAutoCommit(true);
-			return insertStatus;
+	        String deleteStatus = deleteHelper(rowCount, 1, conn);
+			return deleteStatus;
 		} catch (Exception e) {
-			return "Insert failure, SQL issue";
+			return "Delete failure, SQL issue";
 		} finally {
-			sqlCloser(pstmt,conn);
+			sqlCleanup(pstmt,conn);
 		}
 		
 	}
@@ -70,10 +63,8 @@ public class AdditionsDAO extends MainDAO {
 	 * @param restId
 	 * @return
 	 */
-	public String additionInsert(String name, int price, boolean avail,
+	public String insert(String name, int price, boolean avail,
 			int restId) {
-		PreparedStatement pstmt = null;
-		Connection conn = null;
 		
 		try {
 			// Open the connection
@@ -92,12 +83,11 @@ public class AdditionsDAO extends MainDAO {
 	        int rowCount = pstmt.executeUpdate();
 	        // Validate for expected and return status
 	        String insertStatus = insertHelper(rowCount, conn);
-	        conn.setAutoCommit(true);
 			return insertStatus;
 		} catch (Exception e) {
 			return "Insert failure, SQL issue";
 		} finally {
-			sqlCloser(pstmt,conn);
+			sqlCleanup(pstmt,conn);
 		}
 		
 	}
@@ -111,10 +101,9 @@ public class AdditionsDAO extends MainDAO {
 	 * @param restId
 	 * @return
 	 */
-	public String additionUpdate(int attrib, String name, 
+	public String update(int attrib, String name, 
 			int price, boolean avail, int restId) {
-		PreparedStatement pstmt = null;
-		Connection conn = null;
+
 		try {
 			// Open the connection
 			conn = connUtil.getConnection();
@@ -133,12 +122,11 @@ public class AdditionsDAO extends MainDAO {
 	        int rowCount = pstmt.executeUpdate();
 	        // Validate for expected and return status
 	        String updateStatus = updateHelper(rowCount, 1, conn);
-	        conn.setAutoCommit(true);
 			return updateStatus;
 		} catch (Exception e) {
-			return "Insert failure, SQL issue";
+			return "Update failure, SQL issue";
 		} finally {
-			sqlCloser(pstmt,conn);
+			sqlCleanup(pstmt,conn);
 		}
 	}
 }

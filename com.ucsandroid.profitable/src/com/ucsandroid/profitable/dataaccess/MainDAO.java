@@ -11,12 +11,22 @@ import com.ucsandroid.profitable.utilities.ConnUtil;
 public class MainDAO {
 	
 	protected ConnUtil connUtil;
+	protected PreparedStatement pstmt;
+	protected Connection conn;
 	
 	public MainDAO() {
 		connUtil = new ConnUtil();
+		pstmt = null;
+		conn = null;
 	}
 	
-	/** Takes an input query and returns a resultset */
+	/**
+	 * TODO: NEED to perform better cleanup
+	 * <br>
+	 * Takes an input query and returns a result set
+	 * @param query - String the query to perform
+	 * @return - ResultSet
+	 */
 	public ResultSet fetchData(String query) {
 		Statement statement = null;
         ResultSet results = null;
@@ -48,10 +58,12 @@ public class MainDAO {
 	}
 
 	/**
-	 * TODO
-	 * @param insertCount
-	 * @param conn
-	 * @return
+	 * Encapsulates code for performing inserts across any sort
+	 * of sql insert.
+	 * @param insertCount - int number of inserts executed
+	 * @param conn - Connection for either committing or
+	 * rolling back transaction
+	 * @return - String status message
 	 */
 	protected String insertHelper(int insertCount, Connection conn) {
 		// If insert went through correctly, should only create 1 record
@@ -68,14 +80,22 @@ public class MainDAO {
 		} catch (Exception e) {
 			//catch any sql errors
 			return "Insert Failure";
+		} finally {
+			try {conn.setAutoCommit(true); }
+			catch (Exception e) { 
+				System.out.println(e.getMessage());
+			}
 		}
 	}
 	
 	/**
-	 * TODO
-	 * @param deleteCount
-	 * @param conn
-	 * @return
+	 * Encapsulates code for performing deletes across any sort
+	 * of sql delete.
+	 * @param deleteCount - int number of deletes executed
+	 * @param expectedDeletes - int number expected
+	 * @param conn - Connection for either committing or
+	 * rolling back transaction
+	 * @return - String status message
 	 */
 	protected String deleteHelper(int deleteCount, 
 			int expectedDeletes, Connection conn) {
@@ -93,15 +113,22 @@ public class MainDAO {
 		} catch (Exception e) {
 			//catch any sql errors
 			return "Delete Failure";
+		} finally {
+			try {conn.setAutoCommit(true); }
+			catch (Exception e) { 
+				System.out.println(e.getMessage());
+			}
 		}
 	}
 	
 	/**
-	 * TODO
-	 * @param updateCount
-	 * @param expectedUpdates
-	 * @param conn
-	 * @return
+	 * Encapsulates code for performing updates across any sort
+	 * of sql update.
+	 * @param updateCount - int number of updates executed
+	 * @param expectedUpdates - int number expected
+	 * @param conn - Connection for either committing or
+	 * rolling back transaction
+	 * @return - String status message
 	 */
 	protected String updateHelper(int updateCount, 
 			int expectedUpdates, Connection conn) {
@@ -119,15 +146,25 @@ public class MainDAO {
 		} catch (Exception e) {
 			//catch any sql errors
 			return "Update Failure";
+		} finally {
+			try {conn.setAutoCommit(true); }
+			catch (Exception e) { 
+				System.out.println(e.getMessage());
+			}
 		}
 	}
 	
 	/**
-	 * 
-	 * @param pstmt
-	 * @param conn
+	 * Closes the prepared statement and the connection
+	 * so that the SQL connection and server is left in a clean
+	 * state.
+	 * <br>Will catch any exceptions and swallow them, producing
+	 * error messages but otherwise allowing continuation of 
+	 * program.
+	 * @param pstmt - the PreparedStatement to close
+	 * @param conn - the Connection to close
 	 */
-	protected void sqlCloser(PreparedStatement pstmt,
+	protected void sqlCleanup(PreparedStatement pstmt,
 			Connection conn) {
 		// Close the Statement
         if (pstmt != null) {

@@ -17,7 +17,7 @@ private AdditionsDAO additionsDAO;
 		try {
 			Integer attrVal = Integer.parseInt(attr_id);
 			Integer restVal = Integer.parseInt(rest_id);
-			return additionsDAO.additionDelete(attrVal, restVal);
+			return additionsDAO.delete(attrVal, restVal);
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -44,7 +44,7 @@ private AdditionsDAO additionsDAO;
 			if (name.length()==0) {
 				return "INSERT FAILURE: zero length attribute name";
 			} else {
-				return additionsDAO.additionInsert(name, priceVal,
+				return additionsDAO.insert(name, priceVal,
 						availValue, restVal);
 			}
 		} catch (Exception e) {
@@ -75,7 +75,7 @@ private AdditionsDAO additionsDAO;
 			if (name.length()==0) {
 				return "UPDATE FAILURE: zero length attribute name";
 			} else {
-				return additionsDAO.additionUpdate(attrVal, name, 
+				return additionsDAO.update(attrVal, name, 
 						priceVal, availValue, restVal);
 			}
 		} catch (Exception e) {

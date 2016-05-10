@@ -111,7 +111,7 @@ public class MainController {
 		if (attr_id!=null && rest_id!=null) {
 			return additionService.AttributeDEL(attr_id,rest_id); 
 		} else {
-			return "FAILURE: DELETE requires a primary key id";
+			return "FAILURE: DELETE requires attrib and rest ids";
 		}
 	}
 	
