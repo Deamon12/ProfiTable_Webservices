@@ -41,10 +41,10 @@ public class CategoryDAO extends MainDAO {
 		        int i = 1;
 		        pstmt.setInt(i++, catId);
 		        pstmt.setInt(i++, restId);
-		        // Attempt execution, return number affected 
-		        int rowCount = pstmt.executeUpdate();
+
 		        // Validate for expected and return status
-		        String deleteStatus = deleteHelper(rowCount, 1, conn);
+		        String deleteStatus = deleteHelper(pstmt.executeUpdate(), 
+		        		1, conn);
 				return deleteStatus;
 			} catch (Exception e) {
 				return "Insert failure, SQL issue";
@@ -72,10 +72,10 @@ public class CategoryDAO extends MainDAO {
 		        int i = 1;
 		        pstmt.setString(i++, catName);
 		        pstmt.setInt(i++, restId);
-		        // Attempt execution, return number affected 
-		        int rowCount = pstmt.executeUpdate();
+
 		        // Validate for expected and return status
-		        String insertStatus = insertHelper(rowCount, conn);
+		        String insertStatus = insertHelper(pstmt.executeUpdate(), 
+		        		conn);
 				return insertStatus;
 			} catch (Exception e) {
 				return "Insert failure, SQL issue";
@@ -106,10 +106,10 @@ public class CategoryDAO extends MainDAO {
 		        pstmt.setString(i++, catName);
 		        pstmt.setInt(i++, restId);
 		        pstmt.setInt(i++, catId);
-		        // Attempt execution, return number affected 
-		        int rowCount = pstmt.executeUpdate();
+
 		        // Validate for expected and return status
-		        String updateStatus = updateHelper(rowCount, 1, conn);
+		        String updateStatus = updateHelper(pstmt.executeUpdate(), 
+		        		1, conn);
 				return updateStatus;
 			} catch (Exception e) {
 				return "Update failure, SQL issue";
