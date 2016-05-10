@@ -104,11 +104,12 @@ public class MainController {
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	public String deleteAdditions(
-			@QueryParam("attr_id") String attr_id
+			@QueryParam("attr_id") String attr_id,
+			@QueryParam("rest_id") String rest_id
 			) {
 
-		if (attr_id!=null) {
-			return additionService.AttributeDEL(attr_id); 
+		if (attr_id!=null && rest_id!=null) {
+			return additionService.AttributeDEL(attr_id,rest_id); 
 		} else {
 			return "FAILURE: DELETE requires a primary key id";
 		}

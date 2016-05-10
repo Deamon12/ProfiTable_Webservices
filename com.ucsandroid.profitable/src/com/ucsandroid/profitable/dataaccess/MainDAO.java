@@ -1,6 +1,7 @@
 package com.ucsandroid.profitable.dataaccess;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -119,5 +120,24 @@ public class MainDAO {
 			//catch any sql errors
 			return "Update Failure";
 		}
+	}
+	
+	/**
+	 * 
+	 * @param pstmt
+	 * @param conn
+	 */
+	protected void sqlCloser(PreparedStatement pstmt,
+			Connection conn) {
+		// Close the Statement
+        if (pstmt != null) {
+            try {pstmt.close();} //only need to close if not null
+            catch (Exception e) {System.out.println(e.getMessage());}
+        }
+        // Close the Connection
+        if (conn != null) {
+            try {conn.close();} //only need to close if not null
+            catch (Exception e) {System.out.println(e.getMessage());}
+        }
 	}
 }

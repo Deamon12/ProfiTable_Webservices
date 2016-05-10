@@ -1,7 +1,6 @@
 package com.ucsandroid.profitable.service;
 
 import com.ucsandroid.profitable.dataaccess.AdditionsDAO;
-import com.ucsandroid.profitable.dataaccess.MenuDAO;
 import com.ucsandroid.profitable.utilities.Converters;
 import com.ucsandroid.profitable.utilities.StatementBuilder;
 
@@ -13,15 +12,16 @@ private AdditionsDAO additionsDAO;
 		additionsDAO = new AdditionsDAO();
 	}
 	
-	public String AttributeDEL(String attr_id) {
+	public String AttributeDEL(String attr_id, String rest_id) {
 					
 		try {
 			Integer attrVal = Integer.parseInt(attr_id);
-			return additionsDAO.additionDelete(attrVal);
+			Integer restVal = Integer.parseInt(rest_id);
+			return additionsDAO.additionDelete(attrVal, restVal);
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "DELETE FAILURE: bad input value";
+			return "DELETE FAILURE: bad input value(s)";
 		}
 		
 	}
