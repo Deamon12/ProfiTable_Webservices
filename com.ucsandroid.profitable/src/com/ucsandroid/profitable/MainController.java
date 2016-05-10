@@ -1,6 +1,9 @@
 package com.ucsandroid.profitable;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -93,6 +96,60 @@ public class MainController {
 		} else {
 			return additionService.AttributeGetRest( 
 				available, rest_id); 
+		}
+	}
+
+	
+	@Path ("/additions")
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
+	public String deleteAdditions(
+			@QueryParam("attr_id") String attr_id
+			) {
+
+		if (attr_id!=null) {
+			return additionService.AttributeDEL(attr_id); 
+		} else {
+			return "FAILURE: DELETE requires a primary key id";
+		}
+	}
+	
+	@Path ("/additions")
+	@PUT
+	@Produces(MediaType.APPLICATION_JSON)
+	public String updateAdditions(
+			@QueryParam("attr_id") String attr_id, 
+			@QueryParam("name") String name, 
+			@QueryParam("available") String available, 
+			@QueryParam("price") String price,
+			@QueryParam("rest_id") String rest_id
+			) {
+
+		if (name!=null && available!=null && attr_id!=null
+				&& price!=null && rest_id!=null) {
+			return additionService.AttributePUT(attr_id, 
+					name, price, available, rest_id); 
+		} else {
+			return "FAILURE: UPDATE requires all attributes assigned";
+		}
+	}
+	
+	@Path ("/additions")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	public String addAdditions(
+			@QueryParam("name") String name, 
+			@QueryParam("available") String available, 
+			@QueryParam("price") String price,
+			@QueryParam("rest_id") String rest_id
+			) {
+
+		if (name!=null && available!=null && 
+				price!=null && rest_id!=null) {
+			return additionService.AttributePOST(name, price, 
+					available, rest_id); 
+		} else {
+			return "FAILURE: Insert requires all attributes assigned";
 		}
 	}
 	

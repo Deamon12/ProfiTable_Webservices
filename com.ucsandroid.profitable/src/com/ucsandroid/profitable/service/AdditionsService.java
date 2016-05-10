@@ -1,15 +1,88 @@
 package com.ucsandroid.profitable.service;
 
+import com.ucsandroid.profitable.dataaccess.AdditionsDAO;
 import com.ucsandroid.profitable.dataaccess.MenuDAO;
 import com.ucsandroid.profitable.utilities.Converters;
 import com.ucsandroid.profitable.utilities.StatementBuilder;
 
 public class AdditionsService {
 	
-private MenuDAO menuDAO;
+private AdditionsDAO additionsDAO;
 	
 	public AdditionsService() {
-		menuDAO = new MenuDAO();
+		additionsDAO = new AdditionsDAO();
+	}
+	
+	public String AttributeDEL(String attr_id) {
+					
+		try {
+			Integer attrVal = Integer.parseInt(attr_id);
+			return additionsDAO.additionDelete(attrVal);
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "DELETE FAILURE: bad input value";
+		}
+		
+	}
+	
+	/**
+	 * TODO
+	 * @param name
+	 * @param price
+	 * @param available
+	 * @param rest_id
+	 * @return
+	 */
+	public String AttributePOST(String name, String price, 
+			String available, String rest_id) {
+					
+		try {
+			Integer priceVal = Integer.parseInt(price);
+			Integer restVal = Integer.parseInt(rest_id);
+			Boolean availValue = Boolean.valueOf(available);
+			if (name.length()==0) {
+				return "INSERT FAILURE: zero length attribute name";
+			} else {
+				return additionsDAO.additionInsert(name, priceVal,
+						availValue, restVal);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "INSERT FAILURE: bad input value(s)";
+		}
+		
+	}
+	
+	/**
+	 * TODO
+	 * @param attr_id
+	 * @param name
+	 * @param price
+	 * @param available
+	 * @param rest_id
+	 * @return
+	 */
+	public String AttributePUT(String attr_id,
+			String name, String price, 
+			String available, String rest_id) {
+					
+		try {
+			Integer attrVal = Integer.parseInt(attr_id);
+			Integer priceVal = Integer.parseInt(price);
+			Integer restVal = Integer.parseInt(rest_id);
+			Boolean availValue = Boolean.valueOf(available);
+			if (name.length()==0) {
+				return "UPDATE FAILURE: zero length attribute name";
+			} else {
+				return additionsDAO.additionUpdate(attrVal, name, 
+						priceVal, availValue, restVal);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "UPDATE FAILURE: bad input value(s)";
+		}
+		
 	}
 	
 	/**
@@ -48,7 +121,7 @@ private MenuDAO menuDAO;
 			System.out.println(query);
 			
 			return Converters.convertToString(
-					getMenuDAO().fetchData(query));
+					getAdditionsDAO().fetchData(query));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return "ERROR";
@@ -86,18 +159,17 @@ private MenuDAO menuDAO;
 			System.out.println(query);
 			
 			return Converters.convertToString(
-					getMenuDAO().fetchData(query));
+					getAdditionsDAO().fetchData(query));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return "ERROR";
 		}
 	}
 	
-	
 	/** returns a valid MenuDAO object */
-	private MenuDAO getMenuDAO() {
-		if (menuDAO==null) {menuDAO = new MenuDAO();}
-		return menuDAO;
+	private AdditionsDAO getAdditionsDAO() {
+		if (additionsDAO==null) {additionsDAO = new AdditionsDAO();}
+		return additionsDAO;
 	}
 	
 }

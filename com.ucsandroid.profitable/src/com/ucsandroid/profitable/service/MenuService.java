@@ -12,6 +12,14 @@ public class MenuService {
 		menuDAO = new MenuDAO();
 	}
 	
+	/**
+	 * TODO
+	 * @param restaurant
+	 * @param menu_item_id
+	 * @param avail
+	 * @param category
+	 * @return
+	 */
 	public String MenuItemGet(String restaurant, String menu_item_id,
 			String avail, String category) {
 		
