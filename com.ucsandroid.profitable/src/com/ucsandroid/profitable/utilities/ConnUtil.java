@@ -11,6 +11,14 @@ public class ConnUtil {
 	static String username = "postgres";
 	static String password = "postgres";
 	
+	//AWS DB
+	/*
+	static String url = "profitabledbproduction.c1xpcxj1mum7.us-west-2.rds.amazonaws.com";
+	static String sqlDatabaseURL = "jdbc:postgresql://"+url+":5432/profitabledbprod";
+	static String username = "profitable";
+	static String password = "ucsandroid";
+	*/
+	
 	private Connection connection;
 	
 	public ConnUtil(){
