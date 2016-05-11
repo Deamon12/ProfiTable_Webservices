@@ -1,6 +1,6 @@
 package com.ucsandroid.profitable.dataaccess;
 
-public class AdditionsDAO extends MainDAO {
+public class AdditionsDataAccess extends MainDataAccess {
 	
 	private static String insertStatement = 
 		"INSERT INTO Food_attribute "+
@@ -19,7 +19,7 @@ public class AdditionsDAO extends MainDAO {
 		"DELETE FROM food_attribute "+
 		"WHERE attr_id = ? and restaurant = ?";
 
-	public AdditionsDAO() {
+	public AdditionsDataAccess() {
 		super();
 	}
 	

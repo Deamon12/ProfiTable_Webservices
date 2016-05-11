@@ -2,7 +2,7 @@ package com.ucsandroid.profitable.utilities;
 
 import java.sql.*;
 
-import com.ucsandroid.profitable.dataaccess.MenuDAO;
+import com.ucsandroid.profitable.dataaccess.MenuDataAccess;
 
 public class ConnUtil {
 	

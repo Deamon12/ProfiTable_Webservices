@@ -8,13 +8,13 @@ import java.sql.Statement;
 
 import com.ucsandroid.profitable.utilities.ConnUtil;
 
-public class MainDAO {
+public class MainDataAccess {
 	
 	protected ConnUtil connUtil;
 	protected PreparedStatement pstmt;
 	protected Connection conn;
 	
-	public MainDAO() {
+	public MainDataAccess() {
 		connUtil = new ConnUtil();
 		pstmt = null;
 		conn = null;

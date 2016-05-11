@@ -1,15 +1,15 @@
 package com.ucsandroid.profitable.service;
 
-import com.ucsandroid.profitable.dataaccess.MenuDAO;
+import com.ucsandroid.profitable.dataaccess.MenuDataAccess;
 import com.ucsandroid.profitable.utilities.Converters;
 import com.ucsandroid.profitable.utilities.StatementBuilder;
 
 public class MenuService {
 	
-	private MenuDAO menuDAO;
+	private MenuDataAccess menuDAO;
 	
 	public MenuService() {
-		menuDAO = new MenuDAO();
+		menuDAO = new MenuDataAccess();
 	}
 	
 	/**
@@ -96,8 +96,8 @@ public class MenuService {
 	}
 
 	/** returns a valid MenuDAO object */
-	private MenuDAO getMenuDAO() {
-		if (menuDAO==null) {menuDAO = new MenuDAO();}
+	private MenuDataAccess getMenuDAO() {
+		if (menuDAO==null) {menuDAO = new MenuDataAccess();}
 		return menuDAO;
 	}
 

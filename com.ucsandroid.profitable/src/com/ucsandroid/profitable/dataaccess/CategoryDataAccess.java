@@ -1,6 +1,6 @@
 package com.ucsandroid.profitable.dataaccess;
 
-public class CategoryDAO extends MainDAO {
+public class CategoryDataAccess extends MainDataAccess {
 	
 	private static String insertStatement = 
 			"INSERT INTO Category "+
@@ -19,7 +19,7 @@ public class CategoryDAO extends MainDAO {
 			"DELETE FROM Category "+
 			"WHERE cat_id = ? and restaurant = ?";
 
-		public CategoryDAO() {
+		public CategoryDataAccess() {
 			super();
 		}
 		

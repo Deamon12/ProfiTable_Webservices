@@ -10,13 +10,18 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.ucsandroid.profitable.service.AdditionsService;
+import com.ucsandroid.profitable.service.CategoryService;
+import com.ucsandroid.profitable.service.EmployeeService;
 import com.ucsandroid.profitable.service.MenuService;
+import com.ucsandroid.profitable.utilities.SecUtilities;
 
 @Path ("/serviceclass")
 public class MainController {
 	
 	private MenuService menuService = new MenuService();
 	private AdditionsService additionService = new AdditionsService();
+	private CategoryService categoryService = new CategoryService();
+	private EmployeeService employeeService = new EmployeeService();
 	
 	@Path ("/test")
 	@GET
@@ -70,6 +75,69 @@ public class MainController {
 		return menuService.MenuCategoriesGet(rest_id, 
 			available);
 
+	}
+	
+	@Path ("/employee")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public String fetchEmployee(
+			@QueryParam("account_name") String account_name, 
+			@QueryParam("rest_id") String rest_id
+			) {
+		if (account_name!=null) {
+			return employeeService.getEmployee(account_name, rest_id); 
+		} else {
+			return employeeService.getEmployees(rest_id); 
+		}
+	}
+	
+	@Path ("/category")
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
+	public String deleteCategory(
+			@QueryParam("cat_id") String cat_id,
+			@QueryParam("rest_id") String rest_id
+			) {
+		
+		String psw = SecUtilities.passwordHashSHA256("password");
+		System.out.println("password hashes to: "+psw);
+		
+		if (cat_id!=null && rest_id!=null) {
+			return categoryService.delete(cat_id, rest_id); 
+		} else {
+			return "FAILURE: DELETE requires attrib and rest ids";
+		}
+	}
+	
+	@Path ("/category")
+	@PUT
+	@Produces(MediaType.APPLICATION_JSON)
+	public String updateCategory(
+			@QueryParam("cat_id") String cat_id, 
+			@QueryParam("cat_name") String cat_name, 
+			@QueryParam("rest_id") String rest_id
+			) {
+
+		if (cat_name!=null &&  cat_id!=null && rest_id!=null) {
+			return categoryService.update(cat_id, cat_name, rest_id); 
+		} else {
+			return "FAILURE: UPDATE requires all attributes assigned";
+		}
+	}
+	
+	@Path ("/category")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	public String addCategory(
+			@QueryParam("cat_name") String cat_name, 
+			@QueryParam("rest_id") String rest_id
+			) {
+
+		if (cat_name!=null && rest_id!=null) {
+			return categoryService.insert(cat_name, rest_id); 
+		} else {
+			return "FAILURE: Insert requires all attributes assigned";
+		}
 	}
 	
 	/**

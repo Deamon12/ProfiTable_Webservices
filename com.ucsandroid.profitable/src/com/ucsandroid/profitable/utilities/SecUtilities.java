@@ -10,7 +10,7 @@ public class SecUtilities {
 	 */
 	public static class Encrypt {
 		
-		public static String get_SHA_1_SecurePassword(String passwordToHash)
+	public static String get_SHA_1_SecurePassword(String passwordToHash)
 		{
 			String generatedPassword = null;
 			try {
@@ -32,5 +32,31 @@ public class SecUtilities {
 		}
 	}
 	
+	/**
+	 * Basic SHA256 hash for password management
+	 * copied from mkyong.com
+	 * @param password
+	 * @return
+	 */
+	public static String passwordHashSHA256(String password) {
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+	        md.update(password.getBytes());
+	        byte byteData[] = md.digest();
+	        
+	        StringBuffer sb = new StringBuffer();
+	        for (int i = 0; i < byteData.length; i++) {
+	         sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+	        }
+			
+			return sb.toString();
+		} catch (Exception e) {
+			System.out.println("Failed to hash password\n"+
+					e.getMessage());
+			return "";
+		}
+		
+		
+	}
 	
 }

@@ -1,23 +1,29 @@
 package com.ucsandroid.profitable.service;
 
-import com.ucsandroid.profitable.dataaccess.AdditionsDAO;
+import com.ucsandroid.profitable.dataaccess.AdditionsDataAccess;
 import com.ucsandroid.profitable.utilities.Converters;
 import com.ucsandroid.profitable.utilities.StatementBuilder;
 
 public class AdditionsService {
 	
-private AdditionsDAO additionsDAO;
+	private AdditionsDataAccess additionsDataAccess;
 	
 	public AdditionsService() {
-		additionsDAO = new AdditionsDAO();
+		additionsDataAccess = new AdditionsDataAccess();
 	}
 	
+	/**
+	 * TODO
+	 * @param attr_id
+	 * @param rest_id
+	 * @return
+	 */
 	public String AttributeDEL(String attr_id, String rest_id) {
 					
 		try {
 			Integer attrVal = Integer.parseInt(attr_id);
 			Integer restVal = Integer.parseInt(rest_id);
-			return additionsDAO.delete(attrVal, restVal);
+			return getAdditionsDAO().delete(attrVal, restVal);
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -44,7 +50,7 @@ private AdditionsDAO additionsDAO;
 			if (name.length()==0) {
 				return "INSERT FAILURE: zero length attribute name";
 			} else {
-				return additionsDAO.insert(name, priceVal,
+				return getAdditionsDAO().insert(name, priceVal,
 						availValue, restVal);
 			}
 		} catch (Exception e) {
@@ -75,7 +81,7 @@ private AdditionsDAO additionsDAO;
 			if (name.length()==0) {
 				return "UPDATE FAILURE: zero length attribute name";
 			} else {
-				return additionsDAO.update(attrVal, name, 
+				return getAdditionsDAO().update(attrVal, name, 
 						priceVal, availValue, restVal);
 			}
 		} catch (Exception e) {
@@ -166,10 +172,10 @@ private AdditionsDAO additionsDAO;
 		}
 	}
 	
-	/** returns a valid MenuDAO object */
-	private AdditionsDAO getAdditionsDAO() {
-		if (additionsDAO==null) {additionsDAO = new AdditionsDAO();}
-		return additionsDAO;
+	/** returns a valid AdditionsDataAccess object */
+	private AdditionsDataAccess getAdditionsDAO() {
+		if (additionsDataAccess==null) {additionsDataAccess = new AdditionsDataAccess();}
+		return additionsDataAccess;
 	}
 	
 }
