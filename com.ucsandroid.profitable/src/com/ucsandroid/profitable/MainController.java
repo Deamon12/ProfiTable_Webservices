@@ -91,6 +91,21 @@ public class MainController {
 		}
 	}
 	
+	@Path ("/login")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	public String employeeLogin(
+			@QueryParam("account_name") String account_name, 
+			@QueryParam("account_pass") String account_pass,
+			@QueryParam("rest_id") String rest_id
+			) {
+		if (account_name!=null && account_pass!=null && rest_id!=null) {
+			return employeeService.login(account_name, account_pass, rest_id); 
+		} else {
+			return "FAILURE"; 
+		}
+	}
+	
 	@Path ("/category")
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)

@@ -12,6 +12,20 @@ public class EmployeeService {
 		employeeDataAccess = new EmployeeDataAccess();
 	}
 	
+	public String login(String accountName, String accountPass,
+			String restId) {
+		Integer restVal=-1;
+		if (restId!=null && restId.length()>0) {
+			restVal = Integer.parseInt(restId);
+		}
+		
+		String status = getEmployeeDataAccess().
+				login(accountName, accountPass, restVal);
+		
+		return status;
+	
+	}
+	
 	/**
 	 * 
 	 * @param restId
