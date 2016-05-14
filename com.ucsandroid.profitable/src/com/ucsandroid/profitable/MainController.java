@@ -9,6 +9,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.json.JSONObject;
+
+import com.ucsandroid.profitable.entities.MenuItem;
 import com.ucsandroid.profitable.service.AdditionsService;
 import com.ucsandroid.profitable.service.CategoryService;
 import com.ucsandroid.profitable.service.EmployeeService;
@@ -28,8 +31,20 @@ public class MainController {
 	@Produces(MediaType.TEXT_HTML)
 	public String sayPlainTextHello() {
 		return "<html> " + "<title>" + "ProfiTable" + "</title>"
-				+ "<body><h1>" + "This is the controller for ProfiTable by UCSanDroid" 
+				+ "<body><h1>" + "WTF This is the controller for ProfiTable by UCSanDroid" 
 				+ "</body></h1>" + "</html> ";
+	}
+	
+	@Path ("/test1")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public MenuItem sayPlainTextHello1() {
+		
+		//(int menu_id, String menu_name, String description, int price)
+		MenuItem test = new MenuItem(1234,"theName", "description", 5555);
+		
+		
+		return test;
 	}
 	
 	/**
