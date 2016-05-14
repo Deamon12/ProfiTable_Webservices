@@ -1,5 +1,8 @@
 package com.ucsandroid.profitable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -28,9 +31,14 @@ public class MainController {
 	@Path ("/test5")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public MenuItem test5() {
+	public List<MenuItem> test5() {
 		System.out.println("TESTING!?");
-		return new MenuItem(0,"this","that",0);
+		List<MenuItem> menu = new ArrayList<MenuItem>();
+		MenuItem m1 = new MenuItem(0,"this","that",56524);
+		MenuItem m2 = new MenuItem(1,"this1","that1",46564);
+		MenuItem m3 = new MenuItem(2,"this2","that2",562);
+		menu.add(m1); menu.add(m2); menu.add(m3);
+		return menu;
 	}
 	
 	/**
