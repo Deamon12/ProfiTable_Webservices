@@ -6,6 +6,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.ucsandroid.profitable.entities.MenuItem;
 import com.ucsandroid.profitable.service.AdditionsService;
 import com.ucsandroid.profitable.service.MenuService;
 
@@ -22,6 +23,14 @@ public class MainController {
 		return "<html> " + "<title>" + "ProfiTable" + "</title>"
 				+ "<body><h1>" + "This is the controller for ProfiTable by UCSanDroid" 
 				+ "</body></h1>" + "</html> ";
+	}
+	
+	@Path ("/test5")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public MenuItem test5() {
+		System.out.println("TESTING!?");
+		return new MenuItem(0,"this","that",0);
 	}
 	
 	/**
