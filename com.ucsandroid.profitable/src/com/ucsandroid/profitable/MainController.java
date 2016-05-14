@@ -9,6 +9,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.ucsandroid.profitable.entities.Location;
+import com.ucsandroid.profitable.entities.LocationCategory;
 import com.ucsandroid.profitable.entities.MenuItem;
 import com.ucsandroid.profitable.service.AdditionsService;
 import com.ucsandroid.profitable.service.MenuService;
@@ -39,6 +41,24 @@ public class MainController {
 		MenuItem m3 = new MenuItem(2,"this2","that2",562);
 		menu.add(m1); menu.add(m2); menu.add(m3);
 		return menu;
+	}
+	
+	@Path ("/test6")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public LocationCategory test6() {
+		System.out.println("TESTING!?");
+		List<Integer> locs = new ArrayList<Integer>();
+		//List<Location> locs = new ArrayList<Location>();
+		LocationCategory lc = new LocationCategory(90845, "the bar", 49875);
+		//Location l4 = new Location(1, "s", "s", 1, 1);
+		//Location l5 = new Location(4, "r", "r", 1, 1);
+		//locs.add(l4);
+		//locs.add(l5);
+		locs.add(97);
+		locs.add(753);
+		lc.setLocations(locs);
+		return lc;
 	}
 	
 	/**

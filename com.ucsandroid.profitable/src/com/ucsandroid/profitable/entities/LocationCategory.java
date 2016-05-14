@@ -7,9 +7,9 @@ public class LocationCategory {
 	private int id;
 	private String name;
 	private int restaurantId;
-	private List<Location> locations;
+	private List<Integer> locations;
 	
-	public LocationCategory(int id, String name, int restaurantId, List<Location> locations) {
+	public LocationCategory(int id, String name, int restaurantId, List<Integer> locations) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -42,10 +42,10 @@ public class LocationCategory {
 	public void setRestaurantId(int restaurantId) {
 		this.restaurantId = restaurantId;
 	}
-	public List<Location> getLocations() {
+	public List<Integer> getLocations() {
 		return locations;
 	}
-	public void setLocations(List<Location> locations) {
+	public void setLocations(List<Integer> locations) {
 		this.locations = locations;
 	}
 }
