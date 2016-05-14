@@ -7,9 +7,11 @@ import com.ucsandroid.profitable.dataaccess.MenuDataAccess;
 public class ConnUtil {
 	
 	/* TEST database, alter the url for using the AWS online database */
+	
 	static String sqlDatabaseURL = "jdbc:postgresql://127.0.0.1:5432/cse190";
 	static String username = "postgres";
 	static String password = "postgres";
+	
 	
 	//AWS DB
 	/*
