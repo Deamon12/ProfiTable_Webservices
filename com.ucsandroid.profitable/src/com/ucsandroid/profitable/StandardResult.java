@@ -2,21 +2,21 @@ package com.ucsandroid.profitable;
 
 public class StandardResult {
 
-	private int expectResults = 0;
-	private int success = 0;
+	private boolean success;
+	private String message;
 	private Object result;
 	
-	public int getSuccess() {
+	public StandardResult(boolean success, Object result) {
+		super();
+		this.success = success;
+		this.result = result;
+	}
+	
+	public boolean getSuccess() {
 		return success;
 	}
-	public void setSuccess(int success) {
+	public void setSuccess(boolean success) {
 		this.success = success;
-	}
-	public int getExpectResults() {
-		return expectResults;
-	}
-	public void setExpectResults(int expectResults) {
-		this.expectResults = expectResults;
 	}
 	public Object getResult() {
 		return result;
@@ -24,5 +24,10 @@ public class StandardResult {
 	public void setResult(Object result) {
 		this.result = result;
 	}
-	
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
 }

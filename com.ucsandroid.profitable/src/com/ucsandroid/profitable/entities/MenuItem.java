@@ -1,5 +1,6 @@
 package com.ucsandroid.profitable.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MenuItem {
@@ -21,6 +22,8 @@ public class MenuItem {
 		this.menu_name = menu_name;
 		this.description = description;
 		this.price = price;
+		this.defaultAdditions = new ArrayList<FoodAddition>();
+		this.optionalAdditions = new ArrayList<FoodAddition>();
 	}
 	
 	public MenuItem(int menu_id, String menu_name, String description, 

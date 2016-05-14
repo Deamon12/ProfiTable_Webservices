@@ -178,4 +178,29 @@ public class MainDataAccess {
         }
 	}
 	
+	/**
+	 * Closes the Prepared Statement, Result Set and the Connection
+	 * so that the SQL connection and server is left in a clean
+	 * state.
+	 * <br>Will catch any exceptions and swallow them, producing
+	 * error messages but otherwise allowing continuation of 
+	 * program.
+	 * @param pstmt - the PreparedStatement to close
+	 * @param rs - the ResultSet to close
+	 * @param conn - the Connection to close
+	 */
+	protected void sqlCleanup(PreparedStatement pstmt, ResultSet rs,
+			Connection conn) {
+		// Close the Statement
+        if (pstmt != null) {
+            try {pstmt.close();} //only need to close if not null
+            catch (Exception e) {System.out.println(e.getMessage());}
+        }
+        // Close the Connection
+        if (conn != null) {
+            try {conn.close();} //only need to close if not null
+            catch (Exception e) {System.out.println(e.getMessage());}
+        }
+	}
+	
 }

@@ -14,6 +14,7 @@ import com.ucsandroid.profitable.service.AdditionsService;
 import com.ucsandroid.profitable.service.CategoryService;
 import com.ucsandroid.profitable.service.EmployeeService;
 import com.ucsandroid.profitable.service.MenuService;
+import com.ucsandroid.profitable.utilities.ConnUtil;
 import com.ucsandroid.profitable.utilities.SecUtilities;
 
 @Path ("/serviceclass")
@@ -37,7 +38,9 @@ public class MainController {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public MenuItem getanObj() {
+		System.out.println("test2");
 		MenuItem mi = new MenuItem(13454,"thisone", "thatthing", 46234);
+		System.out.println("made an item");
 		return mi;
 	}
 	
@@ -251,10 +254,10 @@ public class MainController {
 	@Produces(MediaType.TEXT_HTML)
 	public String testDB() {
 		System.out.println("testing DB");
-		ProfiTableModel model = new ProfiTableModel();
 		String result = "";
+		ConnUtil testConn = new ConnUtil();
 		try{
-			result = "Successfully connected via: "+model.getConnection().getMetaData().getDriverName()+"";
+			result = "Successfully connected via: "+testConn.getConnection().getMetaData().getDriverName()+"";
 		}
 		catch(Exception e){result = "Error connecting to DB";
 		}

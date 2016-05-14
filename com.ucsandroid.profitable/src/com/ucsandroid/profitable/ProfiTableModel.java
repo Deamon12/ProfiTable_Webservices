@@ -15,6 +15,7 @@ import com.ucsandroid.profitable.utilities.SecUtilities.Encrypt;
 
 public class ProfiTableModel{
 
+	/*
 	private Connection connection;
 	private StandardResult finalResult = new StandardResult();
 	private JSONArray results;
@@ -24,7 +25,7 @@ public class ProfiTableModel{
 	}
 
 	
-	/**DEPRECATED Opens database connection. */
+
 	public void openConnection(){
 
 		try
@@ -47,7 +48,6 @@ public class ProfiTableModel{
 		
 	}
 
-	/**DEPRECATED Closes database connection.*/
 	public void closeConnection(){
 
 		try {
@@ -60,7 +60,7 @@ public class ProfiTableModel{
 
 	}
 
-	/**DEPRECATED */
+
 	public Connection getConnection(){
 		
 		return connection;
@@ -68,17 +68,7 @@ public class ProfiTableModel{
 
 
 
-	/**
-	 * If successful creation return user information.
-	 * If unsuccessful creation return what the error is. ie account exists, email exists..
-	 * 
-	 * @param firstName
-	 * @param lastName
-	 * @param password
-	 * @param email
-	 * @param deviceId - Push notifications
-	 * @return JSONArray containing only success or failure.
-	 */
+
 	public StandardResult createUser(String firstName, String lastName, String password, 
 			String email, String image, String deviceId){
 
@@ -126,11 +116,6 @@ public class ProfiTableModel{
 		return finalResult;
 	}
 
-	/**
-	 * Retrieve all information about a user denoted by userId
-	 * @param userId
-	 * @return JSONArray containing user_id, first_name, last_name, email, school, major
-	 */
 	public StandardResult getUserById(String userId){
 
 		//search by userId
@@ -187,12 +172,7 @@ public class ProfiTableModel{
 
 	}
 
-	/**
-	 * Checks for correct credentials to allow for login
-	 * 
-	 * @param email, password
-	 * @return JSONArray containing single row or empty array if no row exists
-	 */
+
 	public StandardResult doLogin(String email, String password){
 
 		//retrieve information if email, password combination exists
@@ -225,12 +205,6 @@ public class ProfiTableModel{
 
 	}
 
-	/**
-	 * Resets password for identified email, and sends a email with new password to that email
-	 * 
-	 * @param email 
-	 * @return JSONArray containing success or failure
-	 */
 	public StandardResult forgotPassword(String email){
 
 		//create new password, and hash the password for security
@@ -272,12 +246,6 @@ public class ProfiTableModel{
 
 	}
 
-	/**
-	 * Resets password with desired password.
-	 * 
-	 * @param userId, password
-	 * @return JSONArray containing success or failure
-	 */
 	public StandardResult resetPassword(String userId, String password){
 
 		String query = "UPDATE users SET password = '"+password+"' WHERE user_id= '"+userId+"'";
@@ -303,14 +271,6 @@ public class ProfiTableModel{
 
 	}
 
-
-	/**DEPRECATED
-	 * Takes a resultSet and converts it into a JSONArray
-	 * 
-	 * @param resultSet
-	 * @return JSONArray 
-	 * @throws Exception
-	 */
 	public static JSONArray convertToJSON(ResultSet resultSet) throws Exception {
 		JSONArray jsonArray = new JSONArray();
 		while (resultSet.next()) {
@@ -325,31 +285,16 @@ public class ProfiTableModel{
 		return jsonArray;
 	}
 
-
-	/**
-	 * Randomly creates userID
-	 * @return string
-	 */
 	public static String createUserId(){
 		SecureRandom random = new SecureRandom();
 		return new BigInteger(130, random).toString(32);
 	}
 
-	/**
-	 * randomly creates a password
-	 * @return string
-	 */
 	public static String createPassword(){
 		SecureRandom random = new SecureRandom();
 		return new BigInteger(40, random).toString(32);
 	}
 
-
-	/**
-	 * Send a notification to a list of devices via GoogleCloudMessaging
-	 * @param devices
-	 */
-	/*
 	private void sendNotification(List<String> devices, String userId, int type, String questionId){
 
 		GoogleCloudMessaging testing = new GoogleCloudMessaging();
