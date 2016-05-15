@@ -7,19 +7,19 @@ import com.ucsandroid.profitable.dataaccess.MenuDataAccess;
 public class ConnUtil {
 	
 	/* TEST database, alter the url for using the AWS online database */
-	
+	/*
 	static String sqlDatabaseURL = "jdbc:postgresql://127.0.0.1:5432/cse190";
 	static String username = "postgres";
 	static String password = "postgres";
+	*/
 	
+	/* AWS DB */
 	
-	//AWS DB
-	/*
 	static String url = "profitabledbproduction.c1xpcxj1mum7.us-west-2.rds.amazonaws.com";
 	static String sqlDatabaseURL = "jdbc:postgresql://"+url+":5432/profitabledbprod";
 	static String username = "profitable";
 	static String password = "ucsandroid";
-	*/
+	
 	
 	private Connection connection;
 	

@@ -63,6 +63,8 @@ public class AdditionsService {
 		}
 	}
 
+	@Deprecated
+	//Getting rid of this in favor of including this data in the menu item return
 	public String AttributeGet(String menu_item, String avail,
 			String rest) {
 		
@@ -100,33 +102,24 @@ public class AdditionsService {
 	}
 
 	public String AttributeGetRest(String avail,
-			String rest) {
-		
-		String query = 
-				"SELECT distinct "+
-					"fa.attribute, fa.attr_id, fa.available, "+
-					"fa.price_mod "+
-				"FROM "+
-					"food_attribute fa "+
-				"WHERE ";
-					
+			String rest_id) {
+		StandardResult sr = new StandardResult(false, null);
 		try {
-			//mandatory
-			query = StatementBuilder.addInt(query, 
-					"fa.restaurant=", rest);
-			//optional
-			query = StatementBuilder.addBool(query, 
-					"and fa.available=", avail);
-			query=query+"ORDER BY fa.attr_id ASC ";
-			
-			//log the query so we can analyze the sql generated
-			System.out.println(query);
-			
-			return Converters.convertToString(
-					getAdditionsDataAccess().fetchData(query));
+			Integer restVal = Integer.parseInt(rest_id);
+			boolean availVal;
+			if (avail!=null){
+				availVal = Boolean.parseBoolean(avail);
+				//run with available mod
+				sr = getAdditionsDataAccess().getAdditions(restVal,availVal);
+			} else {
+				//run without
+				sr = getAdditionsDataAccess().getAdditions(restVal);
+			}
+			return gson.toJson(sr);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "ERROR";
+			sr.setMessage("Error: invalid input: "+e.getMessage());
+			return gson.toJson(sr);
 		}
 	}
 	

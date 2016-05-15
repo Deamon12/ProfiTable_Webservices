@@ -1,6 +1,11 @@
 package com.ucsandroid.profitable.dataaccess;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ucsandroid.profitable.StandardResult;
+import com.ucsandroid.profitable.entities.FoodAddition;
 
 public class AdditionsDataAccess extends MainDataAccess {
 	
@@ -20,9 +25,129 @@ public class AdditionsDataAccess extends MainDataAccess {
 	private static String deleteStatement =
 		"DELETE FROM food_attribute "+
 		"WHERE attr_id = ? and restaurant = ?";
+	
+	private static String getStatement = 
+			"SELECT distinct "+
+				" * "+
+			"FROM "+
+				"food_attribute fa "+
+			"WHERE "+
+				"fa.restaurant= ? "+
+				"ORDER BY fa.attr_id ASC ";
+	
+	private static String getStatement2 = 
+			"SELECT distinct "+
+				" * "+
+			"FROM "+
+				"food_attribute fa "+
+			"WHERE "+
+				"fa.restaurant = ? "+
+				"and fa.available = ? "+
+				"ORDER BY fa.attr_id ASC ";
 
 	public AdditionsDataAccess() {
 		super();
+	}
+	
+	public StandardResult getAdditions(int restaurant, boolean avail) {
+		
+		StandardResult sr = new StandardResult(false, null);
+		ResultSet results = null;
+		
+		try {
+			// Open the connection
+			conn = connUtil.getConnection();
+	        // Create the prepared statement
+	        pstmt = conn.prepareStatement(getStatement2);
+	        // Set the variable parameters
+	        int i = 1;
+	        pstmt.setInt(i++, restaurant);
+	        pstmt.setBoolean(i++, avail);
+	        results = pstmt.executeQuery();
+	        
+	        List<FoodAddition> additions = new ArrayList<FoodAddition>();
+	        
+	        while (results.next()) { 
+	        	String attribute = results.getString("attribute");
+	        	boolean available = Boolean.parseBoolean(
+	        			results.getString("Available"));
+	        	int price_mod = results.getInt("price_mod");
+	        	int attrId = results.getInt("attr_id");
+	        	int restId = results.getInt("restaurant");
+	        	FoodAddition emp = new FoodAddition(attribute, price_mod, 
+	        			available,attrId,restId);
+	        	additions.add(emp);
+	        } 
+	        
+	        if (additions.size()>0) {
+		        sr.setResult(additions);
+		        sr.setSuccess(true);
+	        } else {
+	        	sr.setResult(null);
+	        	sr.setMessage("No additions found");
+		        sr.setSuccess(true);
+	        }
+	        
+	        return sr;
+		} catch (Exception e) {
+			sr.setSuccess(false);
+			sr.setMessage("Error: internal database issue:  "+
+				e.getMessage());
+			System.out.println(e.getMessage());
+			return sr;
+		} finally {
+			sqlCleanup(pstmt,results,conn);
+		}
+	}
+	
+	public StandardResult getAdditions(int restaurant) {
+		
+		StandardResult sr = new StandardResult(false, null);
+		ResultSet results = null;
+		
+		try {
+			// Open the connection
+			conn = connUtil.getConnection();
+	        // Create the prepared statement
+	        pstmt = conn.prepareStatement(getStatement);
+	        // Set the variable parameters
+	        int i = 1;
+	        pstmt.setInt(i++, restaurant);
+	        results = pstmt.executeQuery();
+	        
+	        List<FoodAddition> additions = new ArrayList<FoodAddition>();
+	        
+	        while (results.next()) { 
+	        	String attribute = results.getString("attribute");
+	        	boolean available = Boolean.parseBoolean(
+	        			results.getString("Available"));
+	        	int price_mod = results.getInt("price_mod");
+	        	int attrId = results.getInt("attr_id");
+	        	int restId = results.getInt("restaurant");
+	        	FoodAddition emp = new FoodAddition(attribute, price_mod, 
+	        			available,attrId,restId);
+	        	additions.add(emp);
+	        } 
+	        
+	        if (additions.size()>0) {
+		        sr.setResult(additions);
+		        sr.setSuccess(true);
+	        } else {
+	        	sr.setResult(null);
+	        	sr.setMessage("No additions found");
+		        sr.setSuccess(true);
+	        }
+	        
+	        return sr;
+		} catch (Exception e) {
+			sr.setSuccess(false);
+			sr.setMessage("Error: internal database issue:  "+
+				e.getMessage());
+			System.out.println(e.getMessage());
+			return sr;
+		} finally {
+			sqlCleanup(pstmt,results,conn);
+		}
 	}
 
 	public StandardResult delete(int attrib, int restId) {
