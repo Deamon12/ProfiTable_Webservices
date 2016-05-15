@@ -1,8 +1,21 @@
 package com.ucsandroid.profitable.dataaccess;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ucsandroid.profitable.StandardResult;
+import com.ucsandroid.profitable.entities.Employee;
 
 public class EmployeeDataAccess extends MainDataAccess {
+	
+	private static EmployeeDataAccess employeeDataAccess = new EmployeeDataAccess();
+	
+	private EmployeeDataAccess() {super();}
+	
+	public static EmployeeDataAccess getInstance() {
+		return employeeDataAccess;
+	}
 
 	private static String insertStatement = 
 		"INSERT INTO employee "+
@@ -24,25 +37,30 @@ public class EmployeeDataAccess extends MainDataAccess {
 		"WHERE emp_id = ? and restaurant = ?";
 	
 	private static String loginStatement =
-		"SELECT emp_type "+
+		"SELECT * "+
 		"FROM employee "+
 		"WHERE "+
 			"account_name=? "+
 			"AND password=? "+
 			"AND restaurant=?";
+
+	private static String getEmployee = 
+			"SELECT * FROM employee "+
+			"WHERE account_name=? and "+
+			"restaurant = ? ";
 	
-	public EmployeeDataAccess() {
-		super();
-	}
+	private static String getEmployees = 
+			"SELECT * FROM employee "+
+			"WHERE "+
+			"restaurant = ? ";
 	
-	public String login(String accountName, String password, 
+	public StandardResult login(String accountName, String password, 
 			int restaurant) {
+		StandardResult sr = new StandardResult(false, null);
 		ResultSet results = null;
 		try {
 			// Open the connection
 			conn = connUtil.getConnection();
-			// Begin transaction
-	        conn.setAutoCommit(false);
 	        // Create the prepared statement
 	        pstmt = conn.prepareStatement(loginStatement);
 	        // Set the variable parameters
@@ -50,18 +68,129 @@ public class EmployeeDataAccess extends MainDataAccess {
 	        pstmt.setString(i++, accountName);
 	        pstmt.setString(i++, password);
 	        pstmt.setInt(i++, restaurant);
-	        
 	        results = pstmt.executeQuery();
-	        String loginStatus = "FAILED";
-	        if (results.next()) 
-	        	{ loginStatus = results.getString("emp_type"); }
-	        System.out.println(loginStatus);
-
-			return loginStatus;
+	        
+	        if (results.next()) { 
+	        	String empType = results.getString("emp_type");
+	        	String empAccount = results.getString("account_name");
+	        	String empFName = results.getString("first_name");
+	        	String empLName = results.getString("last_name");
+	        	int empId = results.getInt("emp_id");
+	        	int restId = results.getInt("restaurant");
+	        	Employee emp = new Employee(empId,empType,empAccount,empFName, empLName,restId );
+	        	sr.setResult(emp);
+		        System.out.println("login successful");
+		        sr.setSuccess(true);
+		        return sr;
+	        } else {
+	        	sr.setMessage("account incorrect or not found");
+	        	sr.setResult(null);
+		        System.out.println("login not found");
+		        sr.setSuccess(false);
+		        return sr;
+	        }
 		} catch (Exception e) {
-			return "FAILED";
+			sr.setSuccess(false);
+			sr.setMessage("Error: internal database issue:  "+
+				e.getMessage());
+			System.out.println(e.getMessage());
+			return sr;
 		} finally {
-			sqlCleanup(pstmt,conn);
+			sqlCleanup(pstmt,results,conn);
+		}
+	}
+	
+	public StandardResult getEmployee(String accountName, int restaurant) {
+		StandardResult sr = new StandardResult(false, null);
+		ResultSet results = null;
+		try {
+			// Open the connection
+			conn = connUtil.getConnection();
+	        // Create the prepared statement
+	        pstmt = conn.prepareStatement(getEmployee);
+	        // Set the variable parameters
+	        int i = 1;
+	        pstmt.setString(i++, accountName);
+	        pstmt.setInt(i++, restaurant);
+	        results = pstmt.executeQuery();
+	        
+	        if (results.next()) { 
+	        	String empType = results.getString("emp_type");
+	        	String empAccount = results.getString("account_name");
+	        	String empFName = results.getString("first_name");
+	        	String empLName = results.getString("last_name");
+	        	String empPass = results.getString("password");
+	        	int empId = results.getInt("emp_id");
+	        	int restId = results.getInt("restaurant");
+	        	Employee emp = new Employee(empId,empType,empAccount,
+	        			empFName,empLName,empPass,restId );
+	        	sr.setResult(emp);
+		        System.out.println("query successful");
+		        sr.setSuccess(true);
+		        return sr;
+	        } else {
+	        	sr.setMessage("account incorrect or not found");
+	        	sr.setResult(null);
+		        sr.setSuccess(true);
+		        return sr;
+	        }
+		} catch (Exception e) {
+			sr.setSuccess(false);
+			sr.setMessage("Error: internal database issue:  "+
+				e.getMessage());
+			System.out.println(e.getMessage());
+			return sr;
+		} finally {
+			sqlCleanup(pstmt,results,conn);
+		}
+	}
+	
+	public StandardResult getEmployees(int restaurant) {
+		StandardResult sr = new StandardResult(false, null);
+		ResultSet results = null;
+		try {
+			// Open the connection
+			conn = connUtil.getConnection();
+	        // Create the prepared statement
+	        pstmt = conn.prepareStatement(getEmployees);
+	        // Set the variable parameters
+	        int i = 1;
+	        pstmt.setInt(i++, restaurant);
+	        results = pstmt.executeQuery();
+	        
+	        List<Employee> employees = new ArrayList<Employee>();
+	        
+	        while (results.next()) { 
+	        	String empType = results.getString("emp_type");
+	        	String empAccount = results.getString("account_name");
+	        	String empFName = results.getString("first_name");
+	        	String empLName = results.getString("last_name");
+	        	String empPass = results.getString("password");
+	        	int empId = results.getInt("emp_id");
+	        	int restId = results.getInt("restaurant");
+	        	Employee emp = new Employee(empId,empType,empAccount,
+	        			empFName,empLName,empPass,restId );
+	        	employees.add(emp);
+	        } 
+	        
+	        if (employees.size()>0) {
+		        sr.setResult(employees);
+		        sr.setSuccess(true);
+	        } else {
+	        	sr.setResult(null);
+	        	sr.setMessage("No employees found");
+		        sr.setSuccess(true);
+	        }
+	        
+	        return sr;
+		} catch (Exception e) {
+			sr.setSuccess(false);
+			sr.setMessage("Error: internal database issue:  "+
+				e.getMessage());
+			System.out.println(e.getMessage());
+			return sr;
+		} finally {
+			sqlCleanup(pstmt,results,conn);
 		}
 	}
 }

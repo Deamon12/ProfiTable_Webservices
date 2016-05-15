@@ -45,8 +45,15 @@ public class ConnUtil {
 	
 	/** returns a valid connection */
 	public Connection getConnection() {
-		if (connection==null) {connectToSQL();}
-		return connection;
+		try {
+			if (connection==null) {connectToSQL();}
+			else if (connection.isClosed()) {connectToSQL();}
+			return connection;
+		} catch (Exception e) {
+			e.printStackTrace();
+			connectToSQL();
+			return connection;
+		}
 	}
 	
 	/**Closes database connection.*/

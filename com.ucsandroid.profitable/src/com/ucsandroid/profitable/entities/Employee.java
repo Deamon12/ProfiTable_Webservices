@@ -23,6 +23,17 @@ public class Employee {
 		this.restaurantId = restaurant;
 	}
 	
+	public Employee(int id, String type, String accountName, 
+			String firstName, String lastName, int restaurant) {
+		super();
+		this.employeeId = id;
+		this.employeeType = type;
+		this.accountName = accountName;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.restaurantId = restaurant;
+	}
+	
 	public int getId() {
 		return employeeId;
 	}
