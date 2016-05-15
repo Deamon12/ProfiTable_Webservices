@@ -4,37 +4,37 @@ import java.util.List;
 
 public class LocationCategory {
 	
-	private int id;
-	private String name;
+	private int locationCategoryId;
+	private String locationCategoryName;
 	private int restaurantId;
 	private List<Location> locations;
 	
 	public LocationCategory(int id, String name, int restaurantId, List<Location> locations) {
 		super();
-		this.id = id;
-		this.name = name;
+		this.locationCategoryId = id;
+		this.locationCategoryName = name;
 		this.restaurantId = restaurantId;
 		this.locations = locations;
 	}
 	
 	public LocationCategory(int id, String name, int restaurantId) {
 		super();
-		this.id = id;
-		this.name = name;
+		this.locationCategoryId = id;
+		this.locationCategoryName = name;
 		this.restaurantId = restaurantId;
 	}
 
 	public int getId() {
-		return id;
+		return locationCategoryId;
 	}
 	public void setId(int id) {
-		this.id = id;
+		this.locationCategoryId = id;
 	}
 	public String getName() {
-		return name;
+		return locationCategoryName;
 	}
 	public void setName(String name) {
-		this.name = name;
+		this.locationCategoryName = name;
 	}
 	public int getRestaurantId() {
 		return restaurantId;

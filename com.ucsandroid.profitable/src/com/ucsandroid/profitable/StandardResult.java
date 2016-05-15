@@ -12,6 +12,13 @@ public class StandardResult {
 		this.result = result;
 	}
 	
+	public StandardResult(boolean success, String message, Object result) {
+		super();
+		this.success = success;
+		this.message = message;
+		this.result = result;
+	}
+
 	public boolean getSuccess() {
 		return success;
 	}

@@ -2,26 +2,26 @@ package com.ucsandroid.profitable.entities;
 
 public class Restaurant {
 	
-	private int id;
-	private int name;
+	private int restaurantId;
+	private int restaurantName;
 	
 	public Restaurant(int id, int name) {
 		super();
-		this.id = id;
-		this.name = name;
+		this.restaurantId = id;
+		this.restaurantName = name;
 	}
 	
 	public int getId() {
-		return id;
+		return restaurantId;
 	}
 	public void setId(int id) {
-		this.id = id;
+		this.restaurantId = id;
 	}
 	public int getName() {
-		return name;
+		return restaurantName;
 	}
 	public void setName(int name) {
-		this.name = name;
+		this.restaurantName = name;
 	}
 
 }

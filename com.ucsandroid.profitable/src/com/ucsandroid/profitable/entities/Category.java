@@ -4,34 +4,34 @@ import java.util.List;
 
 public class Category {
 	
-	private String name;
-	private int id;
+	private String categoryName;
+	private int categoryId;
 	private List<MenuItem> menuItems;
 	
 	public Category(String name, int id) {
 		super();
-		this.name = name;
-		this.id = id;
+		this.categoryName = name;
+		this.categoryId = id;
 	}
 	
 	public Category(String name, int id, List<MenuItem> menuItems) {
 		super();
-		this.name = name;
-		this.id = id;
+		this.categoryName = name;
+		this.categoryId = id;
 		this.menuItems = menuItems;
 	}
 
 	public String getName() {
-		return name;
+		return categoryName;
 	}
 	public void setName(String name) {
-		this.name = name;
+		this.categoryName = name;
 	}
 	public int getId() {
-		return id;
+		return categoryId;
 	}
 	public void setId(int id) {
-		this.id = id;
+		this.categoryId = id;
 	}
 	public List<MenuItem> getMenuItems() {
 		return menuItems;
@@ -39,7 +39,5 @@ public class Category {
 	public void setMenuItems(List<MenuItem> menuItems) {
 		this.menuItems = menuItems;
 	}
-
-	
 
 }

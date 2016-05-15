@@ -2,36 +2,36 @@ package com.ucsandroid.profitable.entities;
 
 public class OrderedItem {
 	
-	private int id;
-	private String notes;
-	private String status;
+	private int orderedItemId;
+	private String orderedItemNotes;
+	private String orderedItemStatus;
 	private boolean bringFirst;
 	
 	public OrderedItem(int id, String notes, String status, boolean bringFirst) {
 		super();
-		this.id = id;
-		this.notes = notes;
-		this.status = status;
+		this.orderedItemId = id;
+		this.orderedItemNotes = notes;
+		this.orderedItemStatus = status;
 		this.bringFirst = bringFirst;
 	}
 
 	public int getId() {
-		return id;
+		return orderedItemId;
 	}
 	public void setId(int id) {
-		this.id = id;
+		this.orderedItemId = id;
 	}
 	public String getNotes() {
-		return notes;
+		return orderedItemNotes;
 	}
 	public void setNotes(String notes) {
-		this.notes = notes;
+		this.orderedItemNotes = notes;
 	}
 	public String getStatus() {
-		return status;
+		return orderedItemStatus;
 	}
 	public void setStatus(String status) {
-		this.status = status;
+		this.orderedItemStatus = status;
 	}
 	public boolean isBringFirst() {
 		return bringFirst;

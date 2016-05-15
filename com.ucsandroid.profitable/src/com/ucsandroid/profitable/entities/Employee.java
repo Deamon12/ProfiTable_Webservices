@@ -2,38 +2,38 @@ package com.ucsandroid.profitable.entities;
 
 public class Employee {
 	
-	private int id;
-	private String type;
+	private int employeeId;
+	private String employeeType;
 	private String accountName;
 	private String firstName;
 	private String lastName;
 	private String password;
-	private int restaurant;
+	private int restaurantId;
 	
 	public Employee(int id, String type, String accountName, 
 			String firstName, String lastName, String password,
 			int restaurant) {
 		super();
-		this.id = id;
-		this.type = type;
+		this.employeeId = id;
+		this.employeeType = type;
 		this.accountName = accountName;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.password = password;
-		this.restaurant = restaurant;
+		this.restaurantId = restaurant;
 	}
 	
 	public int getId() {
-		return id;
+		return employeeId;
 	}
 	public void setId(int id) {
-		this.id = id;
+		this.employeeId = id;
 	}
 	public String getType() {
-		return type;
+		return employeeType;
 	}
 	public void setType(String type) {
-		this.type = type;
+		this.employeeType = type;
 	}
 	public String getAccountName() {
 		return accountName;
@@ -60,10 +60,10 @@ public class Employee {
 		this.password = password;
 	}
 	public int getRestaurant() {
-		return restaurant;
+		return restaurantId;
 	}
 	public void setRestaurant(int restaurant) {
-		this.restaurant = restaurant;
+		this.restaurantId = restaurant;
 	}
 	
 }

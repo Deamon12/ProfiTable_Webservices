@@ -2,38 +2,38 @@ package com.ucsandroid.profitable.entities;
 
 public class Location {
 	
-	private int id;
-	private String status;
-	private String name;
+	private int locationId;
+	private String locationStatus;
+	private String locationName;
 	private int locationCategoryId;
 	private int restaurantId;
 	
 	public Location(int id, String status, String name, int locationCategoryId, int restaurantId) {
 		super();
-		this.id = id;
-		this.status = status;
-		this.name = name;
+		this.locationId = id;
+		this.locationStatus = status;
+		this.locationName = name;
 		this.locationCategoryId = locationCategoryId;
 		this.restaurantId = restaurantId;
 	}
 	
 	public int getId() {
-		return id;
+		return locationId;
 	}
 	public void setId(int id) {
-		this.id = id;
+		this.locationId = id;
 	}
 	public String getStatus() {
-		return status;
+		return locationStatus;
 	}
 	public void setStatus(String status) {
-		this.status = status;
+		this.locationStatus = status;
 	}
 	public String getName() {
-		return name;
+		return locationName;
 	}
 	public void setName(String name) {
-		this.name = name;
+		this.locationName = name;
 	}
 	public int getLocationCategoryId() {
 		return locationCategoryId;

@@ -2,37 +2,37 @@ package com.ucsandroid.profitable.entities;
 
 public class Discount {
 	
-	private int id;
-	private String type;
-	private float percent;
+	private int discountId;
+	private String discountType;
+	private float discountPercent;
 	private boolean available;
 	private int restaurantId;
 	
 	public Discount(int id, String type, float percent, boolean available, int restaurantId) {
 		super();
-		this.id = id;
-		this.type = type;
-		this.percent = percent;
+		this.discountId = id;
+		this.discountType = type;
+		this.discountPercent = percent;
 		this.available = available;
 		this.restaurantId = restaurantId;
 	}
 	public int getId() {
-		return id;
+		return discountId;
 	}
 	public void setId(int id) {
-		this.id = id;
+		this.discountId = id;
 	}
 	public String getType() {
-		return type;
+		return discountType;
 	}
 	public void setType(String type) {
-		this.type = type;
+		this.discountType = type;
 	}
 	public float getPercent() {
-		return percent;
+		return discountPercent;
 	}
 	public void setPercent(float percent) {
-		this.percent = percent;
+		this.discountPercent = percent;
 	}
 	public boolean isAvailable() {
 		return available;

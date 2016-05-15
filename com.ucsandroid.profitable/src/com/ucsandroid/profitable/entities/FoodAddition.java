@@ -2,32 +2,32 @@ package com.ucsandroid.profitable.entities;
 
 public class FoodAddition {
 	
-	private String name;
-	private int price;
+	private String foodAdditionName;
+	private int foodAdditionPrice;
 	private boolean available;
-	private int id;
-	private int restaurant;
+	private int foodAdditionId;
+	private int restaurantId;
 	
 	public FoodAddition(String name, int price, boolean available, int id, int restaurant) {
 		super();
-		this.name = name;
-		this.price = price;
+		this.foodAdditionName = name;
+		this.foodAdditionPrice = price;
 		this.available = available;
-		this.id = id;
-		this.restaurant = restaurant;
+		this.foodAdditionId = id;
+		this.restaurantId = restaurant;
 	}
 	
 	public String getName() {
-		return name;
+		return foodAdditionName;
 	}
 	public void setName(String name) {
-		this.name = name;
+		this.foodAdditionName = name;
 	}
 	public int getPrice() {
-		return price;
+		return foodAdditionPrice;
 	}
 	public void setPrice(int price) {
-		this.price = price;
+		this.foodAdditionPrice = price;
 	}
 	public boolean isAvailable() {
 		return available;
@@ -36,16 +36,16 @@ public class FoodAddition {
 		this.available = available;
 	}
 	public int getId() {
-		return id;
+		return foodAdditionId;
 	}
 	public void setId(int id) {
-		this.id = id;
+		this.foodAdditionId = id;
 	}
 	public int getRestaurant() {
-		return restaurant;
+		return restaurantId;
 	}
 	public void setRestaurant(int restaurant) {
-		this.restaurant = restaurant;
+		this.restaurantId = restaurant;
 	}
 
 }
