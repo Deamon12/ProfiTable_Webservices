@@ -1,5 +1,8 @@
 package com.ucsandroid.profitable.service;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.ucsandroid.profitable.StandardResult;
 import com.ucsandroid.profitable.dataaccess.AdditionsDataAccess;
 import com.ucsandroid.profitable.utilities.Converters;
 import com.ucsandroid.profitable.utilities.StatementBuilder;
@@ -7,97 +10,59 @@ import com.ucsandroid.profitable.utilities.StatementBuilder;
 public class AdditionsService {
 	
 	private AdditionsDataAccess additionsDataAccess;
+	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
 	public AdditionsService() {
 		additionsDataAccess = new AdditionsDataAccess();
 	}
-	
-	/**
-	 * TODO
-	 * @param attr_id
-	 * @param rest_id
-	 * @return
-	 */
-	public String AttributeDEL(String attr_id, String rest_id) {
-					
+
+	public String attributeDelete(String attr_id, String rest_id) {
+		StandardResult sr = new StandardResult(false, null);
 		try {
 			Integer attrVal = Integer.parseInt(attr_id);
 			Integer restVal = Integer.parseInt(rest_id);
-			return getAdditionsDAO().delete(attrVal, restVal);
-			
+			return gson.toJson(getAdditionsDataAccess().delete(attrVal, restVal));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "DELETE FAILURE: bad input value(s)";
-		}
-		
+			sr.setMessage("Error: invalid input: "+e.getMessage());
+			return gson.toJson(sr);
+		}			
 	}
-	
-	/**
-	 * TODO
-	 * @param name
-	 * @param price
-	 * @param available
-	 * @param rest_id
-	 * @return
-	 */
-	public String AttributePOST(String name, String price, 
+
+	public String attributeInsert(String name, String price, 
 			String available, String rest_id) {
-					
+		StandardResult sr = new StandardResult(false, null);	
 		try {
 			Integer priceVal = Integer.parseInt(price);
 			Integer restVal = Integer.parseInt(rest_id);
 			Boolean availValue = Boolean.valueOf(available);
-			if (name.length()==0) {
-				return "INSERT FAILURE: zero length attribute name";
-			} else {
-				return getAdditionsDAO().insert(name, priceVal,
-						availValue, restVal);
-			}
+			return gson.toJson(getAdditionsDataAccess().insert(name, priceVal,
+					availValue, restVal));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "INSERT FAILURE: bad input value(s)";
+			sr.setMessage("Error: invalid input: "+e.getMessage());
+			return gson.toJson(sr);
 		}
-		
 	}
-	
-	/**
-	 * TODO
-	 * @param attr_id
-	 * @param name
-	 * @param price
-	 * @param available
-	 * @param rest_id
-	 * @return
-	 */
-	public String AttributePUT(String attr_id,
+
+	public String attributeUpdate(String attr_id,
 			String name, String price, 
 			String available, String rest_id) {
-					
+		StandardResult sr = new StandardResult(false, null);	
 		try {
 			Integer attrVal = Integer.parseInt(attr_id);
 			Integer priceVal = Integer.parseInt(price);
 			Integer restVal = Integer.parseInt(rest_id);
 			Boolean availValue = Boolean.valueOf(available);
-			if (name.length()==0) {
-				return "UPDATE FAILURE: zero length attribute name";
-			} else {
-				return getAdditionsDAO().update(attrVal, name, 
-						priceVal, availValue, restVal);
-			}
+			return gson.toJson(getAdditionsDataAccess().update(attrVal, name, 
+					priceVal, availValue, restVal));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "UPDATE FAILURE: bad input value(s)";
+			sr.setMessage("Error: invalid input: "+e.getMessage());
+			return gson.toJson(sr);
 		}
-		
 	}
-	
-	/**
-	 * TODO
-	 * @param menu_item
-	 * @param avail
-	 * @param rest
-	 * @return
-	 */
+
 	public String AttributeGet(String menu_item, String avail,
 			String rest) {
 		
@@ -127,20 +92,13 @@ public class AdditionsService {
 			System.out.println(query);
 			
 			return Converters.convertToString(
-					getAdditionsDAO().fetchData(query));
+					getAdditionsDataAccess().fetchData(query));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return "ERROR";
 		}
 	}
-	
-	/**
-	 * TODO
-	 * @param menu_item
-	 * @param avail
-	 * @param rest
-	 * @return
-	 */
+
 	public String AttributeGetRest(String avail,
 			String rest) {
 		
@@ -165,7 +123,7 @@ public class AdditionsService {
 			System.out.println(query);
 			
 			return Converters.convertToString(
-					getAdditionsDAO().fetchData(query));
+					getAdditionsDataAccess().fetchData(query));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return "ERROR";
@@ -173,7 +131,7 @@ public class AdditionsService {
 	}
 	
 	/** returns a valid AdditionsDataAccess object */
-	private AdditionsDataAccess getAdditionsDAO() {
+	private AdditionsDataAccess getAdditionsDataAccess() {
 		if (additionsDataAccess==null) {additionsDataAccess = new AdditionsDataAccess();}
 		return additionsDataAccess;
 	}

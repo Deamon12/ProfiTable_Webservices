@@ -1,5 +1,7 @@
 package com.ucsandroid.profitable.dataaccess;
 
+import com.ucsandroid.profitable.StandardResult;
+
 public class AdditionsDataAccess extends MainDataAccess {
 	
 	private static String insertStatement = 
@@ -22,15 +24,9 @@ public class AdditionsDataAccess extends MainDataAccess {
 	public AdditionsDataAccess() {
 		super();
 	}
-	
-	/**
-	 * TODO
-	 * @param attrib
-	 * @param restId
-	 * @return
-	 */
-	public String delete(int attrib, int restId) {
-		
+
+	public StandardResult delete(int attrib, int restId) {
+		StandardResult sr = new StandardResult(false, null);
 		try {
 			// Open the connection
 			conn = connUtil.getConnection();
@@ -44,28 +40,22 @@ public class AdditionsDataAccess extends MainDataAccess {
 	        pstmt.setInt(i++, restId);
 
 	        // Validate for expected and return status
-	        String deleteStatus = deleteHelper(pstmt.executeUpdate(), 
-	        		1, conn);
-			return deleteStatus;
+	        return deleteHelper(pstmt.executeUpdate(), 
+	        		1, conn, sr);
 		} catch (Exception e) {
-			return "Delete failure, SQL issue";
+			sr.setSuccess(false);
+			sr.setMessage("Error: internal database issue:  "+
+				e.getMessage());
+			System.out.println(e.getMessage());
+			return sr;
 		} finally {
 			sqlCleanup(pstmt,conn);
 		}
-		
 	}
-	
-	/**
-	 * TODO
-	 * @param name
-	 * @param price
-	 * @param avail
-	 * @param restId
-	 * @return
-	 */
-	public String insert(String name, int price, boolean avail,
+
+	public StandardResult insert(String name, int price, boolean avail,
 			int restId) {
-		
+		StandardResult sr = new StandardResult(false, null);
 		try {
 			// Open the connection
 			conn = connUtil.getConnection();
@@ -81,29 +71,23 @@ public class AdditionsDataAccess extends MainDataAccess {
 	        pstmt.setInt(i++, restId);
 
 	        // Validate for expected and return status
-	        String insertStatus = insertHelper(pstmt.executeUpdate(), 
-	        		conn);
-			return insertStatus;
+	        return insertHelper(pstmt.executeUpdate(), 
+	        		conn, sr);
 		} catch (Exception e) {
-			return "Insert failure, SQL issue";
+			sr.setSuccess(false);
+			sr.setMessage("Error: internal database issue:  "+
+				e.getMessage());
+			System.out.println(e.getMessage());
+			return sr;
 		} finally {
 			sqlCleanup(pstmt,conn);
 		}
 		
 	}
-	
-	/**
-	 * TODO
-	 * @param attrib
-	 * @param name
-	 * @param price
-	 * @param avail
-	 * @param restId
-	 * @return
-	 */
-	public String update(int attrib, String name, 
-			int price, boolean avail, int restId) {
 
+	public StandardResult update(int attrib, String name, 
+			int price, boolean avail, int restId) {
+		StandardResult sr = new StandardResult(false, null);
 		try {
 			// Open the connection
 			conn = connUtil.getConnection();
@@ -120,11 +104,14 @@ public class AdditionsDataAccess extends MainDataAccess {
 	        pstmt.setInt(i++, attrib);
 
 	        // Validate for expected and return status
-	        String updateStatus = updateHelper(pstmt.executeUpdate(), 
-	        		1, conn);
-			return updateStatus;
+	        return updateHelper(pstmt.executeUpdate(), 
+	        		1, conn, sr);
 		} catch (Exception e) {
-			return "Update failure, SQL issue";
+			sr.setSuccess(false);
+			sr.setMessage("Error: internal database issue:  "+
+				e.getMessage());
+			System.out.println(e.getMessage());
+			return sr;
 		} finally {
 			sqlCleanup(pstmt,conn);
 		}

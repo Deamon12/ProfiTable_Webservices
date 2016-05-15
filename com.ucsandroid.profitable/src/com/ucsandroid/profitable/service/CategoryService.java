@@ -1,9 +1,14 @@
 package com.ucsandroid.profitable.service;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.ucsandroid.profitable.StandardResult;
 import com.ucsandroid.profitable.dataaccess.CategoryDataAccess;
 
 
 public class CategoryService {
+	
+	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
 	private CategoryDataAccess categoryDataAccess;
 	
@@ -11,81 +16,46 @@ public class CategoryService {
 		categoryDataAccess = new CategoryDataAccess();
 	}
 	
-	/**
-	 * TODO
-	 * @param cat_id
-	 * @param rest_id
-	 * @return
-	 */
 	public String delete(String cat_id, String rest_id) {
-		
+		StandardResult sr = new StandardResult(false, null);
 		try {
 			Integer catVal = Integer.parseInt(cat_id);
 			Integer restVal = Integer.parseInt(rest_id);
-			return getCategoryDataAccess().delete(catVal, restVal);
-			
+			return gson.toJson(getCategoryDataAccess().delete(catVal, restVal));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "DELETE FAILURE: bad input value(s)";
+			sr.setMessage("Error: invalid input: "+e.getMessage());
+			return gson.toJson(sr);
 		}
-		
 	}
 	
-	/**
-	 * TODO
-	 * @param catName
-	 * @param rest_id
-	 * @return
-	 */
 	public String insert(String catName, String rest_id) {
-					
+		StandardResult sr = new StandardResult(false, null);	
 		try {
 			Integer restVal = Integer.parseInt(rest_id);
-			if (catName.length()==0) {
-				return "INSERT FAILURE: zero length category name";
-			} else {
-				return getCategoryDataAccess().insert(catName, restVal);
-			}
+			return gson.toJson(getCategoryDataAccess().insert(catName, restVal));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "INSERT FAILURE: bad input value(s)";
+			sr.setMessage("Error: invalid input: "+e.getMessage());
+			return gson.toJson(sr);
 		}
-		
 	}
 	
-	/**
-	 * TODO
-	 * @param catId
-	 * @param catName
-	 * @param rest_id
-	 * @return
-	 */
 	public String update(String catId,
 			String catName, String rest_id) {
-					
+		StandardResult sr = new StandardResult(false, null);	
 		try {
 			Integer catVal = Integer.parseInt(catId);
 			Integer restVal = Integer.parseInt(rest_id);
-			if (catName.length()==0) {
-				return "UPDATE FAILURE: zero length category name";
-			} else {
-				return getCategoryDataAccess().update(catVal, catName, 
-					restVal);
-			}
+			return gson.toJson(getCategoryDataAccess().update(catVal, catName, 
+					restVal));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "UPDATE FAILURE: bad input value(s)";
+			sr.setMessage("Error: invalid input: "+e.getMessage());
+			return gson.toJson(sr);
 		}
-		
 	}
 	
-	/**
-	 * TODO
-	 * @param menu_item
-	 * @param avail
-	 * @param rest
-	 * @return
-	 */
 	/*
 	public String CategoryGet(String menu_item, String avail,
 			String rest) {
@@ -123,13 +93,6 @@ public class CategoryService {
 		}
 	}*/
 	
-	/**
-	 * TODO
-	 * @param menu_item
-	 * @param avail
-	 * @param rest
-	 * @return
-	 */
 	/*
 	public String CategoryGetRest(String avail,
 			String rest) {

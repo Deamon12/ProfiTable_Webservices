@@ -24,7 +24,6 @@ public class EmployeeService {
 	public String login(String accountName, String accountPass,
 			String restId) {
 		StandardResult sr = new StandardResult(false, null);
-		
 		try {
 			int restaurant = Integer.parseInt(restId);
 			sr = getEmployeeDataAccess().
@@ -37,7 +36,6 @@ public class EmployeeService {
 		}
 	}
 	
-
 	public String getEmployee(String accountName, String restId) {	
 		StandardResult sr = new StandardResult(false, null);
 		try {
@@ -52,7 +50,6 @@ public class EmployeeService {
 		}
 	}
 	
-
 	public String getEmployees(String restId) {
 		StandardResult sr = new StandardResult(false, null);
 		try {

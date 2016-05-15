@@ -9,12 +9,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.ucsandroid.profitable.StandardResult;
 import com.ucsandroid.profitable.service.AdditionsService;
 
 @Path ("/additions")
 public class AdditionsController {
 	
 	private AdditionsService additionService = new AdditionsService();
+	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
 	/**
 	 * Returns all potential additions for a given menu item at a given restaurant
@@ -51,9 +55,11 @@ public class AdditionsController {
 			) {
 
 		if (attr_id!=null && rest_id!=null) {
-			return additionService.AttributeDEL(attr_id,rest_id); 
+			return additionService.attributeDelete(attr_id,rest_id); 
 		} else {
-			return "FAILURE: DELETE requires attrib and rest ids";
+			StandardResult sr = new StandardResult(false, null);
+			sr.setMessage("Error: not all parameters set");
+			return gson.toJson(sr); 
 		}
 	}
 	
@@ -69,10 +75,12 @@ public class AdditionsController {
 
 		if (name!=null && available!=null && attr_id!=null
 				&& price!=null && rest_id!=null) {
-			return additionService.AttributePUT(attr_id, 
+			return additionService.attributeUpdate(attr_id, 
 					name, price, available, rest_id); 
 		} else {
-			return "FAILURE: UPDATE requires all attributes assigned";
+			StandardResult sr = new StandardResult(false, null);
+			sr.setMessage("Error: not all parameters set");
+			return gson.toJson(sr); 
 		}
 	}
 	
@@ -87,10 +95,12 @@ public class AdditionsController {
 
 		if (name!=null && available!=null && 
 				price!=null && rest_id!=null) {
-			return additionService.AttributePOST(name, price, 
+			return additionService.attributeInsert(name, price, 
 					available, rest_id); 
 		} else {
-			return "FAILURE: Insert requires all attributes assigned";
+			StandardResult sr = new StandardResult(false, null);
+			sr.setMessage("Error: not all parameters set");
+			return gson.toJson(sr); 
 		}
 	}
 

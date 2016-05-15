@@ -1,121 +1,114 @@
 package com.ucsandroid.profitable.dataaccess;
 
+import com.ucsandroid.profitable.StandardResult;
+
 public class CategoryDataAccess extends MainDataAccess {
 	
 	private static String insertStatement = 
-			"INSERT INTO Category "+
-			"(cat_name, restaurant) "+ 
-			" VALUES(?,?)";
-		
-		private static String updateStatement =
-			"UPDATE "+
-				"Category "+
-			"SET "+
-				"cat_name=?, restaurant=? "+
-			"WHERE "+
-				"cat_id = ?";
-		
-		private static String deleteStatement =
-			"DELETE FROM Category "+
-			"WHERE cat_id = ? and restaurant = ?";
+		"INSERT INTO Category "+
+		"(cat_name, restaurant) "+ 
+		" VALUES(?,?)";
+	
+	private static String updateStatement =
+		"UPDATE "+
+			"Category "+
+		"SET "+
+			"cat_name=?, restaurant=? "+
+		"WHERE "+
+			"cat_id = ?";
+	
+	private static String deleteStatement =
+		"DELETE FROM Category "+
+		"WHERE cat_id = ? and restaurant = ?";
 
-		public CategoryDataAccess() {
-			super();
+	public CategoryDataAccess() {
+		super();
+	}
+		
+	public StandardResult delete(int catId, int restId) {
+		StandardResult sr = new StandardResult(false, null);
+		try {
+			// Open the connection
+			conn = connUtil.getConnection();
+			// Begin transaction
+	        conn.setAutoCommit(false);
+	        // Create the prepared statement
+	        pstmt = conn.prepareStatement(deleteStatement);
+	        // Set the variable parameters
+	        int i = 1;
+	        pstmt.setInt(i++, catId);
+	        pstmt.setInt(i++, restId);
+
+			return deleteHelper(pstmt.executeUpdate(), 
+	        		1, conn, sr);
+		} catch (Exception e) {
+			sr.setSuccess(false);
+			sr.setMessage("Error: internal database issue:  "+
+				e.getMessage());
+			System.out.println(e.getMessage());
+			return sr;
+		} finally {
+			sqlCleanup(pstmt,conn);
+		}
+	}
+
+	public StandardResult insert(String catName, int restId) {
+		StandardResult sr = new StandardResult(false, null);
+		
+		try {
+			// Open the connection
+			conn = connUtil.getConnection();
+			// Begin transaction
+	        conn.setAutoCommit(false);
+	        // Create the prepared statement
+	        pstmt = conn.prepareStatement(insertStatement);
+	        // Set the variable parameters
+	        int i = 1;
+	        pstmt.setString(i++, catName);
+	        pstmt.setInt(i++, restId);
+	        // Validate for expected and return status
+	        return insertHelper(pstmt.executeUpdate(), 
+	        		conn, sr);
+		} catch (Exception e) {
+			sr.setSuccess(false);
+			sr.setMessage("Error: internal database issue:  "+
+				e.getMessage());
+			System.out.println(e.getMessage());
+			return sr;
+		} finally {
+			sqlCleanup(pstmt,conn);
 		}
 		
-		/**
-		 * TODO
-		 * @param catId
-		 * @param restId
-		 * @return
-		 */
-		public String delete(int catId, int restId) {
-			try {
-				// Open the connection
-				conn = connUtil.getConnection();
-				// Begin transaction
-		        conn.setAutoCommit(false);
-		        // Create the prepared statement
-		        pstmt = conn.prepareStatement(deleteStatement);
-		        // Set the variable parameters
-		        int i = 1;
-		        pstmt.setInt(i++, catId);
-		        pstmt.setInt(i++, restId);
+	}
 
-		        // Validate for expected and return status
-		        String deleteStatus = deleteHelper(pstmt.executeUpdate(), 
-		        		1, conn);
-				return deleteStatus;
-			} catch (Exception e) {
-				return "Insert failure, SQL issue";
-			} finally {
-				sqlCleanup(pstmt,conn);
-			}
-		}
-		
-		/**
-		 * TODO
-		 * @param cat_name
-		 * @param restId
-		 * @return
-		 */
-		public String insert(String catName, int restId) {
-			
-			try {
-				// Open the connection
-				conn = connUtil.getConnection();
-				// Begin transaction
-		        conn.setAutoCommit(false);
-		        // Create the prepared statement
-		        pstmt = conn.prepareStatement(insertStatement);
-		        // Set the variable parameters
-		        int i = 1;
-		        pstmt.setString(i++, catName);
-		        pstmt.setInt(i++, restId);
+	public StandardResult update(int catId, String catName, 
+			int restId) {
+		StandardResult sr = new StandardResult(false, null);
+		try {
+			// Open the connection
+			conn = connUtil.getConnection();
+			// Begin transaction
+	        conn.setAutoCommit(false);
+	        // Create the prepared statement
+	        pstmt = conn.prepareStatement(updateStatement);
+	        // Set the variable parameters
+	        int i = 1;
+	        pstmt.setString(i++, catName);
+	        pstmt.setInt(i++, restId);
+	        pstmt.setInt(i++, catId);
 
-		        // Validate for expected and return status
-		        String insertStatus = insertHelper(pstmt.executeUpdate(), 
-		        		conn);
-				return insertStatus;
-			} catch (Exception e) {
-				return "Insert failure, SQL issue";
-			} finally {
-				sqlCleanup(pstmt,conn);
-			}
-			
+	        // Validate for expected and return status
+	        return updateHelper(pstmt.executeUpdate(), 
+	        		1, conn, sr);
+		} catch (Exception e) {
+			sr.setSuccess(false);
+			sr.setMessage("Error: internal database issue:  "+
+				e.getMessage());
+			System.out.println(e.getMessage());
+			return sr;
+		} finally {
+			sqlCleanup(pstmt,conn);
 		}
-		
-		/**
-		 * TODO
-		 * @param catId
-		 * @param catName
-		 * @param restId
-		 * @return
-		 */
-		public String update(int catId, String catName, 
-				int restId) {
-			try {
-				// Open the connection
-				conn = connUtil.getConnection();
-				// Begin transaction
-		        conn.setAutoCommit(false);
-		        // Create the prepared statement
-		        pstmt = conn.prepareStatement(updateStatement);
-		        // Set the variable parameters
-		        int i = 1;
-		        pstmt.setString(i++, catName);
-		        pstmt.setInt(i++, restId);
-		        pstmt.setInt(i++, catId);
-
-		        // Validate for expected and return status
-		        String updateStatus = updateHelper(pstmt.executeUpdate(), 
-		        		1, conn);
-				return updateStatus;
-			} catch (Exception e) {
-				return "Update failure, SQL issue";
-			} finally {
-				sqlCleanup(pstmt,conn);
-			}
-		}
+	}
 
 }
