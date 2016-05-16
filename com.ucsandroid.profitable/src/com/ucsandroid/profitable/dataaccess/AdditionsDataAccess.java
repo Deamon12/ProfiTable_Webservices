@@ -69,8 +69,7 @@ public class AdditionsDataAccess extends MainDataAccess {
 	        
 	        while (results.next()) { 
 	        	String attribute = results.getString("attribute");
-	        	boolean available = Boolean.parseBoolean(
-	        			results.getString("Available"));
+	        	boolean available = results.getBoolean("Available");
 	        	int price_mod = results.getInt("price_mod");
 	        	int attrId = results.getInt("attr_id");
 	        	int restId = results.getInt("restaurant");
@@ -119,14 +118,12 @@ public class AdditionsDataAccess extends MainDataAccess {
 	        
 	        while (results.next()) { 
 	        	String attribute = results.getString("attribute");
-	        	boolean available = Boolean.parseBoolean(
-	        			results.getString("Available"));
+	        	boolean available = results.getBoolean("Available");
 	        	int price_mod = results.getInt("price_mod");
 	        	int attrId = results.getInt("attr_id");
 	        	int restId = results.getInt("restaurant");
 	        	FoodAddition emp = new FoodAddition(attribute, price_mod, 
 	        			available,attrId,restId);
-	        	additions.add(emp);
 	        } 
 	        
 	        if (additions.size()>0) {

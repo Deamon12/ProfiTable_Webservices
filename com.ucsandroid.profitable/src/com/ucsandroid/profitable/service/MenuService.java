@@ -1,15 +1,19 @@
 package com.ucsandroid.profitable.service;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.ucsandroid.profitable.StandardResult;
 import com.ucsandroid.profitable.dataaccess.MenuDataAccess;
 import com.ucsandroid.profitable.utilities.Converters;
 import com.ucsandroid.profitable.utilities.StatementBuilder;
 
 public class MenuService {
 	
-	private MenuDataAccess menuDAO;
+	private MenuDataAccess menuDataAccess;
+	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
 	public MenuService() {
-		menuDAO = new MenuDataAccess();
+		menuDataAccess = new MenuDataAccess();
 	}
 	
 	/**
@@ -47,7 +51,7 @@ public class MenuService {
 			System.out.println(query);
 			
 			return Converters.convertToString(
-					getMenuDAO().fetchData(query));
+					getMenuDataAccess().fetchData(query));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return "ERROR";
@@ -63,42 +67,34 @@ public class MenuService {
 	 */
 	public String MenuCategoriesGet(String restaurant, String avail) {
 		
-		String query = 
-			"SELECT "+
-				"c.cat_name as category_name, c.cat_id as cat_id, "+
-				"mi.menu_name as menu_name, mi.menu_id as menu_id, "+
-				"mi.available as available "+
-			"FROM "+
-				"has_cat hs, "+
-				"category c, "+
-				"menu_item mi "+
-			"WHERE "+
-				"mi.menu_id=hs.menu_id "+
-				"and c.cat_id=hs.cat_id ";
-		
+		StandardResult sr = new StandardResult(false, null);
 		try {
-			query = StatementBuilder.addBool(query, 
-					"and mi.available=", avail);
-			query = StatementBuilder.addInt(query, 
-					"and mi.restaurant=", restaurant);
-			query=query+"ORDER BY category_name ASC";
-			
-			//log the query so we can analyze the sql generated
-			System.out.println(query);
-			
-			return Converters.convertToString(
-					getMenuDAO().fetchData(query));
+			Integer restVal = Integer.parseInt(restaurant);
+			boolean availVal;
+			if (avail!=null){
+				availVal = Boolean.parseBoolean(avail);
+				//run with available mod
+				sr = getMenuDataAccess().getMenuByCategory(restVal,availVal);
+			} else {
+				//run without
+				sr = getMenuDataAccess().getMenuByCategory(restVal);
+			}
+			return gson.toJson(sr);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "ERROR";
+			sr.setMessage("Error: invalid input: "+e.getMessage());
+			return gson.toJson(sr);
 		}
-		
+	}
+	
+	public static String menuItemDelete(String menu_id, String rest_id) {
+		return "";
 	}
 
 	/** returns a valid MenuDAO object */
-	private MenuDataAccess getMenuDAO() {
-		if (menuDAO==null) {menuDAO = new MenuDataAccess();}
-		return menuDAO;
+	private MenuDataAccess getMenuDataAccess() {
+		if (menuDataAccess==null) {menuDataAccess = new MenuDataAccess();}
+		return menuDataAccess;
 	}
 
 }

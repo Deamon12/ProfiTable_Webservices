@@ -1,5 +1,6 @@
 package com.ucsandroid.profitable.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Category {
@@ -8,10 +9,15 @@ public class Category {
 	private int categoryId;
 	private List<MenuItem> menuItems;
 	
+	public Category() {
+		super();
+	}
+	
 	public Category(String name, int id) {
 		super();
 		this.categoryName = name;
 		this.categoryId = id;
+		this.menuItems = new ArrayList<MenuItem>();
 	}
 	
 	public Category(String name, int id, List<MenuItem> menuItems) {
@@ -39,5 +45,7 @@ public class Category {
 	public void setMenuItems(List<MenuItem> menuItems) {
 		this.menuItems = menuItems;
 	}
-
+	public void addToCategory(MenuItem mi) {
+		menuItems.add(mi);
+	}
 }

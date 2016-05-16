@@ -2,6 +2,7 @@ package com.ucsandroid.profitable.controllers;
 
 import java.util.Arrays;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -60,6 +61,29 @@ public class MenuController {
 	}
 	
 	/**
+	 * TODO
+	 * @param attr_id
+	 * @param rest_id
+	 * @return
+	 */
+	@Path ("/item")
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
+	public String delete(
+			@QueryParam("menu_id") String menu_id,
+			@QueryParam("rest_id") String rest_id
+			) {
+
+		if (menu_id!=null && rest_id!=null) {
+			return MenuService.menuItemDelete(menu_id,rest_id); 
+		} else {
+			StandardResult sr = new StandardResult(false, null);
+			sr.setMessage("Error: not all parameters set");
+			return gson.toJson(sr); 
+		}
+	}
+	
+	/**
 	 * Returns menu for a given restaurant, with categories listed
 	 * for all items.  organized by category.
 	 * if available is not defined or provided, returns all items
@@ -76,10 +100,8 @@ public class MenuController {
 			@QueryParam("available") String available, 
 			@QueryParam("rest_id") String rest_id
 			) {
-		
 		return menuService.MenuCategoriesGet(rest_id, 
 			available);
-
 	}
 
 }
