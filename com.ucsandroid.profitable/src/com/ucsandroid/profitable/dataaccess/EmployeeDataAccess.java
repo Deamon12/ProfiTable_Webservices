@@ -90,11 +90,7 @@ public class EmployeeDataAccess extends MainDataAccess {
 		        return sr;
 	        }
 		} catch (Exception e) {
-			sr.setSuccess(false);
-			sr.setMessage("Error: internal database issue:  "+
-				e.getMessage());
-			System.out.println(e.getMessage());
-			return sr;
+			return catchErrorAndSetSR(sr, e);
 		} finally {
 			sqlCleanup(pstmt,results,conn);
 		}
@@ -135,11 +131,7 @@ public class EmployeeDataAccess extends MainDataAccess {
 		        return sr;
 	        }
 		} catch (Exception e) {
-			sr.setSuccess(false);
-			sr.setMessage("Error: internal database issue:  "+
-				e.getMessage());
-			System.out.println(e.getMessage());
-			return sr;
+			return catchErrorAndSetSR(sr, e);
 		} finally {
 			sqlCleanup(pstmt,results,conn);
 		}
@@ -173,22 +165,11 @@ public class EmployeeDataAccess extends MainDataAccess {
 	        	employees.add(emp);
 	        } 
 	        
-	        if (employees.size()>0) {
-		        sr.setResult(employees);
-		        sr.setSuccess(true);
-	        } else {
-	        	sr.setResult(null);
-	        	sr.setMessage("No employees found");
-		        sr.setSuccess(true);
-	        }
-	        
+	        sr.setResult(employees);
+	        sr.setSuccess(true);
 	        return sr;
 		} catch (Exception e) {
-			sr.setSuccess(false);
-			sr.setMessage("Error: internal database issue:  "+
-				e.getMessage());
-			System.out.println(e.getMessage());
-			return sr;
+			return catchErrorAndSetSR(sr, e);
 		} finally {
 			sqlCleanup(pstmt,results,conn);
 		}

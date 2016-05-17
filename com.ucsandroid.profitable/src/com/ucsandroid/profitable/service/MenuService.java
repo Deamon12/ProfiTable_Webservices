@@ -27,34 +27,49 @@ public class MenuService {
 	public String MenuItemGet(String restaurant, String menu_item_id,
 			String avail, String category) {
 		
-		String query = 
-			"select "+
-				"mi.menu_id, mi.menu_name, mi.description, "+
-				"mi.price, mi.available, hc.cat_id "+
-			"from "+
-				"menu_item mi, "+
-				"has_cat hc "+
-			"where "+
-				"mi.menu_id=hc.menu_id ";
-		
+		StandardResult sr = new StandardResult(false, null);
 		try {
-			query = StatementBuilder.addBool(query, 
-					"and mi.available=", avail);
-			query = StatementBuilder.addInt(query, 
-					"and mi.restaurant=", restaurant);
-			query = StatementBuilder.addBool(query, 
-					"and mi.menu_id=", menu_item_id);
-			query = StatementBuilder.addInt(query, 
-					"and hc.cat_id=", category);
-			
-			//log the query so we can analyze the sql generated
-			System.out.println(query);
-			
-			return Converters.convertToString(
-					getMenuDataAccess().fetchData(query));
+			Integer restVal = Integer.parseInt(restaurant);
+			boolean availVal;
+			Integer catVal;
+			Integer menuIdVal;
+			//CASE 1 - category is set, return all menu items from this category
+			if (category!=null){
+				catVal = Integer.parseInt(category);
+				//if available is not null, attempt to use it to filter results
+				if (avail!=null){
+					availVal = Boolean.parseBoolean(avail);
+					sr = getMenuDataAccess().getMenuItems(restVal, catVal, 
+							availVal);
+				} 
+				//otherwise fetch all matching results
+				else {
+					sr = getMenuDataAccess().getMenuItems(restVal, catVal);
+				}
+			} 
+			//CASE 2 - category not set, menu item id is set.  returns one menu item
+			else if (menu_item_id!=null){
+				menuIdVal = Integer.parseInt(menu_item_id);
+				sr = getMenuDataAccess().getMenuItem(restVal, menuIdVal);
+			} 
+			//CASE 3 - no optional params set, return all menu items for restaurant
+			else {
+				//if available is not null, attempt to use it to filter results
+				if (avail!=null){
+					availVal = Boolean.parseBoolean(avail);
+					sr = getMenuDataAccess().getMenuItems(restVal, availVal);
+				}
+				//otherwise fetch all matching results
+				else {
+					sr = getMenuDataAccess().getMenuItems(restVal);
+				}
+				
+			}
+			return gson.toJson(sr);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "ERROR";
+			sr.setMessage("Error: invalid input: "+e.getMessage());
+			return gson.toJson(sr);
 		}
 		
 	}

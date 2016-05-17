@@ -75,6 +75,17 @@ public class MenuItem {
 		this.optionalAdditions = optionalAdditions;
 	}
 
+	public MenuItem(int menuItemId, String menuName, 
+			String menuItemdescription, int menuItemPrice, 
+			boolean available) {
+		super();
+		this.menuItemId = menuItemId;
+		this.menuName = menuName;
+		this.menuItemdescription = menuItemdescription;
+		this.menuItemPrice = menuItemPrice;
+		this.available = available;
+	}
+
 	public int getId() {
 		return menuItemId;	
 	}

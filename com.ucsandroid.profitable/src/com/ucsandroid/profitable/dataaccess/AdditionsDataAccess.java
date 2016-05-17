@@ -78,22 +78,11 @@ public class AdditionsDataAccess extends MainDataAccess {
 	        	additions.add(emp);
 	        } 
 	        
-	        if (additions.size()>0) {
-		        sr.setResult(additions);
-		        sr.setSuccess(true);
-	        } else {
-	        	sr.setResult(null);
-	        	sr.setMessage("No additions found");
-		        sr.setSuccess(true);
-	        }
-	        
+	        sr.setSuccess(true);
+	        sr.setResult(additions);
 	        return sr;
 		} catch (Exception e) {
-			sr.setSuccess(false);
-			sr.setMessage("Error: internal database issue:  "+
-				e.getMessage());
-			System.out.println(e.getMessage());
-			return sr;
+			return catchErrorAndSetSR(sr, e);
 		} finally {
 			sqlCleanup(pstmt,results,conn);
 		}
@@ -125,23 +114,12 @@ public class AdditionsDataAccess extends MainDataAccess {
 	        	FoodAddition emp = new FoodAddition(attribute, price_mod, 
 	        			available,attrId,restId);
 	        } 
-	        
-	        if (additions.size()>0) {
-		        sr.setResult(additions);
-		        sr.setSuccess(true);
-	        } else {
-	        	sr.setResult(null);
-	        	sr.setMessage("No additions found");
-		        sr.setSuccess(true);
-	        }
-	        
+
+	        sr.setResult(additions);
+	        sr.setSuccess(true);
 	        return sr;
 		} catch (Exception e) {
-			sr.setSuccess(false);
-			sr.setMessage("Error: internal database issue:  "+
-				e.getMessage());
-			System.out.println(e.getMessage());
-			return sr;
+			return catchErrorAndSetSR(sr, e);
 		} finally {
 			sqlCleanup(pstmt,results,conn);
 		}
@@ -165,11 +143,7 @@ public class AdditionsDataAccess extends MainDataAccess {
 	        return deleteHelper(pstmt.executeUpdate(), 
 	        		1, conn, sr);
 		} catch (Exception e) {
-			sr.setSuccess(false);
-			sr.setMessage("Error: internal database issue:  "+
-				e.getMessage());
-			System.out.println(e.getMessage());
-			return sr;
+			return catchErrorAndSetSR(sr, e);
 		} finally {
 			sqlCleanup(pstmt,conn);
 		}
@@ -196,11 +170,7 @@ public class AdditionsDataAccess extends MainDataAccess {
 	        return insertHelper(pstmt.executeUpdate(), 
 	        		conn, sr);
 		} catch (Exception e) {
-			sr.setSuccess(false);
-			sr.setMessage("Error: internal database issue:  "+
-				e.getMessage());
-			System.out.println(e.getMessage());
-			return sr;
+			return catchErrorAndSetSR(sr, e);
 		} finally {
 			sqlCleanup(pstmt,conn);
 		}
@@ -229,11 +199,7 @@ public class AdditionsDataAccess extends MainDataAccess {
 	        return updateHelper(pstmt.executeUpdate(), 
 	        		1, conn, sr);
 		} catch (Exception e) {
-			sr.setSuccess(false);
-			sr.setMessage("Error: internal database issue:  "+
-				e.getMessage());
-			System.out.println(e.getMessage());
-			return sr;
+			return catchErrorAndSetSR(sr, e);
 		} finally {
 			sqlCleanup(pstmt,conn);
 		}

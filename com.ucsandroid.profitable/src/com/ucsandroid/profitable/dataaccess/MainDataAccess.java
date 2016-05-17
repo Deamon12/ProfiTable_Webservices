@@ -62,6 +62,21 @@ public class MainDataAccess {
 	}
 	
 	/**
+	 * Compartmentalized error catcher and SR update util to be used by
+	 * all data access children classes.
+	 * @param sr
+	 * @param e
+	 * @return
+	 */
+	protected StandardResult catchErrorAndSetSR(StandardResult sr, Exception e){
+		sr.setSuccess(false);
+		sr.setMessage("Error: internal database issue:  "+
+			e.getMessage());
+		System.out.println(e.getStackTrace());
+		return sr;
+	}
+	
+	/**
 	 * Encapsulates code for performing inserts across any sort
 	 * of sql insert.
 	 * @param insertCount - int number of inserts executed

@@ -52,9 +52,9 @@ public class MenuController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String fetchMenu(
 			@QueryParam("available") String available, 
-			@QueryParam("restaurant") String rest_id,
-			@QueryParam("menu_item") String menu_item_id,
-			@QueryParam("category") String cat_id
+			@QueryParam("rest_id") String rest_id,
+			@QueryParam("menu_item_id") String menu_item_id,
+			@QueryParam("cat_id") String cat_id
 			) {
 		return menuService.MenuItemGet(rest_id, 
 				menu_item_id, available, cat_id);

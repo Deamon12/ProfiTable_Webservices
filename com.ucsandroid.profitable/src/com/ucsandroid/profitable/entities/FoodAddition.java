@@ -17,6 +17,14 @@ public class FoodAddition {
 		this.restaurantId = restaurant;
 	}
 	
+	public FoodAddition(String foodAdditionName, int foodAdditionPrice, boolean available, int foodAdditionId) {
+		super();
+		this.foodAdditionName = foodAdditionName;
+		this.foodAdditionPrice = foodAdditionPrice;
+		this.available = available;
+		this.foodAdditionId = foodAdditionId;
+	}
+
 	public String getName() {
 		return foodAdditionName;
 	}

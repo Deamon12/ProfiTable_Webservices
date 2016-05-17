@@ -42,11 +42,7 @@ public class CategoryDataAccess extends MainDataAccess {
 			return deleteHelper(pstmt.executeUpdate(), 
 	        		1, conn, sr);
 		} catch (Exception e) {
-			sr.setSuccess(false);
-			sr.setMessage("Error: internal database issue:  "+
-				e.getMessage());
-			System.out.println(e.getMessage());
-			return sr;
+			return catchErrorAndSetSR(sr, e);
 		} finally {
 			sqlCleanup(pstmt,conn);
 		}
@@ -70,11 +66,7 @@ public class CategoryDataAccess extends MainDataAccess {
 	        return insertHelper(pstmt.executeUpdate(), 
 	        		conn, sr);
 		} catch (Exception e) {
-			sr.setSuccess(false);
-			sr.setMessage("Error: internal database issue:  "+
-				e.getMessage());
-			System.out.println(e.getMessage());
-			return sr;
+			return catchErrorAndSetSR(sr, e);
 		} finally {
 			sqlCleanup(pstmt,conn);
 		}
@@ -101,11 +93,7 @@ public class CategoryDataAccess extends MainDataAccess {
 	        return updateHelper(pstmt.executeUpdate(), 
 	        		1, conn, sr);
 		} catch (Exception e) {
-			sr.setSuccess(false);
-			sr.setMessage("Error: internal database issue:  "+
-				e.getMessage());
-			System.out.println(e.getMessage());
-			return sr;
+			return catchErrorAndSetSR(sr, e);
 		} finally {
 			sqlCleanup(pstmt,conn);
 		}
