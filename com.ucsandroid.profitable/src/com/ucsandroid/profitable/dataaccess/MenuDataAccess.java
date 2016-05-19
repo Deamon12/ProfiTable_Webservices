@@ -323,6 +323,83 @@ public class MenuDataAccess extends MainDataAccess {
 		}
 	}
 	
+	public StandardResult getEntire(int restaurant) {
+		StandardResult sr = new StandardResult(false, null);
+		ResultSet results = null;
+		
+		try {
+			conn = connUtil.getConnection();
+	        pstmt = conn.prepareStatement(getByCategory);
+	        pstmt.setInt(1, restaurant);
+	        results = pstmt.executeQuery();
+	        
+	        List<Category> categories = new ArrayList<Category>();
+	        int lastCategoryId = -1;
+	        Category menuCategory = new Category();
+	        while (results.next()) { 
+	        	String category_name = results.getString("category_name");
+	        	int cat_id = results.getInt("cat_id");
+	        	
+	        	if (cat_id!=lastCategoryId){
+	        		menuCategory = new Category(category_name, cat_id);
+	        		categories.add(menuCategory);
+	        		lastCategoryId=cat_id; //update to the last cat
+	        	}
+	        	
+	        	String menu_name = results.getString("menu_name");
+	        	int menu_id = results.getInt("menu_id");
+	        	int price = results.getInt("price");
+	        	boolean available = results.getBoolean("available");
+	        	MenuItem menuItem = new MenuItem(menu_id, 
+	        			menu_name, price, available);
+	        	
+	        	menuCategory.addToCategory(menuItem);
+	        } 
+	        
+	        results.close();
+	        
+	        for (Category c : categories) {
+	        	for (MenuItem mi : c.getMenuItems()) {
+	        		List<FoodAddition> optional = new ArrayList<FoodAddition>();
+	    	        List<FoodAddition> included = new ArrayList<FoodAddition>();
+	    	        pstmt = conn.prepareStatement(getAdditionsForAnItem);
+	    	        pstmt.setInt(1, mi.getId());
+	    	        results = pstmt.executeQuery();
+	        		
+	    	        while (results.next()) { 
+	    	        	String attribute = results.getString("attribute");
+	    	        	boolean available = results.getBoolean("available");
+	    	        	int price_mod = results.getInt("price_mod");
+	    	        	int attrId = results.getInt("attr_id");
+	    	        	boolean defaultIncl = results.getBoolean("default_incl");
+	    	        	FoodAddition fa = new FoodAddition(attribute, price_mod, 
+	    	        			available,attrId);
+	    	        	if (defaultIncl){
+	    	        		//included on item by default
+	    	        		included.add(fa);
+	    	        	}else {
+	    	        		//not included by default, but available
+	    	        		optional.add(fa);
+	    	        	}
+	    	        } 
+	    	        mi.setDefaultAdditions(included);
+	    	        mi.setOptionalAdditions(optional);
+	    	        
+	    	        results.close();
+	        	}
+	        	
+	        }
+	        
+	        sr.setResult(categories);
+	        sr.setSuccess(true);
+	        return sr;
+		} catch (Exception e) {
+			return catchErrorAndSetSR(sr, e);
+		} finally {
+			sqlCleanup(pstmt,results,conn);
+		}
+	}
+	
 	public StandardResult getMenuByCategory(int restaurant, boolean avail) {
 		StandardResult sr = new StandardResult(false, null);
 		ResultSet results = null;

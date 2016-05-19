@@ -103,5 +103,24 @@ public class MenuController {
 		return menuService.MenuCategoriesGet(rest_id, 
 			available);
 	}
+	
+	/**
+	 * Returns menu for a given restaurant, with categories listed
+	 * for all items.  organized by category.
+	 * if available is not defined or provided, returns all items
+	 * if available is defined as true or false, returns only
+	 * those items matching the given availability
+	 * @param restaurant - integer id
+	 * @param available - true or false
+	 * @return String menu
+	 */
+	@Path ("/entire")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public String fetchEntire(
+			@QueryParam("rest_id") int rest_id
+			) {
+		return menuService.MenuGetEntire(rest_id);
+	}
 
 }

@@ -16,6 +16,19 @@ public class MenuService {
 		menuDataAccess = new MenuDataAccess();
 	}
 	
+	
+	public String MenuGetEntire(int restaurant) {
+		StandardResult sr = new StandardResult(false, null);
+		try {
+			sr = getMenuDataAccess().getEntire(restaurant);
+			return gson.toJson(sr);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			sr.setMessage("Error: invalid input: "+e.getMessage());
+			return gson.toJson(sr);
+		}
+	}
+	
 	/**
 	 * TODO
 	 * @param restaurant
