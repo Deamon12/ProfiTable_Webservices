@@ -11,6 +11,15 @@ import com.ucsandroid.profitable.entities.MenuItem;
 
 public class MenuDataAccess extends MainDataAccess {
 	
+	private static MenuDataAccess menuDataAccess = 
+			new MenuDataAccess();
+	
+	private MenuDataAccess() {super();}
+	
+	public static MenuDataAccess getInstance() {
+		return menuDataAccess;
+	}
+	
 	private static String getByCategoryAvail = 
 		"SELECT "+
 			"c.cat_name as category_name, c.cat_id as cat_id, "+
@@ -101,10 +110,6 @@ public class MenuDataAccess extends MainDataAccess {
 		+ "fa.available, ha.default_incl "+
 		"FROM food_attribute fa, has_attr ha "+
 		"WHERE ha.menu_id = ? and ha.attr_id=fa.attr_id";
-	
-	public MenuDataAccess() {
-		super();
-	}
 	
 	public StandardResult getMenuItem(int restaurant, int menuItem) {
 		StandardResult sr = new StandardResult(false, null);

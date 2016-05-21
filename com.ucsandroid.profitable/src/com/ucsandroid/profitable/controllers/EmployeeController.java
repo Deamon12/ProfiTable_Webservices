@@ -15,7 +15,6 @@ import com.ucsandroid.profitable.service.EmployeeService;
 @Path ("/employee")
 public class EmployeeController {
 	
-	private EmployeeService employeeService = EmployeeService.getInstance();
 	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
 	@GET
@@ -25,9 +24,11 @@ public class EmployeeController {
 			@QueryParam("rest_id") String rest_id
 			) {
 		if (account_name!=null) {
-			return employeeService.getEmployee(account_name, rest_id); 
+			return EmployeeService.getInstance().
+					getEmployee(account_name, rest_id); 
 		} else {
-			return employeeService.getEmployees(rest_id); 
+			return EmployeeService.getInstance().
+					getEmployees(rest_id); 
 		}
 	}
 	
@@ -40,7 +41,8 @@ public class EmployeeController {
 			@QueryParam("rest_id") String rest_id
 			) {
 		if (account_name!=null && account_pass!=null && rest_id!=null) {
-			return employeeService.login(account_name, account_pass, rest_id); 
+			return EmployeeService.getInstance().
+					login(account_name, account_pass, rest_id); 
 		} else {
 			StandardResult sr = new StandardResult(false, null);
 			sr.setMessage("Error: not all parameters set");

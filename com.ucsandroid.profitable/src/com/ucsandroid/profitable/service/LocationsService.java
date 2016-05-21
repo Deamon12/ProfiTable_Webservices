@@ -19,22 +19,23 @@ public class LocationsService {
 	}
 	
 	public static LocationsService getInstance() {
-		if (locationsService==null) 
-			{locationsService = new LocationsService(); }
+		if (locationsService==null) {
+			locationsService = new LocationsService(); 
+		}
 		return locationsService;
+	}
+	
+	private LocationsDataAccess getLocationsDataAccess() {
+		if (locationsDataAccess==null) {
+			locationsDataAccess = LocationsDataAccess.getInstance();
+		}
+		return locationsDataAccess;
 	}
 	
 	public String LocationsGet(int rest_id) {
 		StandardResult sr = new StandardResult(false, null);
 		sr = getLocationsDataAccess().getLocations(rest_id);
 		return gson.toJson(sr);
-	}
-	
-	/** returns a valid AdditionsDataAccess object */
-	private LocationsDataAccess getLocationsDataAccess() {
-		if (locationsDataAccess==null) 
-			{locationsDataAccess = LocationsDataAccess.getInstance();}
-		return locationsDataAccess;
 	}
 
 }

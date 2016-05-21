@@ -4,16 +4,32 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ucsandroid.profitable.StandardResult;
 import com.ucsandroid.profitable.dataaccess.MenuDataAccess;
-import com.ucsandroid.profitable.utilities.Converters;
-import com.ucsandroid.profitable.utilities.StatementBuilder;
 
 public class MenuService {
 	
 	private MenuDataAccess menuDataAccess;
+	
+	private static MenuService menuService = 
+			new MenuService();
+	
 	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
-	public MenuService() {
-		menuDataAccess = new MenuDataAccess();
+	private MenuService() {
+		menuDataAccess = MenuDataAccess.getInstance();
+	}
+	
+	public static MenuService getInstance() {
+		if (menuService==null) {
+			menuService = new MenuService(); 
+		}
+		return menuService;
+	}
+	
+	private MenuDataAccess getMenuDataAccess() {
+		if (menuDataAccess==null) {
+			menuDataAccess = MenuDataAccess.getInstance();
+		}
+		return menuDataAccess;
 	}
 	
 	
@@ -29,14 +45,6 @@ public class MenuService {
 		}
 	}
 	
-	/**
-	 * TODO
-	 * @param restaurant
-	 * @param menu_item_id
-	 * @param avail
-	 * @param category
-	 * @return
-	 */
 	public String MenuItemGet(String restaurant, String menu_item_id,
 			String avail, String category) {
 		
@@ -115,14 +123,9 @@ public class MenuService {
 		}
 	}
 	
+	//TODO
 	public static String menuItemDelete(String menu_id, String rest_id) {
 		return "";
-	}
-
-	/** returns a valid MenuDAO object */
-	private MenuDataAccess getMenuDataAccess() {
-		if (menuDataAccess==null) {menuDataAccess = new MenuDataAccess();}
-		return menuDataAccess;
 	}
 
 }

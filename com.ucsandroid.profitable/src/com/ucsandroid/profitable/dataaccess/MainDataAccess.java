@@ -24,44 +24,6 @@ public class MainDataAccess {
 	}
 	
 	/**
-	 * TODO: NEED to perform better cleanup
-	 * <br>
-	 * Takes an input query and returns a result set
-	 * @param query - String the query to perform
-	 * @return - ResultSet
-	 */
-	@Deprecated
-	public ResultSet fetchData(String query) {
-		Statement statement = null;
-        ResultSet results = null;
-        
-        try {
-        statement = connUtil.getConnection().createStatement();
-        results = statement.executeQuery(query);
-        
-        return results;
-
-        }
-        catch (SQLException sqle) {
-            System.out.println(sqle.getMessage());
-            return null; 
-        } //end catch sql exception
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null; 
-        } //end catch general exception
-        finally {
-        	
-        	//TODO - closing the result set and statement make 
-        	//it so the resultset
-        	//cannot be returned out of this function... 
-        	//but we do want them to be terminated.  hmmm...
-
-        } //end finally
-		
-	}
-	
-	/**
 	 * Compartmentalized error catcher and SR update util to be used by
 	 * all data access children classes.
 	 * @param sr
@@ -76,6 +38,13 @@ public class MainDataAccess {
 		return sr;
 	}
 	
+	/**
+	 * Compartmentalized function to just add an object to the StandardResult
+	 * and set the success to true, helps clean up data access code
+	 * @param sr
+	 * @param o
+	 * @return
+	 */
 	protected StandardResult successReturnSR(StandardResult sr, Object o){
 		sr.setResult(o);
         sr.setSuccess(true);

@@ -20,7 +20,6 @@ import com.ucsandroid.profitable.service.MenuService;
 public class MenuController {
 	
 	Gson gson = new GsonBuilder().setPrettyPrinting().create();
-	private MenuService menuService = new MenuService();
 	
 	@Path ("/test2")
 	@GET
@@ -56,8 +55,8 @@ public class MenuController {
 			@QueryParam("menu_item_id") String menu_item_id,
 			@QueryParam("cat_id") String cat_id
 			) {
-		return menuService.MenuItemGet(rest_id, 
-				menu_item_id, available, cat_id);
+		return MenuService.getInstance().
+				MenuItemGet(rest_id,menu_item_id,available,cat_id);
 	}
 	
 	/**
@@ -100,8 +99,8 @@ public class MenuController {
 			@QueryParam("available") String available, 
 			@QueryParam("rest_id") String rest_id
 			) {
-		return menuService.MenuCategoriesGet(rest_id, 
-			available);
+		return MenuService.getInstance().
+				MenuCategoriesGet(rest_id,available);
 	}
 	
 	/**
@@ -120,7 +119,8 @@ public class MenuController {
 	public String fetchEntire(
 			@QueryParam("rest_id") int rest_id
 			) {
-		return menuService.MenuGetEntire(rest_id);
+		return MenuService.getInstance().
+				MenuGetEntire(rest_id);
 	}
 
 }

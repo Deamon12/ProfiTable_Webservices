@@ -12,12 +12,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ucsandroid.profitable.StandardResult;
 import com.ucsandroid.profitable.service.CategoryService;
-import com.ucsandroid.profitable.utilities.SecUtilities;
 
 @Path ("/category")
 public class CategoryController {
 	
-	private CategoryService categoryService = new CategoryService();
 	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
 	@DELETE
@@ -27,7 +25,8 @@ public class CategoryController {
 			@QueryParam("rest_id") String rest_id
 			) {
 		if (cat_id!=null && rest_id!=null) {
-			return categoryService.delete(cat_id, rest_id); 
+			return CategoryService.getInstance().
+					delete(cat_id, rest_id); 
 		} else {
 			StandardResult sr = new StandardResult(false, null);
 			sr.setMessage("Error: not all parameters set");
@@ -43,7 +42,8 @@ public class CategoryController {
 			@QueryParam("rest_id") String rest_id
 			) {
 		if (cat_name!=null &&  cat_id!=null && rest_id!=null) {
-			return categoryService.update(cat_id, cat_name, rest_id); 
+			return CategoryService.getInstance().
+					update(cat_id, cat_name, rest_id); 
 		} else {
 			StandardResult sr = new StandardResult(false, null);
 			sr.setMessage("Error: not all parameters set");
@@ -58,7 +58,8 @@ public class CategoryController {
 			@QueryParam("rest_id") String rest_id
 			) {
 		if (cat_name!=null && rest_id!=null) {
-			return categoryService.insert(cat_name, rest_id); 
+			return CategoryService.getInstance().
+					insert(cat_name, rest_id); 
 		} else {
 			StandardResult sr = new StandardResult(false, null);
 			sr.setMessage("Error: not all parameters set");

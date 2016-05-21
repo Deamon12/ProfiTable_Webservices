@@ -45,8 +45,15 @@ public class AdditionsDataAccess extends MainDataAccess {
 				"and fa.available = ? "+
 				"ORDER BY fa.attr_id ASC ";
 
-	public AdditionsDataAccess() {
+	private static AdditionsDataAccess additionsDataAccess = 
+			new AdditionsDataAccess();
+	
+	private AdditionsDataAccess() {
 		super();
+	}
+	
+	public static AdditionsDataAccess getInstance() {
+		return additionsDataAccess;
 	}
 	
 	public StandardResult getAdditions(int restaurant, boolean avail) {

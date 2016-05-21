@@ -4,6 +4,17 @@ import com.ucsandroid.profitable.StandardResult;
 
 public class CategoryDataAccess extends MainDataAccess {
 	
+	private static CategoryDataAccess categoryDataAccess = 
+			new CategoryDataAccess();
+	
+	private CategoryDataAccess() {
+		super();
+	}
+	
+	public static CategoryDataAccess getInstance() {
+		return categoryDataAccess;
+	}
+	
 	private static String insertStatement = 
 		"INSERT INTO Category "+
 		"(cat_name, restaurant) "+ 
@@ -20,10 +31,6 @@ public class CategoryDataAccess extends MainDataAccess {
 	private static String deleteStatement =
 		"DELETE FROM Category "+
 		"WHERE cat_id = ? and restaurant = ?";
-
-	public CategoryDataAccess() {
-		super();
-	}
 		
 	public StandardResult delete(int catId, int restId) {
 		StandardResult sr = new StandardResult(false, null);

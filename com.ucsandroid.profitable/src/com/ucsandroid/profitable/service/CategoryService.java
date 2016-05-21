@@ -12,8 +12,25 @@ public class CategoryService {
 	
 	private CategoryDataAccess categoryDataAccess;
 	
-	public CategoryService() {
-		categoryDataAccess = new CategoryDataAccess();
+	private static CategoryService categoryService = 
+			new CategoryService();
+	
+	private CategoryService() {
+		categoryDataAccess = CategoryDataAccess.getInstance();
+	}
+	
+	public static CategoryService getInstance() {
+		if (categoryService==null) {
+			categoryService = new CategoryService(); 
+		}
+		return categoryService;
+	}
+	
+	private CategoryDataAccess getCategoryDataAccess() {
+		if (categoryDataAccess==null) {
+			categoryDataAccess = CategoryDataAccess.getInstance();
+		}
+		return categoryDataAccess;
 	}
 	
 	public String delete(String cat_id, String rest_id) {
@@ -55,81 +72,5 @@ public class CategoryService {
 			return gson.toJson(sr);
 		}
 	}
-	
-	/*
-	public String CategoryGet(String menu_item, String avail,
-			String rest) {
 		
-		String query = 
-				"SELECT distinct "+
-					"fa.attribute, fa.attr_id, fa.available, "+
-					"fa.price_mod, ha.default_incl "+
-				"FROM "+
-					"has_attr ha, "+
-					"food_attribute fa, "+
-					"menu_item mi "+
-				"WHERE "+
-					"mi.menu_id=ha.menu_id "+
-					"and fa.attr_id=ha.attr_id ";
-					
-		try {
-			query = StatementBuilder.addBool(query, 
-					"and fa.available=", avail);
-			query = StatementBuilder.addInt(query, 
-					"and mi.restaurant=", rest);
-			query = StatementBuilder.addInt(query, 
-					"and mi.menu_id=", menu_item);
-			query=query+
-					"ORDER BY ha.default_incl DESC, fa.attr_id ASC ";
-			
-			//log the query so we can analyze the sql generated
-			System.out.println(query);
-			
-			return Converters.convertToString(
-					getCategoryDataAccess().fetchData(query));
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return "ERROR";
-		}
-	}*/
-	
-	/*
-	public String CategoryGetRest(String avail,
-			String rest) {
-		
-		String query = 
-				"SELECT distinct "+
-					"fa.attribute, fa.attr_id, fa.available, "+
-					"fa.price_mod "+
-				"FROM "+
-					"food_attribute fa "+
-				"WHERE ";
-					
-		try {
-			//mandatory
-			query = StatementBuilder.addInt(query, 
-					"fa.restaurant=", rest);
-			//optional
-			query = StatementBuilder.addBool(query, 
-					"and fa.available=", avail);
-			query=query+"ORDER BY fa.attr_id ASC ";
-			
-			//log the query so we can analyze the sql generated
-			System.out.println(query);
-			
-			return Converters.convertToString(
-					getCategoryDataAccess().fetchData(query));
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return "ERROR";
-		}
-	}*/
-	
-	/** returns a valid CategoryDataAccess object */
-	private CategoryDataAccess getCategoryDataAccess() {
-		if (categoryDataAccess==null) {categoryDataAccess = new CategoryDataAccess();}
-		return categoryDataAccess;
-	}
-	
-
 }

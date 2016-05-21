@@ -2,8 +2,6 @@ package com.ucsandroid.profitable.utilities;
 
 import java.sql.*;
 
-import com.ucsandroid.profitable.dataaccess.MenuDataAccess;
-
 public class ConnUtil {
 	
 	/* TEST database, alter the url for using the AWS online database */

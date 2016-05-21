@@ -5,15 +5,16 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
 import com.ucsandroid.profitable.service.LocationsService;
 
-@Path ("/location")
-public class LocationsController {
+@Path ("/orders")
+public class OrderController {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String fetchLocations(
-			@QueryParam("rest_id") int rest_id
+	public String fetchOrder(
+			@QueryParam("location_id") int location_id
 			) {
 		return LocationsService.getInstance().LocationsGet(rest_id); 
 	}

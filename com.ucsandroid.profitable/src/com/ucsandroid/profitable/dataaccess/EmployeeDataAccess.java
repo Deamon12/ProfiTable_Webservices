@@ -9,7 +9,8 @@ import com.ucsandroid.profitable.entities.Employee;
 
 public class EmployeeDataAccess extends MainDataAccess {
 	
-	private static EmployeeDataAccess employeeDataAccess = new EmployeeDataAccess();
+	private static EmployeeDataAccess employeeDataAccess = 
+			new EmployeeDataAccess();
 	
 	private EmployeeDataAccess() {super();}
 	

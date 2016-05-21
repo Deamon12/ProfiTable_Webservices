@@ -17,7 +17,6 @@ import com.ucsandroid.profitable.service.AdditionsService;
 @Path ("/additions")
 public class AdditionsController {
 	
-	private AdditionsService additionService = new AdditionsService();
 	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
 	/**
@@ -33,17 +32,10 @@ public class AdditionsController {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String fetchAdditions(
-			@QueryParam("menu_item_id") String menu_item_id, 
 			@QueryParam("available") String available, 
 			@QueryParam("rest_id") String rest_id
 			) {
-		if (menu_item_id!=null) {
-			return additionService.AttributeGet(menu_item_id, 
-				available, rest_id); 
-		} else {
-			return additionService.AttributeGetRest( 
-				available, rest_id); 
-		}
+		return AdditionsService.getInstance().AttributeGetRest(available,rest_id); 
 	}
 
 	
@@ -55,7 +47,8 @@ public class AdditionsController {
 			) {
 
 		if (attr_id!=null && rest_id!=null) {
-			return additionService.attributeDelete(attr_id,rest_id); 
+			return AdditionsService.getInstance().
+					attributeDelete(attr_id,rest_id); 
 		} else {
 			StandardResult sr = new StandardResult(false, null);
 			sr.setMessage("Error: not all parameters set");
@@ -75,7 +68,8 @@ public class AdditionsController {
 
 		if (name!=null && available!=null && attr_id!=null
 				&& price!=null && rest_id!=null) {
-			return additionService.attributeUpdate(attr_id, 
+			return AdditionsService.getInstance().
+					attributeUpdate(attr_id, 
 					name, price, available, rest_id); 
 		} else {
 			StandardResult sr = new StandardResult(false, null);
@@ -95,7 +89,8 @@ public class AdditionsController {
 
 		if (name!=null && available!=null && 
 				price!=null && rest_id!=null) {
-			return additionService.attributeInsert(name, price, 
+			return AdditionsService.getInstance().
+					attributeInsert(name, price, 
 					available, rest_id); 
 		} else {
 			StandardResult sr = new StandardResult(false, null);
