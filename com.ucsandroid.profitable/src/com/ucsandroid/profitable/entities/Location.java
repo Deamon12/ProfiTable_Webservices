@@ -5,6 +5,7 @@ public class Location {
 	private int locationId;
 	private String locationStatus;
 	private String locationName;
+	private Tab currentTab;
 	private int restaurantId;
 	
 	public Location(int id, String status, String name, int restaurantId) {
@@ -15,6 +16,26 @@ public class Location {
 		this.restaurantId = restaurantId;
 	}
 	
+	public Location() {
+		super();
+	}
+
+	public Location(int locationId, String locationStatus, 
+			String locationName, Tab currentTab, int restaurantId) {
+		super();
+		this.locationId = locationId;
+		this.locationStatus = locationStatus;
+		this.locationName = locationName;
+		this.currentTab = currentTab;
+		this.restaurantId = restaurantId;
+	}
+
+	public Tab getCurrentTab() {
+		return currentTab;
+	}
+	public void setCurrentTab(Tab currentTab) {
+		this.currentTab = currentTab;
+	}
 	public int getId() {
 		return locationId;
 	}

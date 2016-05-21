@@ -2,6 +2,7 @@ package com.ucsandroid.profitable.service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ucsandroid.profitable.StandardResult;
 import com.ucsandroid.profitable.dataaccess.OrderDataAccess;
 
 public class OrderService {
@@ -31,4 +32,12 @@ public class OrderService {
 		return orderDataAccess;
 	}
 
+	public String OrderGet(int loc_id) {
+		
+		//StandardResult sr = new StandardResult(false, null);
+		//sr = getLocationsDataAccess().getLocations(rest_id);
+		//return gson.toJson(sr);
+		return "";
+	}
+	
 }
