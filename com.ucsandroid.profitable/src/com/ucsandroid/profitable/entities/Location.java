@@ -5,15 +5,13 @@ public class Location {
 	private int locationId;
 	private String locationStatus;
 	private String locationName;
-	private int locationCategoryId;
 	private int restaurantId;
 	
-	public Location(int id, String status, String name, int locationCategoryId, int restaurantId) {
+	public Location(int id, String status, String name, int restaurantId) {
 		super();
 		this.locationId = id;
 		this.locationStatus = status;
 		this.locationName = name;
-		this.locationCategoryId = locationCategoryId;
 		this.restaurantId = restaurantId;
 	}
 	
@@ -34,12 +32,6 @@ public class Location {
 	}
 	public void setName(String name) {
 		this.locationName = name;
-	}
-	public int getLocationCategoryId() {
-		return locationCategoryId;
-	}
-	public void setLocationCategoryId(int locationCategoryId) {
-		this.locationCategoryId = locationCategoryId;
 	}
 	public int getRestaurantId() {
 		return restaurantId;

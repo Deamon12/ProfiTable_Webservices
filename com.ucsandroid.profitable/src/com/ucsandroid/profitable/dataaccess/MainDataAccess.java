@@ -76,6 +76,12 @@ public class MainDataAccess {
 		return sr;
 	}
 	
+	protected StandardResult successReturnSR(StandardResult sr, Object o){
+		sr.setResult(o);
+        sr.setSuccess(true);
+        return sr;
+	}
+	
 	/**
 	 * Encapsulates code for performing inserts across any sort
 	 * of sql insert.

@@ -1,5 +1,6 @@
 package com.ucsandroid.profitable.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LocationCategory {
@@ -22,6 +23,7 @@ public class LocationCategory {
 		this.locationCategoryId = id;
 		this.locationCategoryName = name;
 		this.restaurantId = restaurantId;
+		this.locations = new ArrayList<Location>();
 	}
 	
 	public LocationCategory() {
@@ -51,5 +53,8 @@ public class LocationCategory {
 	}
 	public void setLocations(List<Location> locations) {
 		this.locations = locations;
+	}
+	public void addToLocations(Location l) {
+		this.locations.add(l);
 	}
 }

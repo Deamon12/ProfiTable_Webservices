@@ -50,10 +50,8 @@ public class AdditionsDataAccess extends MainDataAccess {
 	}
 	
 	public StandardResult getAdditions(int restaurant, boolean avail) {
-		
 		StandardResult sr = new StandardResult(false, null);
 		ResultSet results = null;
-		
 		try {
 			// Open the connection
 			conn = connUtil.getConnection();
@@ -64,23 +62,18 @@ public class AdditionsDataAccess extends MainDataAccess {
 	        pstmt.setInt(i++, restaurant);
 	        pstmt.setBoolean(i++, avail);
 	        results = pstmt.executeQuery();
-	        
 	        List<FoodAddition> additions = new ArrayList<FoodAddition>();
-	        
 	        while (results.next()) { 
 	        	String attribute = results.getString("attribute");
 	        	boolean available = results.getBoolean("Available");
 	        	int price_mod = results.getInt("price_mod");
 	        	int attrId = results.getInt("attr_id");
 	        	int restId = results.getInt("restaurant");
-	        	FoodAddition emp = new FoodAddition(attribute, price_mod, 
+	        	FoodAddition add = new FoodAddition(attribute, price_mod, 
 	        			available,attrId,restId);
-	        	additions.add(emp);
+	        	additions.add(add);
 	        } 
-	        
-	        sr.setSuccess(true);
-	        sr.setResult(additions);
-	        return sr;
+	        return successReturnSR(sr, additions);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
 		} finally {
@@ -89,35 +82,26 @@ public class AdditionsDataAccess extends MainDataAccess {
 	}
 	
 	public StandardResult getAdditions(int restaurant) {
-		
 		StandardResult sr = new StandardResult(false, null);
 		ResultSet results = null;
-		
 		try {
-			// Open the connection
 			conn = connUtil.getConnection();
-	        // Create the prepared statement
 	        pstmt = conn.prepareStatement(getStatement);
-	        // Set the variable parameters
 	        int i = 1;
 	        pstmt.setInt(i++, restaurant);
 	        results = pstmt.executeQuery();
-	        
 	        List<FoodAddition> additions = new ArrayList<FoodAddition>();
-	        
 	        while (results.next()) { 
 	        	String attribute = results.getString("attribute");
 	        	boolean available = results.getBoolean("Available");
 	        	int price_mod = results.getInt("price_mod");
 	        	int attrId = results.getInt("attr_id");
 	        	int restId = results.getInt("restaurant");
-	        	FoodAddition emp = new FoodAddition(attribute, price_mod, 
+	        	FoodAddition add = new FoodAddition(attribute, price_mod, 
 	        			available,attrId,restId);
+	        	additions.add(add);
 	        } 
-
-	        sr.setResult(additions);
-	        sr.setSuccess(true);
-	        return sr;
+	        return successReturnSR(sr, additions);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
 		} finally {
@@ -128,18 +112,12 @@ public class AdditionsDataAccess extends MainDataAccess {
 	public StandardResult delete(int attrib, int restId) {
 		StandardResult sr = new StandardResult(false, null);
 		try {
-			// Open the connection
 			conn = connUtil.getConnection();
-			// Begin transaction
 	        conn.setAutoCommit(false);
-	        // Create the prepared statement
 	        pstmt = conn.prepareStatement(deleteStatement);
-	        // Set the variable parameters
 	        int i = 1;
 	        pstmt.setInt(i++, attrib);
 	        pstmt.setInt(i++, restId);
-
-	        // Validate for expected and return status
 	        return deleteHelper(pstmt.executeUpdate(), 
 	        		1, conn, sr);
 		} catch (Exception e) {
@@ -153,20 +131,14 @@ public class AdditionsDataAccess extends MainDataAccess {
 			int restId) {
 		StandardResult sr = new StandardResult(false, null);
 		try {
-			// Open the connection
 			conn = connUtil.getConnection();
-			// Begin transaction
 	        conn.setAutoCommit(false);
-	        // Create the prepared statement
 	        pstmt = conn.prepareStatement(insertStatement);
-	        // Set the variable parameters
 	        int i = 1;
 	        pstmt.setString(i++, name);
 	        pstmt.setInt(i++, price);
 	        pstmt.setBoolean(i++, avail);
 	        pstmt.setInt(i++, restId);
-
-	        // Validate for expected and return status
 	        return insertHelper(pstmt.executeUpdate(), 
 	        		conn, sr);
 		} catch (Exception e) {
@@ -181,21 +153,15 @@ public class AdditionsDataAccess extends MainDataAccess {
 			int price, boolean avail, int restId) {
 		StandardResult sr = new StandardResult(false, null);
 		try {
-			// Open the connection
 			conn = connUtil.getConnection();
-			// Begin transaction
 	        conn.setAutoCommit(false);
-	        // Create the prepared statement
 	        pstmt = conn.prepareStatement(updateStatement);
-	        // Set the variable parameters
 	        int i = 1;
 	        pstmt.setString(i++, name);
 	        pstmt.setInt(i++, price);
 	        pstmt.setBoolean(i++, avail);
 	        pstmt.setInt(i++, restId);
 	        pstmt.setInt(i++, attrib);
-
-	        // Validate for expected and return status
 	        return updateHelper(pstmt.executeUpdate(), 
 	        		1, conn, sr);
 		} catch (Exception e) {

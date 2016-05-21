@@ -160,9 +160,7 @@ public class MenuDataAccess extends MainDataAccess {
 	        
 	        food.setDefaultAdditions(included);
 	        food.setOptionalAdditions(optional);
-	        sr.setSuccess(true);
-	        sr.setResult(food);
-	        return sr;
+	        return successReturnSR(sr, food);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
 		} finally {
@@ -197,10 +195,7 @@ public class MenuDataAccess extends MainDataAccess {
 	        			description,price,available);
 	        	menu.add(food);
 	        } 
-	        
-	        sr.setSuccess(true);
-	        sr.setResult(menu);
-	        return sr;
+	        return successReturnSR(sr, menu);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
 		} finally {
@@ -237,10 +232,7 @@ public class MenuDataAccess extends MainDataAccess {
 	        			description,price,available);
 	        	menu.add(food);
 	        } 
-	        
-	        sr.setSuccess(true);
-	        sr.setResult(menu);
-	        return sr;
+	        return successReturnSR(sr, menu);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
 		} finally {
@@ -251,20 +243,14 @@ public class MenuDataAccess extends MainDataAccess {
 	public StandardResult getMenuItems(int restaurant, boolean avail) {
 		StandardResult sr = new StandardResult(false, null);
 		ResultSet results = null;
-		
 		try {
-			// Open the connection
 			conn = connUtil.getConnection();
-	        // Create the prepared statement
 	        pstmt = conn.prepareStatement(getMenuItemsAvailable);
-	        // Set the variable parameters
 	        int i = 1;
 	        pstmt.setInt(i++, restaurant);
 	        pstmt.setBoolean(i++, avail);
 	        results = pstmt.executeQuery();
-	        
 	        List<MenuItem> menu = new ArrayList<MenuItem>();
-	        
 	        while (results.next()) { 
 	        	String menu_name = results.getString("menu_name");
 	        	String description = results.getString("description");
@@ -275,10 +261,7 @@ public class MenuDataAccess extends MainDataAccess {
 	        			description,price,available);
 	        	menu.add(food);
 	        } 
-	        
-	        sr.setSuccess(true);
-	        sr.setResult(menu);
-	        return sr;
+	        return successReturnSR(sr, menu);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
 		} finally {
@@ -289,19 +272,13 @@ public class MenuDataAccess extends MainDataAccess {
 	public StandardResult getMenuItems(int restaurant) {
 		StandardResult sr = new StandardResult(false, null);
 		ResultSet results = null;
-		
 		try {
-			// Open the connection
 			conn = connUtil.getConnection();
-	        // Create the prepared statement
 	        pstmt = conn.prepareStatement(getMenuItems);
-	        // Set the variable parameters
 	        int i = 1;
 	        pstmt.setInt(i++, restaurant);
 	        results = pstmt.executeQuery();
-	        
 	        List<MenuItem> menu = new ArrayList<MenuItem>();
-	        
 	        while (results.next()) { 
 	        	String menu_name = results.getString("menu_name");
 	        	String description = results.getString("description");
@@ -312,10 +289,7 @@ public class MenuDataAccess extends MainDataAccess {
 	        			description,price,available);
 	        	menu.add(food);
 	        } 
-	        
-	        sr.setSuccess(true);
-	        sr.setResult(menu);
-	        return sr;
+	        return successReturnSR(sr, menu);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
 		} finally {
@@ -326,13 +300,11 @@ public class MenuDataAccess extends MainDataAccess {
 	public StandardResult getEntire(int restaurant) {
 		StandardResult sr = new StandardResult(false, null);
 		ResultSet results = null;
-		
 		try {
 			conn = connUtil.getConnection();
 	        pstmt = conn.prepareStatement(getByCategory);
 	        pstmt.setInt(1, restaurant);
 	        results = pstmt.executeQuery();
-	        
 	        List<Category> categories = new ArrayList<Category>();
 	        int lastCategoryId = -1;
 	        Category menuCategory = new Category();
@@ -345,7 +317,6 @@ public class MenuDataAccess extends MainDataAccess {
 	        		categories.add(menuCategory);
 	        		lastCategoryId=cat_id; //update to the last cat
 	        	}
-	        	
 	        	String menu_name = results.getString("menu_name");
 	        	int menu_id = results.getInt("menu_id");
 	        	int price = results.getInt("price");
@@ -389,10 +360,7 @@ public class MenuDataAccess extends MainDataAccess {
 	        	}
 	        	
 	        }
-	        
-	        sr.setResult(categories);
-	        sr.setSuccess(true);
-	        return sr;
+	        return successReturnSR(sr, categories);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
 		} finally {
@@ -403,18 +371,13 @@ public class MenuDataAccess extends MainDataAccess {
 	public StandardResult getMenuByCategory(int restaurant, boolean avail) {
 		StandardResult sr = new StandardResult(false, null);
 		ResultSet results = null;
-		
 		try {
-			// Open the connection
 			conn = connUtil.getConnection();
-	        // Create the prepared statement
 	        pstmt = conn.prepareStatement(getByCategoryAvail);
-	        // Set the variable parameters
 	        int i = 1;
 	        pstmt.setInt(i++, restaurant);
 	        pstmt.setBoolean(i++, avail);
 	        results = pstmt.executeQuery();
-	        
 	        List<Category> categories = new ArrayList<Category>();
 	        int lastCategoryId = -1;
 	        Category menuCategory = new Category();
@@ -437,10 +400,7 @@ public class MenuDataAccess extends MainDataAccess {
 	        	
 	        	menuCategory.addToCategory(menuItem);
 	        } 
-	        
-	        sr.setResult(categories);
-	        sr.setSuccess(true);
-	        return sr;
+	        return successReturnSR(sr, categories);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
 		} finally {
@@ -449,20 +409,14 @@ public class MenuDataAccess extends MainDataAccess {
 	}
 
 	public StandardResult getMenuByCategory(int restaurant) {
-		
 		StandardResult sr = new StandardResult(false, null);
 		ResultSet results = null;
-		
 		try {
-			// Open the connection
 			conn = connUtil.getConnection();
-	        // Create the prepared statement
 	        pstmt = conn.prepareStatement(getByCategory);
-	        // Set the variable parameters
 	        int i = 1;
 	        pstmt.setInt(i++, restaurant);
 	        results = pstmt.executeQuery();
-	        
 	        List<Category> categories = new ArrayList<Category>();
 	        int lastCategoryId = -1;
 	        Category menuCategory = new Category();
@@ -484,10 +438,7 @@ public class MenuDataAccess extends MainDataAccess {
 	        	
 	        	menuCategory.addToCategory(menuItem);
 	        } 
-	        
-	        sr.setSuccess(true);
-	        sr.setResult(categories);
-	        return sr;
+	        return successReturnSR(sr, categories);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
 		} finally {

@@ -5,14 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ucsandroid.profitable.StandardResult;
-import com.ucsandroid.profitable.entities.Employee;
+import com.ucsandroid.profitable.entities.Location;
 import com.ucsandroid.profitable.entities.LocationCategory;
 
 public class LocationsDataAccess extends MainDataAccess {
 	
 	private static LocationsDataAccess locationsDataAccess = 
 			new LocationsDataAccess();
+	
 	private LocationsDataAccess() {super();}
+	
 	public static LocationsDataAccess getInstance() {
 		return locationsDataAccess;
 	}
@@ -51,26 +53,22 @@ public class LocationsDataAccess extends MainDataAccess {
 	        		int restVal = restaurant;
 	        		lc = new LocationCategory(lcid, 
 	        				lcname, restVal);
+	        		locationCategories.add(lc);
 	        		//update record of last
 	        		lastLocCat=lcid;
 	        	}
 	        	
-	        	//TODO
-	        	String empType = results.getString("emp_type");
-	        	String empAccount = results.getString("account_name");
-	        	String empFName = results.getString("first_name");
-	        	String empLName = results.getString("last_name");
-	        	String empPass = results.getString("password");
-	        	int empId = results.getInt("emp_id");
-	        	int restId = results.getInt("restaurant");
-	        	Employee emp = new Employee(empId,empType,empAccount,
-	        			empFName,empLName,empPass,restId );
-	        	employees.add(emp);
+	        	int loc_id = results.getInt("loc_id");
+	        	int restId = restaurant;
+	        	
+	        	String loc_status = results.getString("loc_status");
+	        	String location = results.getString("location");
+	        	
+	        	Location loc = new Location(loc_id,loc_status,location,restId);
+	        	lc.addToLocations(loc);
 	        } 
 	        
-	        sr.setResult(locationCategories);
-	        sr.setSuccess(true);
-	        return sr;
+	        return successReturnSR(sr, locationCategories);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
 		} finally {

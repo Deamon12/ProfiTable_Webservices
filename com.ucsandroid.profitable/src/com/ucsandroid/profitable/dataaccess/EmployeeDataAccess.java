@@ -59,11 +59,8 @@ public class EmployeeDataAccess extends MainDataAccess {
 		StandardResult sr = new StandardResult(false, null);
 		ResultSet results = null;
 		try {
-			// Open the connection
 			conn = connUtil.getConnection();
-	        // Create the prepared statement
 	        pstmt = conn.prepareStatement(loginStatement);
-	        // Set the variable parameters
 	        int i = 1;
 	        pstmt.setString(i++, accountName);
 	        pstmt.setString(i++, password);
@@ -77,17 +74,12 @@ public class EmployeeDataAccess extends MainDataAccess {
 	        	String empLName = results.getString("last_name");
 	        	int empId = results.getInt("emp_id");
 	        	int restId = results.getInt("restaurant");
-	        	Employee emp = new Employee(empId,empType,empAccount,empFName, empLName,restId );
-	        	sr.setResult(emp);
-		        System.out.println("login successful");
-		        sr.setSuccess(true);
-		        return sr;
+	        	Employee emp = new Employee(empId,empType,empAccount,
+	        			empFName,empLName,restId );
+	        	return successReturnSR(sr, emp);
 	        } else {
 	        	sr.setMessage("account incorrect or not found");
-	        	sr.setResult(null);
-		        System.out.println("login not found");
-		        sr.setSuccess(false);
-		        return sr;
+	        	return successReturnSR(sr, null);
 	        }
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
@@ -100,11 +92,8 @@ public class EmployeeDataAccess extends MainDataAccess {
 		StandardResult sr = new StandardResult(false, null);
 		ResultSet results = null;
 		try {
-			// Open the connection
 			conn = connUtil.getConnection();
-	        // Create the prepared statement
 	        pstmt = conn.prepareStatement(getEmployee);
-	        // Set the variable parameters
 	        int i = 1;
 	        pstmt.setString(i++, accountName);
 	        pstmt.setInt(i++, restaurant);
@@ -120,15 +109,10 @@ public class EmployeeDataAccess extends MainDataAccess {
 	        	int restId = results.getInt("restaurant");
 	        	Employee emp = new Employee(empId,empType,empAccount,
 	        			empFName,empLName,empPass,restId );
-	        	sr.setResult(emp);
-		        System.out.println("query successful");
-		        sr.setSuccess(true);
-		        return sr;
+	        	return successReturnSR(sr, emp);
 	        } else {
 	        	sr.setMessage("account incorrect or not found");
-	        	sr.setResult(null);
-		        sr.setSuccess(true);
-		        return sr;
+	        	return successReturnSR(sr,null);
 	        }
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
@@ -141,11 +125,8 @@ public class EmployeeDataAccess extends MainDataAccess {
 		StandardResult sr = new StandardResult(false, null);
 		ResultSet results = null;
 		try {
-			// Open the connection
 			conn = connUtil.getConnection();
-	        // Create the prepared statement
 	        pstmt = conn.prepareStatement(getEmployees);
-	        // Set the variable parameters
 	        int i = 1;
 	        pstmt.setInt(i++, restaurant);
 	        results = pstmt.executeQuery();
@@ -164,10 +145,7 @@ public class EmployeeDataAccess extends MainDataAccess {
 	        			empFName,empLName,empPass,restId );
 	        	employees.add(emp);
 	        } 
-	        
-	        sr.setResult(employees);
-	        sr.setSuccess(true);
-	        return sr;
+	        return successReturnSR(sr, employees);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
 		} finally {
