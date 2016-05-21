@@ -23,6 +23,10 @@ public class LocationCategory {
 		this.locationCategoryName = name;
 		this.restaurantId = restaurantId;
 	}
+	
+	public LocationCategory() {
+		super();
+	}
 
 	public int getId() {
 		return locationCategoryId;
