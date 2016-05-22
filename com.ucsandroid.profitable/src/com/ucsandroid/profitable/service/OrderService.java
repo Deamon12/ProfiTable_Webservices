@@ -2,7 +2,6 @@ package com.ucsandroid.profitable.service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.ucsandroid.profitable.StandardResult;
 import com.ucsandroid.profitable.dataaccess.OrderDataAccess;
 
 public class OrderService {
@@ -32,11 +31,20 @@ public class OrderService {
 		return orderDataAccess;
 	}
 
-	public String OrderGet(int loc_id) {
+	public String OrderGet(int loc_id, int rest_id) {
+		return gson.toJson(getOrderDataAccess().
+				getOrder(loc_id, rest_id));
+	}
+	
+	public String OrderPut(int location_id, int employee_id) {
+		//create a new order, insert it into db
 		
-		//StandardResult sr = new StandardResult(false, null);
-		//sr = getLocationsDataAccess().getLocations(rest_id);
-		//return gson.toJson(sr);
+		//update location
+		
+		//create relational entry for employee/location/order
+		
+		//return status
+		
 		return "";
 	}
 	

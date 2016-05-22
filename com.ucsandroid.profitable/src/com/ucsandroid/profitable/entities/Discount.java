@@ -4,11 +4,12 @@ public class Discount {
 	
 	private int discountId;
 	private String discountType;
-	private float discountPercent;
+	private double discountPercent;
 	private boolean available;
 	private int restaurantId;
 	
-	public Discount(int id, String type, float percent, boolean available, int restaurantId) {
+	public Discount(int id, String type, double percent, boolean available, 
+			int restaurantId) {
 		super();
 		this.discountId = id;
 		this.discountType = type;
@@ -28,10 +29,10 @@ public class Discount {
 	public void setType(String type) {
 		this.discountType = type;
 	}
-	public float getPercent() {
+	public double getPercent() {
 		return discountPercent;
 	}
-	public void setPercent(float percent) {
+	public void setPercent(double percent) {
 		this.discountPercent = percent;
 	}
 	public boolean isAvailable() {

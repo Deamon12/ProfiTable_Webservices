@@ -15,12 +15,16 @@ public class MenuItem {
 	
 	public MenuItem() {
 		super();
+		this.defaultAdditions = new ArrayList<FoodAddition>();
+		this.optionalAdditions = new ArrayList<FoodAddition>();
 	}
 	
 	public MenuItem(int menu_id, String menu_name) {
 		super();
 		this.menuItemId = menu_id;
 		this.menuName = menu_name;
+		this.defaultAdditions = new ArrayList<FoodAddition>();
+		this.optionalAdditions = new ArrayList<FoodAddition>();
 	}
 	
 	public MenuItem(int menuItemId, String menu_name, boolean available) {
@@ -28,6 +32,8 @@ public class MenuItem {
 		this.menuItemId = menuItemId;
 		this.menuName = menu_name;
 		this.available = available;
+		this.defaultAdditions = new ArrayList<FoodAddition>();
+		this.optionalAdditions = new ArrayList<FoodAddition>();
 	}
 	
 	public MenuItem(int menuItemId, String menu_name, 
@@ -37,6 +43,8 @@ public class MenuItem {
 		this.menuName = menu_name;
 		this.menuItemPrice = price;
 		this.available = available;
+		this.defaultAdditions = new ArrayList<FoodAddition>();
+		this.optionalAdditions = new ArrayList<FoodAddition>();
 	}
 
 	public MenuItem(int menuItemId, String menu_name, 
@@ -84,6 +92,8 @@ public class MenuItem {
 		this.menuItemdescription = menuItemdescription;
 		this.menuItemPrice = menuItemPrice;
 		this.available = available;
+		this.defaultAdditions = new ArrayList<FoodAddition>();
+		this.optionalAdditions = new ArrayList<FoodAddition>();
 	}
 
 	public int getId() {

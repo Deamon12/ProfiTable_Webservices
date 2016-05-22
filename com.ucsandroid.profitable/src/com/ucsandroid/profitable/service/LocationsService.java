@@ -2,7 +2,6 @@ package com.ucsandroid.profitable.service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.ucsandroid.profitable.StandardResult;
 import com.ucsandroid.profitable.dataaccess.LocationsDataAccess;
 
 public class LocationsService {
@@ -33,9 +32,8 @@ public class LocationsService {
 	}
 	
 	public String LocationsGet(int rest_id) {
-		StandardResult sr = new StandardResult(false, null);
-		sr = getLocationsDataAccess().getLocations(rest_id);
-		return gson.toJson(sr);
+		return gson.toJson(getLocationsDataAccess().
+				getLocations(rest_id));
 	}
 
 }
