@@ -12,7 +12,33 @@ public class Tab {
 	private Date timeOut;
 	private Discount discount;
 	private List<Customer> customers;
+	private Employee server;
 	
+	public Tab(int tabId, String tabStatus, Date timeIn, 
+			Date timeOut, Discount discount, Employee server) {
+		super();
+		this.tabId = tabId;
+		this.tabStatus = tabStatus;
+		this.timeIn = timeIn;
+		this.timeOut = timeOut;
+		this.discount = discount;
+		this.customers = new ArrayList<Customer>();
+		this.server = server;
+	}
+	
+	public Tab(int tabId, String tabStatus, Date timeIn, 
+			Date timeOut, Discount discount, 
+			List<Customer> customers, Employee server) {
+		super();
+		this.tabId = tabId;
+		this.tabStatus = tabStatus;
+		this.timeIn = timeIn;
+		this.timeOut = timeOut;
+		this.discount = discount;
+		this.customers = customers;
+		this.server = server;
+	}
+
 	public Tab(int tabId, String tabStatus, Date timeIn, Date timeOut, 
 			Discount discount, List<Customer> customers) {
 		super();
@@ -99,5 +125,14 @@ public class Tab {
 	}
 	public void setCustomers(List<Customer> customers) {
 		this.customers = customers;
+	}
+	public Employee getServer() {
+		return server;
+	}
+	public void setServer(Employee server) {
+		this.server = server;
+	}
+	public void addCustomer(Customer c) {
+		this.customers.add(c);
 	}
 }

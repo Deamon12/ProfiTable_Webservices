@@ -9,9 +9,23 @@ public class OrderedItem {
 	private String orderedItemNotes;
 	private String orderedItemStatus;
 	private boolean bringFirst;
+	private MenuItem menuItem;
 	private List<FoodAddition> additions;
 	
-	public OrderedItem(int id, String notes, String status, boolean bringFirst) {
+	public OrderedItem(int orderedItemId, String orderedItemNotes, 
+			String orderedItemStatus, boolean bringFirst,
+			MenuItem menuItem, List<FoodAddition> additions) {
+		super();
+		this.orderedItemId = orderedItemId;
+		this.orderedItemNotes = orderedItemNotes;
+		this.orderedItemStatus = orderedItemStatus;
+		this.bringFirst = bringFirst;
+		this.menuItem = menuItem;
+		this.additions = additions;
+	}
+
+	public OrderedItem(int id, String notes, String status, 
+			boolean bringFirst) {
 		super();
 		this.orderedItemId = id;
 		this.orderedItemNotes = notes;
@@ -20,7 +34,8 @@ public class OrderedItem {
 		this.additions = new ArrayList<FoodAddition>();
 	}
 
-	public OrderedItem(int orderedItemId, String orderedItemNotes, String orderedItemStatus, boolean bringFirst,
+	public OrderedItem(int orderedItemId, String orderedItemNotes, 
+			String orderedItemStatus, boolean bringFirst,
 			List<FoodAddition> additions) {
 		super();
 		this.orderedItemId = orderedItemId;
@@ -64,5 +79,14 @@ public class OrderedItem {
 	}
 	public void setAdditions(List<FoodAddition> additions) {
 		this.additions = additions;
+	}
+	public void addAddition(FoodAddition fa){
+		this.additions.add(fa);
+	}
+	public MenuItem getMenuItem() {
+		return menuItem;
+	}
+	public void setMenuItem(MenuItem menuItem) {
+		this.menuItem = menuItem;
 	}
 }

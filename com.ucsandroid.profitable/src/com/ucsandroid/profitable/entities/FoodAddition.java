@@ -8,6 +8,14 @@ public class FoodAddition {
 	private int foodAdditionId;
 	private int restaurantId;
 	
+	public FoodAddition(String foodAdditionName, int foodAdditionPrice, 
+			int foodAdditionId) {
+		super();
+		this.foodAdditionName = foodAdditionName;
+		this.foodAdditionPrice = foodAdditionPrice;
+		this.foodAdditionId = foodAdditionId;
+	}
+
 	public FoodAddition(String name, int price, boolean available, int id, int restaurant) {
 		super();
 		this.foodAdditionName = name;

@@ -36,6 +36,12 @@ public class OrderService {
 				getOrder(loc_id, rest_id));
 	}
 	
+	/**
+	 * TODO - not yet implemented
+	 * @param location_id
+	 * @param employee_id
+	 * @return
+	 */
 	public String OrderPut(int location_id, int employee_id) {
 		//create a new order, insert it into db
 		
@@ -45,7 +51,7 @@ public class OrderService {
 		
 		//return status
 		
-		return "";
+		return "TODO - not yet implemented";
 	}
 	
 }
