@@ -8,6 +8,15 @@ public class FoodAddition {
 	private int foodAdditionId;
 	private int restaurantId;
 	
+	public FoodAddition() {
+		super();
+	}
+
+	public FoodAddition(int foodAdditionId) {
+		super();
+		this.foodAdditionId = foodAdditionId;
+	}
+
 	public FoodAddition(String foodAdditionName, int foodAdditionPrice, 
 			int foodAdditionId) {
 		super();

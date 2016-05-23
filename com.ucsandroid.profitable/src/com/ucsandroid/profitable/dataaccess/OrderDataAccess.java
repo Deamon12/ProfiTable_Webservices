@@ -2,6 +2,7 @@ package com.ucsandroid.profitable.dataaccess;
 
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 import com.ucsandroid.profitable.StandardResult;
 import com.ucsandroid.profitable.entities.Customer;
@@ -56,6 +57,105 @@ public class OrderDataAccess extends MainDataAccess {
 			"ow.attr_id = fa.attr_id "+
 		"order by "+
 			"item_id ASC ";
+	
+	private static String createOrderedItem = 
+		"INSERT INTO Item (item_status, notes, bring_first) "+
+		"VALUES( ? , ? , ? ) ";
+	
+	private static String createOrderRelation =
+		"INSERT INTO Ordered_item (item_id, menu_id, cust_id) "+
+		"VALUES( ? , ? , ? ) ";
+	
+	private static String createOrderAddition = 
+		"INSERT INTO Ordered_with (item_id, attr_id) "+
+		"VALUES( ? , ? ) ";
+	
+	public StandardResult createOrderedItem(String notes,
+			String status, boolean bringFirst) {
+		StandardResult sr = new StandardResult(false, null);
+		ResultSet generatedKeys = null;
+		try {
+			// Open the connection
+			conn = connUtil.getConnection();
+			// Begin transaction
+	        conn.setAutoCommit(false);
+	        // Create the prepared statement
+	        pstmt = conn.prepareStatement(createOrderedItem,
+                    Statement.RETURN_GENERATED_KEYS);
+	        // Set the variable parameters
+	        int i = 1;
+	        pstmt.setString(i++, notes);
+	        pstmt.setString(i++, status);
+	        pstmt.setBoolean(i++, bringFirst);
+	        // Validate for expected and return status
+	        int createdRows = pstmt.executeUpdate();
+	        generatedKeys = pstmt.getGeneratedKeys();
+	        if (generatedKeys.next()) {
+	        	int newKey =  generatedKeys.getInt(1);
+	        	OrderedItem o = new 
+	        			OrderedItem(newKey, notes, status, bringFirst);
+	        	sr.setResult(o);
+	        	return createHelper(createdRows, 
+	        			conn, sr);
+	        } else {
+	        	sr.setMessage("could not create OrderedItem");
+	        	return sr;
+	        }
+		} catch (Exception e) {
+			return catchErrorAndSetSR(sr, e);
+		} finally {
+			sqlCleanup(pstmt,generatedKeys,conn);
+		}
+	}
+	
+	public StandardResult createOrderedRelation(int customer,
+			int orderedItem, int menuItem) {
+		StandardResult sr = new StandardResult(false, null);
+		try {
+			// Open the connection
+			conn = connUtil.getConnection();
+			// Begin transaction
+	        conn.setAutoCommit(false);
+	        // Create the prepared statement
+	        pstmt = conn.prepareStatement(createOrderRelation);
+	        // Set the variable parameters
+	        int i = 1;
+	        pstmt.setInt(i++, orderedItem);
+	        pstmt.setInt(i++, menuItem);
+	        pstmt.setInt(i++, customer);
+	        // Validate for expected and return status
+	        return insertHelper(pstmt.executeUpdate(), 
+	        		conn, sr);
+		} catch (Exception e) {
+			return catchErrorAndSetSR(sr, e);
+		} finally {
+			sqlCleanup(pstmt,conn);
+		}
+	}
+	
+	public StandardResult createOrderedAddition(
+			int orderedItem, int foodAddition) {
+		StandardResult sr = new StandardResult(false, null);
+		try {
+			// Open the connection
+			conn = connUtil.getConnection();
+			// Begin transaction
+	        conn.setAutoCommit(false);
+	        // Create the prepared statement
+	        pstmt = conn.prepareStatement(createOrderAddition);
+	        // Set the variable parameters
+	        int i = 1;
+	        pstmt.setInt(i++, orderedItem);
+	        pstmt.setInt(i++, foodAddition);
+	        // Validate for expected and return status
+	        return insertHelper(pstmt.executeUpdate(), 
+	        		conn, sr);
+		} catch (Exception e) {
+			return catchErrorAndSetSR(sr, e);
+		} finally {
+			sqlCleanup(pstmt,conn);
+		}
+	}
 	
 	public StandardResult getOrder(int loc_id, int rest_id) {
 		StandardResult sr = new StandardResult(false, null);

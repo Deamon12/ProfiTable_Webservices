@@ -95,6 +95,51 @@ public class MainDataAccess {
 	}
 	
 	/**
+	 * Encapsulates code for performing inserts across any sort
+	 * of sql insert.  Expects that the SR passed in will contain the 
+	 * object which was created.  The new PK should have been attached
+	 * via service method.  Does not null out the result object if 
+	 * success
+	 * @param insertCount - int number of inserts executed
+	 * @param conn - Connection for either committing or
+	 * rolling back transaction
+	 * @return - String status message
+	 */
+	protected StandardResult createHelper(int insertCount,
+			Connection conn, StandardResult sr) {
+		// If insert went through correctly, should only create 1 record
+		try {
+			if (insertCount!=1) {
+				//abandon the commit
+				conn.rollback();
+				sr.setMessage("Error: internal database issue: "+
+					"Insert expected to add "+1+
+					" entries, but actually added "+insertCount);
+	        	sr.setResult(null);
+		        sr.setSuccess(false);
+	        } else {
+	            // Commit transaction
+	        	conn.commit();
+	        	sr.setMessage("Insert successful");
+		        sr.setSuccess(true);
+	        }
+			return sr;
+		} catch (Exception e) {
+			//catch any sql errors
+			sr.setSuccess(false);
+			sr.setMessage("Error: internal database issue:  "+
+				e.getMessage());
+			System.out.println(e.getMessage());
+			return sr;
+		} finally {
+			try {conn.setAutoCommit(true); }
+			catch (Exception e) { 
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+	
+	/**
 	 * Encapsulates code for performing deletes across any sort
 	 * of sql delete.
 	 * @param deleteCount - int number of deletes executed
