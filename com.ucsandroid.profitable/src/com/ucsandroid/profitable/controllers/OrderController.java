@@ -12,6 +12,8 @@ import com.ucsandroid.profitable.service.OrderService;
 @Path ("/orders")
 public class OrderController {
 	
+	//TODO - instead of returning unable to find for tables without an order, 
+	//return a better message
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String fetchOrder(
