@@ -38,7 +38,9 @@ public class OrderDataAccess extends MainDataAccess {
 			"l.loc_id = ? ";
 	
 	private static String getDiscount =
-		"select * from discount where disc_id = ?";
+		"select d.* "+
+		"from has_disc hd, discount d "+
+		"where hd.order_id=? and hd.disc_id=d.disc_id";
 	
 	private static String getCustomersOnOrder = 
 		"select * from customer where order_id = ?";
@@ -361,9 +363,6 @@ public class OrderDataAccess extends MainDataAccess {
 	        	t.setServer(e);
 	        	loc.setCurrentTab(t);
 	        	
-	        	//keep any discount id available for processing after customers
-	        	int discId = results.getInt("disc_id");
-	        	
 	        	//Check for any customers on this tab
 	        	results.close();
 	        	pstmt = conn.prepareStatement(getCustomersOnOrder);
@@ -416,37 +415,26 @@ public class OrderDataAccess extends MainDataAccess {
 			        }
 			        results2.close();
 		        }
+		        results.close();
+        		pstmt = conn.prepareStatement(getDiscount);
+    	        pstmt.setInt(1, tabId);
+    	        results = pstmt.executeQuery();
 	        	
 	        	//Check for any discounts on this tab
-	        	if (discId==0) {
-	        		//if no discount, can return
-	        		return successReturnSR(sr, loc);
-	        	} else {
-	        		//need to query for the discount
-	        		results.close();
-	        		
-	        		pstmt = conn.prepareStatement(getDiscount);
-	    	        pstmt.setInt(1, discId);
-	    	        results = pstmt.executeQuery();
-	    	        
-	    	        if (results.next()) {
-	    	        	//create the discount, add it to the tab
-	    	        	String disc_type = results.getString("disc_type");
-	    	        	double disc_percent = results.getDouble("disc_percent");
-	    	        	boolean available = results.getBoolean("available");
-	    	        	Discount d = new Discount(discId, disc_type, 
-	    	        		disc_percent, available, restId);
-	    	        	t.setDiscount(d);
-	    	        	return successReturnSR(sr, loc);
-	    	        } else {
-	    	        	//specified discount does not exist
-	    	        	sr.setMessage("Unable to find discount");
-	    	        	return sr;
-	    	        }
-	        	}
-	        } else {
-	        	sr.setMessage("Unable to find location/tab");
-	        	return sr;
+	        	if (results.next()) {
+	        		//create the discount, add it to the tab
+    	        	String disc_type = results.getString("disc_type");
+    	        	double disc_percent = results.getDouble("disc_percent");
+    	        	boolean available = results.getBoolean("available");
+    	        	int discId = results.getInt("disc_id");
+    	        	Discount d = new Discount(discId, disc_type, 
+    	        		disc_percent, available, restId);
+    	        	t.setDiscount(d);
+	        	} 	
+        		return successReturnSR(sr, loc);
+        	} else {
+        	sr.setMessage("Unable to find location/tab");
+        	return sr;
 	        }
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
