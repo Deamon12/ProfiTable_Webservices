@@ -1,8 +1,9 @@
 package com.ucsandroid.profitable.dataaccess;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import com.ucsandroid.profitable.StandardResult;
 import com.ucsandroid.profitable.entities.Customer;
@@ -69,6 +70,80 @@ public class OrderDataAccess extends MainDataAccess {
 	private static String createOrderAddition = 
 		"INSERT INTO Ordered_with (item_id, attr_id) "+
 		"VALUES( ? , ? ) ";
+	
+	private static String createOrder = 
+		"INSERT INTO Tab (tab_status, time_in) "+
+		"VALUES( ? , ? ) ";
+	
+	private static String createOrderLocationRelation = 
+		"INSERT INTO Has_order (loc_id, order_id, emp_id) "+
+		"VALUES( ? , ? , ? ) ";
+	
+	public StandardResult createOrder(String status, 
+			Timestamp currentDate){
+		StandardResult sr = new StandardResult(false, null);
+		ResultSet generatedKeys = null;
+		try {
+			// Open the connection
+			conn = connUtil.getConnection();
+			// Begin transaction
+	        conn.setAutoCommit(false);
+	        // Create the prepared statement
+	        pstmt = conn.prepareStatement(createOrder,
+                    Statement.RETURN_GENERATED_KEYS);
+	        // Set the variable parameters
+	        int i = 1;
+	        pstmt.setString(i++, status);
+	        pstmt.setTimestamp(i++, currentDate);
+	        // Validate for expected and return status
+	        int createdRows = pstmt.executeUpdate();
+	        generatedKeys = pstmt.getGeneratedKeys();
+	        if (generatedKeys.next()) {
+	        	int newKey =  generatedKeys.getInt(1);
+	        	Tab t = new Tab();
+	        	t.setTabId(newKey);
+	        	t.setTabStatus(status);
+	        	t.setTimeIn(currentDate);
+	        	sr.setResult(t);
+	        	return createHelper(createdRows, 
+	        			conn, sr);
+	        } else {
+	        	sr.setMessage("could not create order");
+	        	return sr;
+	        }
+		} catch (Exception e) {
+			return catchErrorAndSetSR(sr, e);
+		} finally {
+			sqlCleanup(pstmt,generatedKeys,conn);
+		}
+		
+	}
+	
+	public StandardResult createOrderLocRelation(int order_id,
+			int location_id, int employee_id) {
+		StandardResult sr = new StandardResult(false, null);
+		try {
+			// Open the connection
+			conn = connUtil.getConnection();
+			// Begin transaction
+	        conn.setAutoCommit(false);
+	        // Create the prepared statement
+	        pstmt = conn.prepareStatement(
+	        		createOrderLocationRelation);
+	        // Set the variable parameters
+	        int i = 1;
+	        pstmt.setInt(i++, location_id);
+	        pstmt.setInt(i++, order_id);
+	        pstmt.setInt(i++, employee_id);
+	        // Validate for expected and return status
+	        return insertHelper(pstmt.executeUpdate(), 
+	        		conn, sr);
+		} catch (Exception e) {
+			return catchErrorAndSetSR(sr, e);
+		} finally {
+			sqlCleanup(pstmt,conn);
+		}
+	}
 	
 	public StandardResult createOrderedItem(String notes,
 			String status, boolean bringFirst) {

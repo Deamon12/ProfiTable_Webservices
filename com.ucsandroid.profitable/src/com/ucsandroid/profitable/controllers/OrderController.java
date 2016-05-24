@@ -42,18 +42,32 @@ public class OrderController {
 			@QueryParam("location_id") int location_id,
 			@QueryParam("employee_id") int employee_id
 			) {
+		//TODO
 		return OrderService.getInstance().OrderPut(location_id,employee_id); 
 	}
 	
 	@Path ("/seat")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public String postOrder(
+	public String postOrderSeat(
 			@QueryParam("location_id") int location_id,
 			@QueryParam("employee_id") int employee_id
 			) {
-		//return OrderService.getInstance().orderPost(customers); 
-		return "";
+		//TODO
+		return OrderService.getInstance().seatTable(location_id,
+				employee_id);
+	}
+	
+	@Path ("/closeTab")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	public String postOrderClose(
+			@QueryParam("location_id") int location_id,
+			@QueryParam("order_id") int order_id
+			) {
+		//TODO
+		return OrderService.getInstance().closeTab(location_id,
+				order_id);
 	}
 	
 	@POST
