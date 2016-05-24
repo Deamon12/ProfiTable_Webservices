@@ -78,20 +78,28 @@ public class OrderService {
 		
 		//need to update location's current tab field
 		sr = LocationsDataAccess.getInstance().update(t.getTabId(), location_id);
-		
+		sr.setResult(t);
 		return gson.toJson(sr);
 	}
 	
 	public String closeTab(int location_id, int order_id) {
+		
+		//TODO TRANSACTION~!!!
+		
 		//update tab with time out, status completed
 		StandardResult sr = null;
 		Date date = new Date();
 		Timestamp currentDate = new Timestamp(date.getTime());
 		String status = "Completed";
 		//TODO
+		sr = OrderDataAccess.getInstance().update(status, currentDate, order_id);
+		if (!sr.getSuccess()) {
+			//if not successful creating relation, return
+			return gson.toJson(sr);
+		} 
 		
 		//update locations current tab field to null
-		sr = LocationsDataAccess.getInstance().update(order_id, -1);
+		sr = LocationsDataAccess.getInstance().update(-1, location_id);
 		
 		return gson.toJson(sr);
 	}

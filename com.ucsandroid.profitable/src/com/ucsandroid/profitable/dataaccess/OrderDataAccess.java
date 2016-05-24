@@ -3,7 +3,6 @@ package com.ucsandroid.profitable.dataaccess;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.Date;
 
 import com.ucsandroid.profitable.StandardResult;
 import com.ucsandroid.profitable.entities.Customer;
@@ -79,6 +78,102 @@ public class OrderDataAccess extends MainDataAccess {
 		"INSERT INTO Has_order (loc_id, order_id, emp_id) "+
 		"VALUES( ? , ? , ? ) ";
 	
+	private static String updateStatementFull =
+		"UPDATE "+
+			"tab "+
+		"SET "+
+			"tab_status=?, time_in=? "+
+			"time_out=? "+
+		"WHERE "+
+			"tab_id = ?";
+	
+	private static String updateTabClose =
+		"UPDATE "+
+			"tab "+
+		"SET "+
+			"tab_status=?, time_out=? "+
+		"WHERE "+
+			"tab_id = ?";
+	
+	private static String deleteStatement =
+			"DELETE FROM tab "+
+			"WHERE tab_id = ? ";
+	
+	public StandardResult update(String status, Timestamp time_in,
+			Timestamp time_out, int tabId) {
+		StandardResult sr = new StandardResult(false, null);
+		try {
+			// Open the connection
+			conn = connUtil.getConnection();
+			// Begin transaction
+	        conn.setAutoCommit(false);
+	        // Create the prepared statement
+	        pstmt = conn.prepareStatement(updateStatementFull);
+	        // Set the variable parameters
+	        int i = 1;
+	        pstmt.setString(i++, status);
+	        pstmt.setTimestamp(i++, time_in);
+	        pstmt.setTimestamp(i++, time_out);
+	        pstmt.setInt(i++, tabId);
+
+	        // Validate for expected and return status
+	        return updateHelper(pstmt.executeUpdate(), 
+	        		1, conn, sr);
+		} catch (Exception e) {
+			return catchErrorAndSetSR(sr, e);
+		} finally {
+			sqlCleanup(pstmt,conn);
+		}
+	}
+	
+	public StandardResult update(String status, Timestamp time_out,
+			int tabId) {
+		StandardResult sr = new StandardResult(false, null);
+		try {
+			// Open the connection
+			conn = connUtil.getConnection();
+			// Begin transaction
+	        conn.setAutoCommit(false);
+	        // Create the prepared statement
+	        pstmt = conn.prepareStatement(updateTabClose);
+	        // Set the variable parameters
+	        int i = 1;
+	        pstmt.setString(i++, status);
+	        pstmt.setTimestamp(i++, time_out);
+	        pstmt.setInt(i++, tabId);
+
+	        // Validate for expected and return status
+	        return updateHelper(pstmt.executeUpdate(), 
+	        		1, conn, sr);
+		} catch (Exception e) {
+			return catchErrorAndSetSR(sr, e);
+		} finally {
+			sqlCleanup(pstmt,conn);
+		}
+	}
+	
+	public StandardResult delete(int tab_id) {
+		StandardResult sr = new StandardResult(false, null);
+		try {
+			// Open the connection
+			conn = connUtil.getConnection();
+			// Begin transaction
+	        conn.setAutoCommit(false);
+	        // Create the prepared statement
+	        pstmt = conn.prepareStatement(deleteStatement);
+	        // Set the variable parameters
+	        int i = 1;
+	        pstmt.setInt(i++, tab_id);
+
+			return deleteHelper(pstmt.executeUpdate(), 
+	        		1, conn, sr);
+		} catch (Exception e) {
+			return catchErrorAndSetSR(sr, e);
+		} finally {
+			sqlCleanup(pstmt,conn);
+		}
+	}	
+		
 	public StandardResult createOrder(String status, 
 			Timestamp currentDate){
 		StandardResult sr = new StandardResult(false, null);
@@ -250,8 +345,8 @@ public class OrderDataAccess extends MainDataAccess {
 	        	String location = results.getString("name");
 	        	Location loc = new Location(locId,loc_status,location,restId);
 	        	
-	        	Date time_in = results.getDate("time_in");
-	        	Date time_out = results.getDate("time_out");
+	        	Timestamp time_in = results.getTimestamp("time_in");
+	        	Timestamp time_out = results.getTimestamp("time_out");
 	        	int tabId = results.getInt("tab_id");
 	        	String tab_status = results.getString("tab_status");
 	        	Tab t = new Tab(tabId, tab_status, time_in, time_out);

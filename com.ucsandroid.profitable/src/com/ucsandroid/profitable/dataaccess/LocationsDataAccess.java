@@ -8,6 +8,7 @@ import java.util.List;
 import com.ucsandroid.profitable.StandardResult;
 import com.ucsandroid.profitable.entities.Location;
 import com.ucsandroid.profitable.entities.LocationCategory;
+import com.ucsandroid.profitable.entities.Tab;
 
 public class LocationsDataAccess extends MainDataAccess {
 	
@@ -23,7 +24,8 @@ public class LocationsDataAccess extends MainDataAccess {
 	private static String getLocations = 
 		"SELECT "+
 			"l.loc_id, l.loc_status, l.name as location, "
-			+ "lc.loccat_id, lc.name as loccatname "+
+			+ "lc.loccat_id, lc.name as loccatname, "+
+			"l.curr_tab "+
 		"FROM "+
 			"location l, loc_category lc "+
 		"WHERE "+
@@ -41,8 +43,8 @@ public class LocationsDataAccess extends MainDataAccess {
 		"UPDATE "+
 			"location "+
 		"SET "+
-			"loc_status=?, restaurant=? "+
-			"name=?, loc_cat=? "+
+			"loc_status=?, restaurant=?, "+
+			"name=?, loc_cat=?, "+
 			"curr_tab=? "+
 		"WHERE "+
 			"loc_id = ?";
@@ -200,11 +202,14 @@ public class LocationsDataAccess extends MainDataAccess {
 	        	
 	        	int loc_id = results.getInt("loc_id");
 	        	int restId = restaurant;
-	        	
+	        	int curr_tab = results.getInt("curr_tab");
 	        	String loc_status = results.getString("loc_status");
 	        	String location = results.getString("location");
+	        	Tab t = new Tab();
+	        	t.setTabId(curr_tab);
 	        	
-	        	Location loc = new Location(loc_id,loc_status,location,restId);
+	        	Location loc = new Location(loc_id,loc_status,location,
+	        			t,restId);
 	        	lc.addToLocations(loc);
 	        } 
 	        

@@ -58,7 +58,7 @@ public class OrderController {
 				employee_id);
 	}
 	
-	@Path ("/closeTab")
+	@Path ("/close")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public String postOrderClose(
