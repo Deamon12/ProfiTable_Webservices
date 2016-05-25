@@ -45,10 +45,20 @@ public class OrderService {
 		}
 		return orderDataAccess;
 	}
+	
+	public String updateOrderedItem(int ordered_item_id, String status) {
+		return gson.toJson(getOrderDataAccess().
+			updateOrderedItemStatus(ordered_item_id, status));
+	}
 
 	public String OrderGet(int loc_id, int rest_id) {
 		return gson.toJson(getOrderDataAccess().
 				getOrder(loc_id, rest_id));
+	}
+	
+	public String OrderActiveGet(int rest_id) {
+		return gson.toJson(getOrderDataAccess().
+				getActiveOrder(rest_id));
 	}
 	
 	public String seatTable(int location_id, int employee_id) {

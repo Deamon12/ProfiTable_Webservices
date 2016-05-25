@@ -36,6 +36,45 @@ public class OrderController {
 		return OrderService.getInstance().OrderGet(location_id, rest_id); 
 	}
 	
+	@Path ("/kitchen")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public String fetchKitchenOrder(
+			@QueryParam("rest_id") int rest_id
+			) {
+		return OrderService.getInstance().OrderActiveGet(rest_id); 
+	}
+	
+	@Path ("/item/cooking")
+	@PUT
+	@Produces(MediaType.APPLICATION_JSON)
+	public String cookingItem(
+			@QueryParam("ordered_item_id") int ordered_item_id
+			) {
+		return OrderService.getInstance().updateOrderedItem(
+				ordered_item_id, "cooking"); 
+	}
+	
+	@Path ("/item/ready")
+	@PUT
+	@Produces(MediaType.APPLICATION_JSON)
+	public String readyItem(
+			@QueryParam("ordered_item_id") int ordered_item_id
+			) {
+		return OrderService.getInstance().updateOrderedItem(
+				ordered_item_id, "ready"); 
+	}
+	
+	@Path ("/item/delivered")
+	@PUT
+	@Produces(MediaType.APPLICATION_JSON)
+	public String deliveredItem(
+			@QueryParam("ordered_item_id") int ordered_item_id
+			) {
+		return OrderService.getInstance().updateOrderedItem(
+				ordered_item_id, "delivered"); 
+	}
+	
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	public String insertOrder(

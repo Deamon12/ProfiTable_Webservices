@@ -3,6 +3,8 @@ package com.ucsandroid.profitable.dataaccess;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.ucsandroid.profitable.StandardResult;
 import com.ucsandroid.profitable.entities.Customer;
@@ -24,6 +26,16 @@ public class OrderDataAccess extends MainDataAccess {
 	public static OrderDataAccess getInstance() {
 		return orderDataAccess;
 	}
+	
+	private static String getActiveOrders =
+		"SELECT "+
+			"t.* "+
+		"FROM "+
+			"tab t, location l, has_order ho "+
+		"WHERE "+
+			"l.curr_tab = t.tab_id and "+
+			"ho.order_id=t.tab_id and "+
+			"l.restaurant = ?";
 	
 	private static String getOrder = 
 		"SELECT "+
@@ -100,6 +112,33 @@ public class OrderDataAccess extends MainDataAccess {
 	private static String deleteStatement =
 			"DELETE FROM tab "+
 			"WHERE tab_id = ? ";
+	
+	private static String updateOrderedItemStatus =
+		"update item set item_status = ? where item_id = ? ";
+	
+	public StandardResult updateOrderedItemStatus(int itemId, String status) {
+		StandardResult sr = new StandardResult(false, null);
+		try {
+			// Open the connection
+			conn = connUtil.getConnection();
+			// Begin transaction
+	        conn.setAutoCommit(false);
+	        // Create the prepared statement
+	        pstmt = conn.prepareStatement(updateOrderedItemStatus);
+	        // Set the variable parameters
+	        int i = 1;
+	        pstmt.setString(i++, status);
+	        pstmt.setInt(i++, itemId);
+
+	        // Validate for expected and return status
+	        return updateHelper(pstmt.executeUpdate(), 
+	        		1, conn, sr);
+		} catch (Exception e) {
+			return catchErrorAndSetSR(sr, e);
+		} finally {
+			sqlCleanup(pstmt,conn);
+		}
+	}
 	
 	public StandardResult update(String status, Timestamp time_in,
 			Timestamp time_out, int tabId) {
@@ -443,4 +482,93 @@ public class OrderDataAccess extends MainDataAccess {
 		}
 	}
 
+	public StandardResult getActiveOrder(int rest_id) {
+		StandardResult sr = new StandardResult(false, null);
+		ResultSet results = null;
+		try {
+			conn = connUtil.getConnection();
+	        pstmt = conn.prepareStatement(getActiveOrders);
+	        pstmt.setInt(1, rest_id);
+	        results = pstmt.executeQuery();
+	      
+	        List<Tab> activeTabs = new ArrayList<Tab>();
+	        
+	        while (results.next()) { 
+	        	
+	        	Timestamp time_in = results.getTimestamp("time_in");
+	        	Timestamp time_out = results.getTimestamp("time_out");
+	        	int tabId = results.getInt("tab_id");
+	        	String tab_status = results.getString("tab_status");
+	        	Tab t = new Tab(tabId, tab_status, time_in, time_out);
+	        	
+	        	activeTabs.add(t);
+	        	
+	        	//Check for any customers on this tab
+	        	pstmt = conn.prepareStatement(getCustomersOnOrder);
+		        pstmt.setInt(1, tabId);
+		        ResultSet results1 = null;
+		        results1 = pstmt.executeQuery();
+		        while (results1.next()) {
+		        	//if there are any customers on this order, loop through them
+		        	//and grab all of their order 
+		        	int cust_id = results1.getInt("cust_id");
+		        	Customer c = new Customer(cust_id, tabId);
+		        	t.addCustomer(c);
+		        	pstmt = conn.prepareStatement(getCustomerOrder);
+			        pstmt.setInt(1, cust_id);
+			        ResultSet results2 = pstmt.executeQuery();
+			        OrderedItem oi = new OrderedItem();
+			        MenuItem mi = new MenuItem();
+			        int lastItem = -1;
+			        while (results2.next()) {
+			        	int item_id = results2.getInt("item_id");
+			        	if (item_id!=lastItem) {
+			        		lastItem=item_id;
+			        		//if it does not equal last item, create new
+			        		String notes = results2.getString("notes");
+			        		String item_status = results2.getString("item_status");
+			        		boolean bring_first = results2.getBoolean("bring_first");
+			        		//if item delivered, ignore it
+			        		if (item_status.equalsIgnoreCase("delivered")){
+			        			//donothing
+			        		}
+			        		else {
+				        		oi = new OrderedItem(item_id, notes, 
+				        				item_status, bring_first);
+				        		
+				        		int menu_id = results2.getInt("menu_id");
+				        		String menu_name = results2.getString("menu_name");
+					        	String description = results2.getString("description");
+					        	boolean available = results2.getBoolean("available");
+					        	int price = results2.getInt("price");
+					        	
+					        	mi = new MenuItem(menu_id, menu_name, 
+					        			description,price,available);
+					        				        	
+					        	oi.setMenuItem(mi);
+				        		c.addItem(oi);
+			        		}
+			        	} 
+			        	String attribute = results2.getString("attribute");
+			        	int price_mod = results2.getInt("price_mod");
+			        	int attrId = results2.getInt("attr_id");
+			        	
+			        	FoodAddition fa = new FoodAddition(attribute,
+			        			price_mod, attrId);
+			        	oi.addAddition(fa);
+			        	
+			        }
+			        results2.close();
+		        }
+		        results1.close();
+        	} 
+	        results.close();
+	        return successReturnSR(sr, activeTabs);
+		} catch (Exception e) {
+			return catchErrorAndSetSR(sr, e);
+		} finally {
+			sqlCleanup(pstmt,results,conn);
+		}
+	}
+	
 }

@@ -65,6 +65,9 @@ CREATE TABLE Loc_Category (
    PRIMARY KEY (loccat_id)
 );
 
+/*
+Location status options: TODO - needed?
+*/
 CREATE TABLE Tab (
    tab_id         BIGSERIAL,
    tab_status     VARCHAR(20)    NOT NULL,
@@ -73,6 +76,9 @@ CREATE TABLE Tab (
    PRIMARY KEY (tab_id)
 );
 
+/*
+Location status options: occupied, available
+*/
 CREATE TABLE Location (
    loc_id         BIGSERIAL,
    loc_status     VARCHAR(20)    NOT NULL,
@@ -120,6 +126,9 @@ CREATE TABLE Menu_item (
    PRIMARY KEY (menu_id)
 );
 
+/*
+Item status options: orderd, cooking, ready
+*/
 CREATE TABLE Item (
    item_id        BIGSERIAL,
    notes          VARCHAR(100),
