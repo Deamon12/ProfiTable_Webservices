@@ -66,7 +66,7 @@ CREATE TABLE Loc_Category (
 );
 
 /*
-Location status options: TODO - needed?
+Location status options: inprogress, completed
 */
 CREATE TABLE Tab (
    tab_id         BIGSERIAL,
@@ -127,7 +127,7 @@ CREATE TABLE Menu_item (
 );
 
 /*
-Item status options: orderd, cooking, ready
+Item status options: orderdd, cooking, ready, delivered
 */
 CREATE TABLE Item (
    item_id        BIGSERIAL,
@@ -254,7 +254,7 @@ END TRANSACTION;
 BEGIN TRANSACTION;
 /* 1 */
 INSERT INTO Tab (tab_status) 
-   VALUES('inprogress');
+   VALUES('InProgress');
 /* 2 */   
 INSERT INTO Tab (tab_status) 
    VALUES('complete');
@@ -404,19 +404,19 @@ END TRANSACTION;
 BEGIN TRANSACTION;
 /* 1 */
 INSERT INTO Item (item_status, bring_first) 
-   VALUES('complete', FALSE);
+   VALUES('delivered', FALSE);
 /* 2 */
 INSERT INTO Item (item_status, bring_first) 
    VALUES('delivered', FALSE);
 /* 3 */
 INSERT INTO Item (item_status, notes, bring_first) 
-   VALUES('inprogress', 'add in chipotle mayo', FALSE);
+   VALUES('cooking', 'add in chipotle mayo', FALSE);
 /* 4 */
 INSERT INTO Item (item_status, bring_first) 
-   VALUES('inprogress', TRUE);
+   VALUES('cooking', TRUE);
 /* 5 */
 INSERT INTO Item (item_status, bring_first) 
-   VALUES('inprogress', FALSE);
+   VALUES('ready', FALSE);
 COMMIT;
 END TRANSACTION;
 

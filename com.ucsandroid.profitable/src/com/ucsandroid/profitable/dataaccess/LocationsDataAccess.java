@@ -61,6 +61,33 @@ public class LocationsDataAccess extends MainDataAccess {
 		"DELETE FROM location "+
 		"WHERE loc_id = ? and restaurant = ?";
 	
+	private static String updateLocStatus =
+		"update location set loc_status = ? where loc_id = ? ";
+	
+	public StandardResult updateLocationStatus(int locId, String status) {
+		StandardResult sr = new StandardResult(false, null);
+		try {
+			// Open the connection
+			conn = connUtil.getConnection();
+			// Begin transaction
+	        conn.setAutoCommit(false);
+	        // Create the prepared statement
+	        pstmt = conn.prepareStatement(updateLocStatus);
+	        // Set the variable parameters
+	        int i = 1;
+	        pstmt.setString(i++, status);
+	        pstmt.setInt(i++, locId);
+
+	        // Validate for expected and return status
+	        return updateHelper(pstmt.executeUpdate(), 
+	        		1, conn, sr);
+		} catch (Exception e) {
+			return catchErrorAndSetSR(sr, e);
+		} finally {
+			sqlCleanup(pstmt,conn);
+		}
+	}
+	
 	public StandardResult delete(int loc_id, int restId) {
 		StandardResult sr = new StandardResult(false, null);
 		try {

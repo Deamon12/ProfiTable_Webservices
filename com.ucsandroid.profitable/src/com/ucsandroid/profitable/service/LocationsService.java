@@ -35,5 +35,10 @@ public class LocationsService {
 		return gson.toJson(getLocationsDataAccess().
 				getLocations(rest_id));
 	}
+	
+	public String updateLocationStatus(int location_id, String status) {
+		return gson.toJson(getLocationsDataAccess().
+				updateLocationStatus(location_id, status));
+	}
 
 }

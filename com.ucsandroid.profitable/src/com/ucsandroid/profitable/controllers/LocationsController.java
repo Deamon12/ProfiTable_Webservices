@@ -1,6 +1,7 @@
 package com.ucsandroid.profitable.controllers;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -16,6 +17,26 @@ public class LocationsController {
 			@QueryParam("rest_id") int rest_id
 			) {
 		return LocationsService.getInstance().LocationsGet(rest_id); 
+	}
+	
+	@Path ("/occupy")
+	@PUT
+	@Produces(MediaType.APPLICATION_JSON)
+	public String occupyLocation(
+			@QueryParam("location_id") int location_id
+			) {
+		return LocationsService.getInstance().updateLocationStatus(
+				location_id, "occupied"); 
+	}
+	
+	@Path ("/free")
+	@PUT
+	@Produces(MediaType.APPLICATION_JSON)
+	public String freeLocation(
+			@QueryParam("location_id") int location_id
+			) {
+		return LocationsService.getInstance().updateLocationStatus(
+				location_id, "available"); 
 	}
 
 }

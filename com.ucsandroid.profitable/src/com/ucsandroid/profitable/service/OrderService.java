@@ -68,7 +68,7 @@ public class OrderService {
 		//create new tab, use current time for time_in, set status to in progress
 		Date date = new Date();
 		Timestamp currentDate = new Timestamp(date.getTime());
-		String status = "In Progress";
+		String status = "InProgress";
 		StandardResult sr = null;
 		sr = OrderDataAccess.getInstance().createOrder(status, currentDate);
 		if (!sr.getSuccess()) {
@@ -141,7 +141,7 @@ public class OrderService {
 				//given notes, maybe status, bringfirst, menuItem, additions
 				
 				sr = OrderDataAccess.getInstance().createOrderedItem(o.getOrderedItemNotes(),
-						o.getOrderedItemStatus(), o.isBringFirst());
+						"ordered", o.isBringFirst());
 				OrderedItem ordered = null;
 				if (sr.getSuccess()){
 					ordered = (OrderedItem) sr.getResult();
