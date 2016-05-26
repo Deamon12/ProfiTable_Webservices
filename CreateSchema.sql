@@ -115,8 +115,8 @@ CREATE TABLE Discount (
 
 CREATE TABLE Menu_item (
    menu_id        BIGSERIAL,
-   menu_name      VARCHAR(50)    NOT NULL,
-   description    VARCHAR(100)   NOT NULL,
+   menu_name      VARCHAR(100)    NOT NULL,
+   description    VARCHAR(300)   NOT NULL,
    price          SMALLINT       NOT NULL,
    Available      BOOLEAN        NOT NULL,
    restaurant     BIGINT,
@@ -290,10 +290,10 @@ END TRANSACTION;
 BEGIN TRANSACTION;
 /* 1 */
 INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
-   VALUES('available','pair table 1',2,1);
+   VALUES('available','Pair table A',2,1);
 /* 2 */
 INSERT INTO Location (loc_status, name, loc_cat, restaurant,curr_tab) 
-   VALUES('occupied','barseat 4',2,1,1);
+   VALUES('occupied','barseat A',2,1,1);
 /* 3 */
 INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
    VALUES('available','corner booth',1,1);
@@ -303,6 +303,63 @@ INSERT INTO Location (loc_status, name, loc_cat, restaurant,curr_tab)
 /* 5 */
 INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
    VALUES('occupied','order184-Shamim',3,1);
+/* 6 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Pair table F',2,1);
+/* 7 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Pair table B',2,1);
+/* 8 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Pair table C',2,1);
+/* 9 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Pair table D',2,1);
+/* 10 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Pair table E',2,1);
+/* 11 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Quad table A',2,1);
+/* 12 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Quad table B',2,1);
+/* 13 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Quad table C',2,1);
+/* 14 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Quad table D',2,1);
+/* 15 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Table for 6',2,1);
+/* 16 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('occupied','order185-Greg',3,1);
+/* 17 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('occupied','order186-Charles',3,1);
+/* 18 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('occupied','order187-Tracy',3,1);
+/* 19 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('occupied','Barseat B',2,1);
+/* 20 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('occupied','Barseat C',2,1);
+/* 21 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('occupied','Barseat D',2,1);
+/* 22 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('occupied','Barseat E',2,1);
+/* 23 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('occupied','Barseat F',2,1);
+/* 24 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('occupied','Barseat G',2,1);
 COMMIT;
 END TRANSACTION;
 
@@ -313,93 +370,209 @@ INSERT INTO Discount (disc_id, disc_type, disc_percent, Available, restaurant)
 /* 2 */
 INSERT INTO Discount (disc_id, disc_type, disc_percent, Available, restaurant) 
    VALUES(2,'veteran',0.20,TRUE,1);
+/* 3 */
+INSERT INTO Discount (disc_id, disc_type, disc_percent, Available, restaurant) 
+   VALUES(3,'Complementary Meal',1.0,TRUE,1);
 COMMIT;
 END TRANSACTION;
 
 BEGIN TRANSACTION;
 /* 1 */
 INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
-   VALUES('cheeseburger','itsaburger',200,TRUE,1);
+   VALUES('Cheeseburger','Classic cheeseburger',200,TRUE,1);
 /* 2 */
 INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
-   VALUES('burger','itsaburger',150,TRUE,1);
+   VALUES('Hambuger','Classic quarter pound burger',150,TRUE,1);
 /* 3 */
 INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
-   VALUES('fries','frenchtype',100,TRUE,1);
+   VALUES('French Fries','Yukon Gold, lightly seasoned',100,TRUE,1);
 /* 4 */
 INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
-   VALUES('soda','drinkin',110,TRUE,1);
+   VALUES('Soda','Free Refills',110,TRUE,1);
 /* 5 */
 INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
-   VALUES('milkshake','tasty',230,FALSE,1);
+   VALUES('Vanilla Milk Shake','Traditional favorite',230,FALSE,1);
 /* 6 */
 INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
-   VALUES('chicken tacos','pollo asada, 3x',275,TRUE,1);
+   VALUES('Chicken Tacos plate','Pollo asada, 3x with rice and beans',475,TRUE,1);
+/* 7 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Acai Smoothie','Blended with blueberries, boysenberries, bananas and strawberries',525,TRUE,1);
+/* 8 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Tropical Storm Smoothie','Pineapple juice, bananas, mangoes, and papaya. Topped with coconut',545,TRUE,1);
+/* 9 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Piping Papaya Smoothie','Apple juice, peaches, raspberries, strawberries and spirulina',575,TRUE,1);
+/* 10 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Just Peachie Smoothie','Apple juice, bananas and peaches',475,TRUE,1);
+/* 11 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('PopEyes Punch Juice','Carrot and spinach.  Lots of spinach!',345,TRUE,1);
+/* 12 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Busy Bee Juice','Orange juice, bananas, papaya, bee pollen',355,TRUE,1);
+/* 13 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Guacamole Turkey Club','Grilled turkey, bacon, Swiss cheese, guacamole, lettuce, tomato and onions',835,TRUE,1);
+/* 14 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Chicken Swiss Melt','Fresh Grilled chicken, bacon, Swiss, lettuce, tomato, onoins, grilled mushrooms, mayo on sourdough bread',775,TRUE,1);
+/* 15 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('The Ultimate Veggie Sandwich','Lettuce, tomato, avocado, onions, cucumbers, cabbage, mushrooms, bell peppers, Swiss cheese, sprouts, mayo, carrots, basil dressing',699,TRUE,1);
+/* 16 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Chips and Salsa','Corn chips',275,TRUE,1);
+/* 17 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Garden Salad','Light and refreshing',295,TRUE,1);
+/* 18 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Fruit Plate','Seasonal fruit choice, Light and refreshing',315,TRUE,1);
+/* 19 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Double decker cheeseburger','The big one!',275,TRUE,1);
+/* 20 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Protein style hambuger','lettuce wrapped beef patty',275,TRUE,1);
+/* 21 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Oatmeal','Served with milk, brown sugar, raisins and bananas',275,TRUE,1);
+/* 22 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Strawberry Milk Shake','Traditional favorite',230,FALSE,1);
+/* 23 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Chocolate Milk Shake','Traditional favorite',230,FALSE,1);
+/* 24 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Granola and Fruit','Served with milk, yogurt or soy milk and fruit',235,TRUE,1);
+/* 25 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Light Breakfast','Fruit, cottage cheese and toast, with sauteed tomatoes, cheddar cheese, onion, jalapeños, guacamole and bell pepper',495,TRUE,1);
+/* 26 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Black Egg Burrito','Black Beans, avocado and mixed cheeses',615,TRUE,1);
+/* 27 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Veggie Egg Burrito','Sauteed mixed vegetables (zucchini, broccoli, avocados, carrots) and mixed cheeses',675,TRUE,1);
+/* 28 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Cancun Breakfast Burrito','Sautéed tomatoes, cheddar cheese, onion, jalapeños, guacamole and bell pepper',775,TRUE,1);
+/* 29 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Sante Fe Turkey Omelette','Ortega chilies, green onion, tomatoes, pepper jack cheese, turkey',925,TRUE,1);
+/* 30 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Garlic Chicken Omelette','Marinated chicken breast in garlic sauce, w Swiss cheese',1025,FALSE,1);
+/* 31 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Veggie Rama Omelette','Sautéed mushrooms, broccoli, zucchini, bell peppers, onion, alfalfa sprouts, avocado, mixed cheddar cheese',1100,FALSE,1);
+/* 32 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Bottled Water','Overpriced and wastes plastic!',710,TRUE,1);
+/* 33 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Horchata','South of the border rice beverage favorite',110,TRUE,1);
+/* 34 */
+INSERT INTO Menu_item (menu_name, description, price, Available, restaurant) 
+   VALUES('Pina','South of the border pineapple favorite!',110,TRUE,1);
 COMMIT;
 END TRANSACTION;
 
 BEGIN TRANSACTION;
 /* 1 */
 INSERT INTO Category (cat_name, restaurant) 
-   VALUES('burgers',1);
+   VALUES('Burgers',1);
 /* 2 */
 INSERT INTO Category (cat_name, restaurant) 
-   VALUES('popular',1);
+   VALUES('Popular',1);
 /* 3 */
 INSERT INTO Category (cat_name, restaurant) 
-   VALUES('drinks',1);
+   VALUES('Drinks',1);
 /* 4 */
 INSERT INTO Category (cat_name, restaurant) 
-   VALUES('sides',1);
+   VALUES('Sides',1);
 /* 5 */
 INSERT INTO Category (cat_name, restaurant) 
-   VALUES('main course',1);
+   VALUES('Main course',1);
+/* 6 */
+INSERT INTO Category (cat_name, restaurant) 
+   VALUES('Breakfast',1);
+/* 7 */
+INSERT INTO Category (cat_name, restaurant) 
+   VALUES('Breakfast Burritos',1);
+/* 8 */
+INSERT INTO Category (cat_name, restaurant) 
+   VALUES('Sandwiches',1);
+/* 9 */
+INSERT INTO Category (cat_name, restaurant) 
+   VALUES('Smoothies',1);
+/* 10 */
+INSERT INTO Category (cat_name, restaurant) 
+   VALUES('Shakes',1);
 COMMIT;
 END TRANSACTION;
 
 BEGIN TRANSACTION;
 /* 1 */
 INSERT INTO Food_attribute (attribute, price_mod, Available, restaurant) 
-   VALUES('lettuce',0,TRUE,1);
+   VALUES('Lettuce',0,TRUE,1);
 /* 2 */
 INSERT INTO Food_attribute (attribute, price_mod, Available, restaurant) 
-   VALUES('onion - fresh',0,TRUE,1);
+   VALUES('Onion - fresh',0,TRUE,1);
 /* 3 */
 INSERT INTO Food_attribute (attribute, price_mod, Available, restaurant) 
-   VALUES('onion - grilled',0,TRUE,1);
+   VALUES('Onion - grilled',0,TRUE,1);
 /* 4 */
 INSERT INTO Food_attribute (attribute, price_mod, Available, restaurant) 
-   VALUES('tomato',0,TRUE,1);
+   VALUES('Tomato',0,TRUE,1);
 /* 5 */
 INSERT INTO Food_attribute (attribute, price_mod, Available, restaurant) 
-   VALUES('guacamole',135,TRUE,1);
+   VALUES('Guacamole',135,TRUE,1);
 /* 6 */
 INSERT INTO Food_attribute (attribute, price_mod, Available, restaurant) 
-   VALUES('salsa',0,TRUE,1);
+   VALUES('Salsa',0,TRUE,1);
 /* 7 */
 INSERT INTO Food_attribute (attribute, price_mod, Available, restaurant) 
-   VALUES('salt',0,TRUE,1);
+   VALUES('Salt',0,TRUE,1);
 /* 8 */
 INSERT INTO Food_attribute (attribute, price_mod, Available, restaurant) 
-   VALUES('pepper',0,TRUE,1);
+   VALUES('Pepper',0,TRUE,1);
 /* 9 */
 INSERT INTO Food_attribute (attribute, price_mod, Available, restaurant) 
-   VALUES('cherry',0,TRUE,1);
+   VALUES('Cherry',0,TRUE,1);
 /* 10 */
 INSERT INTO Food_attribute (attribute, price_mod, Available, restaurant) 
-   VALUES('ice',135,TRUE,1);
+   VALUES('Ice',135,TRUE,1);
 /* 11 */
 INSERT INTO Food_attribute (attribute, price_mod, Available, restaurant) 
-   VALUES('cheese',0,TRUE,1);
+   VALUES('Swiss Cheese',0,TRUE,1);
 /* 12 */
 INSERT INTO Food_attribute (attribute, price_mod, Available, restaurant) 
-   VALUES('mustard',0,TRUE,1);
+   VALUES('Mustard',0,TRUE,1);
 /* 13 */
 INSERT INTO Food_attribute (attribute, price_mod, Available, restaurant) 
-   VALUES('ketchup',0,TRUE,1);
+   VALUES('Ketchup',0,TRUE,1);
+/* 14 */
+INSERT INTO Food_attribute (attribute, price_mod, Available, restaurant) 
+   VALUES('Peanut Butter',100,TRUE,1);
+/* 15 */
+INSERT INTO Food_attribute (attribute, price_mod, Available, restaurant) 
+   VALUES('Protein Powder',150,TRUE,1);
+/* 16 */
+INSERT INTO Food_attribute (attribute, price_mod, Available, restaurant) 
+   VALUES('Vegan Protein Powder',200,TRUE,1);
+/* 17 */
+INSERT INTO Food_attribute (attribute, price_mod, Available, restaurant) 
+   VALUES('Hummus',0,TRUE,1);
+/* 18 */
+INSERT INTO Food_attribute (attribute, price_mod, Available, restaurant) 
+   VALUES('Berries',135,TRUE,1);
 COMMIT;
 END TRANSACTION;
-
 
 BEGIN TRANSACTION;
 /* 1 */
@@ -471,6 +644,104 @@ INSERT INTO Has_cat (menu_id, cat_id)
    VALUES(5,3);
 INSERT INTO Has_cat (menu_id, cat_id) 
    VALUES(6,5);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(7,2);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(7,9);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(7,3);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(8,9);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(8,3);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(9,3);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(9,9);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(10,2);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(10,3);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(10,9);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(11,3);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(12,3);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(13,8);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(13,5);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(14,8);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(14,5);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(15,8);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(15,5);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(16,4);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(17,4);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(18,4);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(19,1);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(19,5);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(20,1);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(20,5);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(21,6);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(21,4);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(22,10);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(23,10);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(5,10);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(22,3);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(23,3);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(24,6);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(25,6);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(26,7);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(26,6);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(26,2);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(27,7);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(27,6);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(28,7);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(28,6);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(29,6);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(30,6);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(29,2);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(31,6);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(32,3);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(33,3);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(34,3);
+INSERT INTO Has_cat (menu_id, cat_id) 
+   VALUES(33,2);
 COMMIT;
 END TRANSACTION;
 
