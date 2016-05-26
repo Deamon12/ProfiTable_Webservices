@@ -1,14 +1,8 @@
 /**
  * Database schema for ProfiTable mobile application
  * Author: Eric Gremban
- * Last update: 20160422
+ * Last update: 20160525
  */
-
-/**
-   TODOs:
-   connect restaurants with employees and tables
-   add in time seated and time left for a given order
-*/
 
 /* Drop any versions of this database which existed previously */
 DROP TABLE IF EXISTS Restaurant CASCADE;
@@ -30,8 +24,6 @@ DROP TABLE IF EXISTS Ordered_with CASCADE;
 DROP TABLE IF EXISTS Has_attr CASCADE;
 DROP TABLE IF EXISTS Has_cat CASCADE;
 
-
-
 CREATE TABLE Restaurant (
    rest_id        BIGSERIAL,
    name           VARCHAR(50)    NOT NULL,
@@ -39,7 +31,6 @@ CREATE TABLE Restaurant (
    PRIMARY KEY (rest_id)
 );
 
-/* TODO: identify type for secret id */
 CREATE TABLE Employee (
    emp_id         BIGSERIAL,
    account_name   VARCHAR(50)    NOT NULL UNIQUE,
@@ -290,7 +281,7 @@ END TRANSACTION;
 BEGIN TRANSACTION;
 /* 1 */
 INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
-   VALUES('available','Pair table A',2,1);
+   VALUES('available','Pair table A',1,1);
 /* 2 */
 INSERT INTO Location (loc_status, name, loc_cat, restaurant,curr_tab) 
    VALUES('occupied','barseat A',2,1,1);
@@ -305,34 +296,34 @@ INSERT INTO Location (loc_status, name, loc_cat, restaurant)
    VALUES('occupied','order184-Shamim',3,1);
 /* 6 */
 INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
-   VALUES('available','Pair table F',2,1);
+   VALUES('available','Pair table F',1,1);
 /* 7 */
 INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
-   VALUES('available','Pair table B',2,1);
+   VALUES('available','Pair table B',1,1);
 /* 8 */
 INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
-   VALUES('available','Pair table C',2,1);
+   VALUES('available','Pair table C',1,1);
 /* 9 */
 INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
-   VALUES('available','Pair table D',2,1);
+   VALUES('available','Pair table D',1,1);
 /* 10 */
 INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
-   VALUES('available','Pair table E',2,1);
+   VALUES('available','Pair table E',1,1);
 /* 11 */
 INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
-   VALUES('available','Quad table A',2,1);
+   VALUES('available','Quad table A',1,1);
 /* 12 */
 INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
-   VALUES('available','Quad table B',2,1);
+   VALUES('available','Quad table B',1,1);
 /* 13 */
 INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
-   VALUES('available','Quad table C',2,1);
+   VALUES('available','Quad table C',1,1);
 /* 14 */
 INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
-   VALUES('available','Quad table D',2,1);
+   VALUES('available','Quad table D',1,1);
 /* 15 */
 INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
-   VALUES('available','Table for 6',2,1);
+   VALUES('available','Table for 6',1,1);
 /* 16 */
 INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
    VALUES('occupied','order185-Greg',3,1);
@@ -360,6 +351,57 @@ INSERT INTO Location (loc_status, name, loc_cat, restaurant)
 /* 24 */
 INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
    VALUES('occupied','Barseat G',2,1);
+/* 25 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Quad table E',1,1);
+/* 26 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Quad table F',1,1);
+/* 27 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Quad table G',1,1);
+/* 28 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Quad table H',1,1);
+/* 29 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Quad table I',1,1);
+/* 30 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Quad table J',1,1);
+/* 31 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Quad table K',1,1);
+/* 32 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Quad table L',1,1);
+/* 33 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Quad table M',1,1);
+/* 34 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Quad table N',1,1);
+/* 35 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('available','Quad table O',1,1);
+/* 36 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('occupied','Barseat H',2,1);
+/* 37 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('occupied','Barseat I',2,1);
+/* 38 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('occupied','Barseat J',2,1);
+/* 39 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('occupied','Barseat K',2,1);
+/* 40 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('occupied','Barseat L',2,1);
+/* 41 */
+INSERT INTO Location (loc_status, name, loc_cat, restaurant) 
+   VALUES('occupied','Barseat M',2,1);
 COMMIT;
 END TRANSACTION;
 
