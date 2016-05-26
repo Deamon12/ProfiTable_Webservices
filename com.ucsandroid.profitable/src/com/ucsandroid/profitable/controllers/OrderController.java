@@ -103,10 +103,10 @@ public class OrderController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String postOrderClose(
 			@QueryParam("location_id") int location_id,
-			@QueryParam("order_id") int order_id
+			@QueryParam("tab_id") int tab_id
 			) {
 		return OrderService.getInstance().closeTab(location_id,
-				order_id);
+				tab_id);
 	}
 	
 	/**
