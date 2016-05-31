@@ -18,12 +18,14 @@ public class EmployeeDataAccess extends MainDataAccess {
 		return employeeDataAccess;
 	}
 
+	@SuppressWarnings("unused")
 	private static String insertStatement = 
 		"INSERT INTO employee "+
 		"(account_name, emp_type, first_name, last_name, "+
 			"password, restaurant) "+ 
 		" VALUES(?,?,?,?,?,?)";
 		
+	@SuppressWarnings("unused")
 	private static String updateStatement =
 		"UPDATE "+
 			"employee "+
@@ -33,6 +35,7 @@ public class EmployeeDataAccess extends MainDataAccess {
 		"WHERE "+
 			"emp_id = ?";
 		
+	@SuppressWarnings("unused")
 	private static String deleteStatement =
 		"DELETE FROM employee "+
 		"WHERE emp_id = ? and restaurant = ?";

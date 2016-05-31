@@ -20,6 +20,7 @@ import com.ucsandroid.profitable.entities.Customer;
 import com.ucsandroid.profitable.entities.FoodAddition;
 import com.ucsandroid.profitable.entities.MenuItem;
 import com.ucsandroid.profitable.entities.OrderedItem;
+import com.ucsandroid.profitable.service.EmployeeService;
 import com.ucsandroid.profitable.service.OrderService;
 
 @Path ("/orders")
@@ -51,8 +52,10 @@ public class OrderController {
 	public String cookingItem(
 			@QueryParam("ordered_item_id") int ordered_item_id
 			) {
-		return OrderService.getInstance().updateOrderedItem(
+		String status = OrderService.getInstance().updateOrderedItem(
 				ordered_item_id, "cooking"); 
+		EmployeeService.getInstance().updateFoodPrep(1, 3);
+		return status;
 	}
 	
 	@Path ("/item/ready")
@@ -61,8 +64,10 @@ public class OrderController {
 	public String readyItem(
 			@QueryParam("ordered_item_id") int ordered_item_id
 			) {
-		return OrderService.getInstance().updateOrderedItem(
-				ordered_item_id, "ready"); 
+		String status = OrderService.getInstance().updateOrderedItem(
+				ordered_item_id, "ready");
+		EmployeeService.getInstance().updateWaitStaff(1, 3);
+		return status;
 	}
 	
 	@Path ("/item/delivered")
@@ -71,8 +76,10 @@ public class OrderController {
 	public String deliveredItem(
 			@QueryParam("ordered_item_id") int ordered_item_id
 			) {
-		return OrderService.getInstance().updateOrderedItem(
-				ordered_item_id, "delivered"); 
+		String status = OrderService.getInstance().updateOrderedItem(
+				ordered_item_id, "delivered");
+		EmployeeService.getInstance().updateWaitStaff(1, 3);
+		return status;
 	}
 	
 	@PUT
@@ -93,8 +100,10 @@ public class OrderController {
 			@QueryParam("location_id") int location_id,
 			@QueryParam("employee_id") int employee_id
 			) {
-		return OrderService.getInstance().seatTable(location_id,
+		String status = OrderService.getInstance().seatTable(location_id,
 				employee_id);
+		EmployeeService.getInstance().updateWaitStaff(1, 1);
+		return status;
 	}
 	
 	
@@ -105,8 +114,11 @@ public class OrderController {
 			@QueryParam("location_id") int location_id,
 			@QueryParam("tab_id") int tab_id
 			) {
-		return OrderService.getInstance().closeTab(location_id,
+		String status = OrderService.getInstance().closeTab(location_id,
 				tab_id);
+		EmployeeService.getInstance().updateWaitStaff(1, 1);
+		EmployeeService.getInstance().updateWaitStaff(1, 3);
+		return status;
 	}
 	
 	/**
@@ -122,7 +134,9 @@ public class OrderController {
 	public String postOrder(
 			@QueryParam("customers") String customers
 			) {
-		return OrderService.getInstance().orderPost(customers); 
+		String status = OrderService.getInstance().orderPost(customers); 
+		EmployeeService.getInstance().updateFoodPrep(1, 2);
+		return status;
 	}
 	
 	

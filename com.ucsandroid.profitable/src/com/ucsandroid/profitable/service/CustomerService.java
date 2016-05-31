@@ -11,6 +11,7 @@ public class CustomerService {
 	private static CustomerService customerService = 
 			new CustomerService();
 	
+	@SuppressWarnings("unused")
 	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
 	private CustomerService() {
@@ -24,6 +25,7 @@ public class CustomerService {
 		return customerService;
 	}
 	
+	@SuppressWarnings("unused")
 	private CustomerDataAccess getCustomerDataAccess() {
 		if (customerDataAccess==null) {
 			customerDataAccess = CustomerDataAccess.getInstance();

@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ucsandroid.profitable.StandardResult;
 import com.ucsandroid.profitable.dataaccess.EmployeeDataAccess;
+import com.ucsandroid.profitable.utilities.GoogleCloudMessaging;
 
 public class EmployeeService {
 	
@@ -38,6 +39,24 @@ public class EmployeeService {
 	public String updateDeviceId(int emp_id, String device_id) {
 		return gson.toJson(getEmployeeDataAccess().
 				updateDevice(device_id, emp_id));
+	}
+	
+	public void updateWaitStaff(int rest_id, int updateType){
+		List<String> waitstaff = EmployeeService.
+				getInstance().getWaitDevices(rest_id);
+		List<String> managers = EmployeeService.
+				getInstance().getManagerDevices(rest_id);
+		GoogleCloudMessaging.sendMessage(updateType, waitstaff);
+		GoogleCloudMessaging.sendMessage(updateType, managers);
+	}
+	
+	public void updateFoodPrep(int rest_id, int updateType){
+		List<String> foodPrep = EmployeeService.
+				getInstance().getFoodDevices(rest_id);
+		List<String> managers = EmployeeService.
+				getInstance().getManagerDevices(rest_id);
+		GoogleCloudMessaging.sendMessage(updateType, foodPrep);
+		GoogleCloudMessaging.sendMessage(updateType, managers);
 	}
 	
 	@SuppressWarnings("unchecked")

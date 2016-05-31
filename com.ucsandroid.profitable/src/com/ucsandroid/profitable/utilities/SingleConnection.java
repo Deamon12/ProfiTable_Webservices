@@ -4,28 +4,38 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * TODO implementation of a singleton connection, not currently used
+ * @author Eric
+ *
+ */
 public class SingleConnection {
 	
 	private static Connection connection;
-	private static SingleConnection singleConnection = new SingleConnection();
+	private static SingleConnection singleConnection = 
+			new SingleConnection();
 	private SingleConnection() {
 		connection = null;
 	}
 	
-	/* TEST database, alter the url for using the AWS online database */
+	public static SingleConnection getInstance() {
+		return singleConnection;
+	}
 	
+	/* TEST database, alter the url for using the AWS online database */
+	/*
 	static String sqlDatabaseURL = "jdbc:postgresql://127.0.0.1:5432/cse190";
 	static String username = "postgres";
 	static String password = "postgres";
-	
+	*/
 	
 	/* AWS DB */
-	/*
+	
 	static String url = "profitabledbproduction.c1xpcxj1mum7.us-west-2.rds.amazonaws.com";
 	static String sqlDatabaseURL = "jdbc:postgresql://"+url+":5432/profitabledbprod";
 	static String username = "profitable";
 	static String password = "ucsandroid";
-	*/
+	
 	
 	/** Opens database connection. */
 	private static void connectToSQL() {
@@ -45,8 +55,15 @@ public class SingleConnection {
 	
 	/** returns a valid connection */
 	public static Connection getConnection() {
-		if (connection==null) {connectToSQL();}
-		return connection;
+		try {
+			if (connection==null) {connectToSQL();}
+			else if (connection.isClosed()) {connectToSQL();}
+			return connection;
+		} catch (Exception e) {
+			e.printStackTrace();
+			connectToSQL();
+			return connection;
+		}
 	}
 	
 	/**Closes database connection.*/

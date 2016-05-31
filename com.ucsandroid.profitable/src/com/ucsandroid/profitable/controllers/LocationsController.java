@@ -6,6 +6,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
+import com.ucsandroid.profitable.service.EmployeeService;
 import com.ucsandroid.profitable.service.LocationsService;
 
 @Path ("/location")
@@ -25,8 +27,10 @@ public class LocationsController {
 	public String occupyLocation(
 			@QueryParam("location_id") int location_id
 			) {
-		return LocationsService.getInstance().updateLocationStatus(
-				location_id, "occupied"); 
+		String status = LocationsService.getInstance().updateLocationStatus(
+				location_id, "occupied");
+		EmployeeService.getInstance().updateWaitStaff(1, 1);
+		return status;
 	}
 	
 	@Path ("/free")
@@ -35,8 +39,10 @@ public class LocationsController {
 	public String freeLocation(
 			@QueryParam("location_id") int location_id
 			) {
-		return LocationsService.getInstance().updateLocationStatus(
-				location_id, "available"); 
+		String status = LocationsService.getInstance().updateLocationStatus(
+				location_id, "available");
+		EmployeeService.getInstance().updateWaitStaff(1, 1);
+		return status;
 	}
 
 }
