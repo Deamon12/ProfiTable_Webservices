@@ -55,6 +55,63 @@ public class EmployeeDataAccess extends MainDataAccess {
 			"WHERE "+
 			"restaurant = ? ";
 	
+	private static String getDevices =
+			"select curr_device from employee "+
+			"where emp_type = ? and restaurant = ? "+
+			"and curr_device!=null";
+	
+	private static String updateDevice = 
+			"update employee set curr_device = ? where emp_id = ? ";
+	
+	public StandardResult updateDevice(String deviceId, int emp_id) {
+		StandardResult sr = new StandardResult(false, null);
+		try {
+			// Open the connection
+			conn = connUtil.getConnection();
+			// Begin transaction
+	        conn.setAutoCommit(false);
+	        // Create the prepared statement
+	        pstmt = conn.prepareStatement(updateDevice);
+	        // Set the variable parameters
+	        int i = 1;
+	        pstmt.setString(i++, deviceId);
+	        pstmt.setInt(i++, emp_id);
+
+	        // Validate for expected and return status
+	        return updateHelper(pstmt.executeUpdate(), 
+	        		1, conn, sr);
+		} catch (Exception e) {
+			return catchErrorAndSetSR(sr, e);
+		} finally {
+			sqlCleanup(pstmt,conn);
+		}
+	}
+	
+	public StandardResult getDevices(int restaurant, String employeeType) {
+		StandardResult sr = new StandardResult(false, null);
+		ResultSet results = null;
+		try {
+			conn = connUtil.getConnection();
+	        pstmt = conn.prepareStatement(getDevices);
+	        int i = 1;
+	        pstmt.setString(i++, employeeType);
+	        pstmt.setInt(i++, restaurant);
+	        results = pstmt.executeQuery();
+	        
+	        List<String> devices = new ArrayList<String>();
+	        
+	        while (results.next()) { 
+	        	String empDevice = results.getString("curr_device");
+	        	devices.add(empDevice);
+	        } 
+	        return successReturnSR(sr, devices);
+		} catch (Exception e) {
+			return catchErrorAndSetSR(sr, e);
+		} finally {
+			sqlCleanup(pstmt,results,conn);
+		}
+	}
+	
 	public StandardResult login(String accountName, String password, 
 			int restaurant) {
 		StandardResult sr = new StandardResult(false, null);

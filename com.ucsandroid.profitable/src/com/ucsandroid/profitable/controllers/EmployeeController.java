@@ -2,6 +2,7 @@ package com.ucsandroid.profitable.controllers;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -48,6 +49,17 @@ public class EmployeeController {
 			sr.setMessage("Error: not all parameters set");
 			return gson.toJson(sr); 
 		}
+	}
+	
+	@Path ("/device")
+	@PUT
+	@Produces(MediaType.APPLICATION_JSON)
+	public String employeeDevice(
+			@QueryParam("device_id") String device_id,
+			@QueryParam("emp_id") int emp_id
+			) {
+		return EmployeeService.getInstance().updateDeviceId(
+				emp_id, device_id);
 	}
 
 }

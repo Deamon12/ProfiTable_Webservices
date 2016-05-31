@@ -38,6 +38,7 @@ CREATE TABLE Employee (
    first_name     VARCHAR(50)    NOT NULL,
    last_name      VARCHAR(50)    NOT NULL,
    password       VARCHAR(255)   NOT NULL,
+   curr_device    VARCHAR(512)   NULL,
    restaurant     BIGINT,
    CHECK (account_name <> ''),
    CHECK (first_name <> ''),

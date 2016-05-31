@@ -1,5 +1,8 @@
 package com.ucsandroid.profitable.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ucsandroid.profitable.StandardResult;
@@ -30,6 +33,44 @@ public class EmployeeService {
 			employeeDataAccess = EmployeeDataAccess.getInstance();
 		}
 		return employeeDataAccess;
+	}
+	
+	public String updateDeviceId(int emp_id, String device_id) {
+		return gson.toJson(getEmployeeDataAccess().
+				updateDevice(device_id, emp_id));
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> getWaitDevices(int rest_id) {
+		StandardResult sr = getEmployeeDataAccess().getDevices(rest_id, "Wait");
+		if (sr.getSuccess()){
+			return (List<String>)sr.getResult();
+		} else {
+			return new ArrayList<String>();
+		}
+			
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> getManagerDevices(int rest_id) {
+		StandardResult sr = getEmployeeDataAccess().getDevices(rest_id, "Manager");
+		if (sr.getSuccess()){
+			return (List<String>)sr.getResult();
+		} else {
+			return new ArrayList<String>();
+		}
+			
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> getFoodDevices(int rest_id) {
+		StandardResult sr = getEmployeeDataAccess().getDevices(rest_id, "Food");
+		if (sr.getSuccess()){
+			return (List<String>)sr.getResult();
+		} else {
+			return new ArrayList<String>();
+		}
+			
 	}
 	
 	public String login(String accountName, String accountPass,
