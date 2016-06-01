@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "418685242715",
+    "firebase_url": "https://ucsandroid-profitable.firebaseio.com",
+    "project_id": "ucsandroid-profitable",
+    "storage_bucket": "ucsandroid-profitable.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418685242715:android:57e38daa51f29187",
+        "android_client_info": {
+          "package_name": "com.ucsandroid.profitable"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "418685242715-tjl4gvh6pm0bks0dmloqm3ctn5lhblum.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "418685242715-klvkjqt4qjdq4qkdpamr28nb24limbb6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYT5vy7_aehtUb8GuqxSO-XbY2Ygpq3uI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-69544449-2"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
