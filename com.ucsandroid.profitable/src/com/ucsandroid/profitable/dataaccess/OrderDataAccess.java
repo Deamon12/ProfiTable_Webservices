@@ -423,14 +423,15 @@ public class OrderDataAccess extends MainDataAccess {
 			        ResultSet results2 = pstmt.executeQuery();
 			        OrderedItem oi = new OrderedItem();
 			        MenuItem mi = new MenuItem();
-			        int lastItem = -1;
 			        while (results2.next()) {
-			        	int item_id = results2.getInt("item_id");
-			        	if (item_id!=lastItem) {
-			        		lastItem=item_id;
-			        		//if it does not equal last item, create new
+		        		String item_status = results2.getString("item_status");
+		        		//if item delivered, ignore it
+		        		if (item_status.equalsIgnoreCase("delivered")){
+		        			//donothing
+		        		}
+		        		else {
+		        			int item_id = results2.getInt("item_id");
 			        		String notes = results2.getString("notes");
-			        		String item_status = results2.getString("item_status");
 			        		boolean bring_first = results2.getBoolean("bring_first");
 			        		
 			        		oi = new OrderedItem(item_id, notes, 
@@ -447,18 +448,23 @@ public class OrderDataAccess extends MainDataAccess {
 				        				        	
 				        	oi.setMenuItem(mi);
 			        		c.addItem(oi);
-			        	} 
-			        	String attribute = results2.getString("attribute");
-			        	int price_mod = results2.getInt("price_mod");
-			        	int attrId = results2.getInt("attr_id");
-			        	
-			        	FoodAddition fa = new FoodAddition(attribute,
-			        			price_mod, attrId);
-			        	oi.addAddition(fa);
-			        	
-			        }
+			        		pstmt = conn.prepareStatement(getItemAdditions); 
+					        pstmt.setInt(1, item_id);
+					        ResultSet results3 = pstmt.executeQuery();
+					        while (results3.next()) {
+					        	String attribute = results3.getString("attribute");
+					        	int price_mod = results3.getInt("price_mod");
+					        	int attrId = results3.getInt("attr_id");
+					        	
+					        	FoodAddition fa = new FoodAddition(attribute,
+					        			price_mod, attrId);
+					        	oi.addAddition(fa);
+					        }//end results3
+					        results3.close();
+		        		} //end else - checking for non-delivered items
+			        } //end results2
 			        results2.close();
-		        }
+		        } //end results
 		        results.close();
         		pstmt = conn.prepareStatement(getDiscount);
     	        pstmt.setInt(1, tabId);
@@ -562,7 +568,7 @@ public class OrderDataAccess extends MainDataAccess {
 					        	oi.addAddition(fa);
 					        }//end results3
 					        results3.close();
-		        		}
+		        		} //end else - checking for non-delivered items
 			        } //end results2
 			        results2.close();
 		        } //end results1
