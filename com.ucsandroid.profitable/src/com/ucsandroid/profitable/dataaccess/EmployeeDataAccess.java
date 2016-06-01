@@ -61,7 +61,7 @@ public class EmployeeDataAccess extends MainDataAccess {
 	private static String getDevices =
 			"select curr_device from employee "+
 			"where emp_type = ? and restaurant = ? "+
-			"and curr_device!=null";
+			"and length(curr_device)>0";
 	
 	private static String updateDevice = 
 			"update employee set curr_device = ? where emp_id = ? ";
@@ -100,13 +100,18 @@ public class EmployeeDataAccess extends MainDataAccess {
 	        pstmt.setString(i++, employeeType);
 	        pstmt.setInt(i++, restaurant);
 	        results = pstmt.executeQuery();
-	        
+	        //System.out.println("Query: "+pstmt.toString());
 	        List<String> devices = new ArrayList<String>();
 	        
 	        while (results.next()) { 
 	        	String empDevice = results.getString("curr_device");
 	        	devices.add(empDevice);
 	        } 
+	        //System.out.println(employeeType+" devices:");
+	        //for (String s : devices){
+	        	//System.out.println(s);
+	        //}
+	        	
 	        return successReturnSR(sr, devices);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);

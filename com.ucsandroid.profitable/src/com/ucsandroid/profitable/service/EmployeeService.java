@@ -46,8 +46,8 @@ public class EmployeeService {
 				getInstance().getWaitDevices(rest_id);
 		List<String> managers = EmployeeService.
 				getInstance().getManagerDevices(rest_id);
-		GoogleCloudMessaging.sendFireBaseMessage(updateType, waitstaff);
-		GoogleCloudMessaging.sendFireBaseMessage(updateType, managers);
+		System.out.println(GoogleCloudMessaging.sendFireBaseMessage(updateType, waitstaff));
+		System.out.println(GoogleCloudMessaging.sendFireBaseMessage(updateType, managers));
 	}
 	
 	public void updateFoodPrep(int rest_id, int updateType){
@@ -55,8 +55,8 @@ public class EmployeeService {
 				getInstance().getFoodDevices(rest_id);
 		List<String> managers = EmployeeService.
 				getInstance().getManagerDevices(rest_id);
-		GoogleCloudMessaging.sendFireBaseMessage(updateType, foodPrep);
-		GoogleCloudMessaging.sendFireBaseMessage(updateType, managers);
+		System.out.println(GoogleCloudMessaging.sendFireBaseMessage(updateType, foodPrep));
+		System.out.println(GoogleCloudMessaging.sendFireBaseMessage(updateType, managers));
 	}
 	
 	@SuppressWarnings("unchecked")

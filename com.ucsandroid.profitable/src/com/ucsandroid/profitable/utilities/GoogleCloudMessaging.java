@@ -83,6 +83,10 @@ public class GoogleCloudMessaging {
 		OutputStream os=null;
 		HttpURLConnection con=null;
 		Scanner scan=null;
+		//System.out.println("Sending message type: "+messageType+" to:");
+		//for (String s : devices){
+			//System.out.println(s);
+		//}
 		
 		try {
 			URL url = new URL(fcmUrl);
@@ -117,13 +121,13 @@ public class GoogleCloudMessaging {
 			System.out.println(e.getMessage());
 		} finally {
 			try { if (is!=null) {is.close();}
-			} catch (Exception e) {}
+			} catch (Exception e) {System.out.println(e.getMessage());}
 			try { if (os!=null) {os.close();}
-			} catch (Exception e) {}
+			} catch (Exception e) {System.out.println(e.getMessage());}
 			try { if (con!=null) {con.disconnect();}
-			} catch (Exception e) {}
+			} catch (Exception e) {System.out.println(e.getMessage());}
 			try { if (scan!=null) {scan.close();}
-			} catch (Exception e) {}
+			} catch (Exception e) {System.out.println(e.getMessage());}
 		}
 	    return responseString;
 	}
