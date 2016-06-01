@@ -1,7 +1,7 @@
 /**
  * Database schema for ProfiTable mobile application
  * Author: Eric Gremban
- * Last update: 20160525
+ * Last update: 20160601
  */
 
 /* Drop any versions of this database which existed previously */
@@ -119,7 +119,7 @@ CREATE TABLE Menu_item (
 );
 
 /*
-Item status options: orderdd, cooking, ready, delivered
+Item status options: ordered, cooking, ready, delivered, canceled
 */
 CREATE TABLE Item (
    item_id        BIGSERIAL,

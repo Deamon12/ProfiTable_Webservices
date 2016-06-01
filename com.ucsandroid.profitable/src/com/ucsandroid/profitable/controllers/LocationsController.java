@@ -51,7 +51,7 @@ public class LocationsController {
 				location_id, "available");
 		Location l = new Location();
 		l.setId(location_id);
-		l.setStatus("occupied");
+		l.setStatus("available");
 		EmployeeService.getInstance().updateWaitStaff(1, 1, gson.toJson(l));
 		return status;
 	}

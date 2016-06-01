@@ -76,7 +76,7 @@ public class OrderDataAccess extends MainDataAccess {
 			"item_id ASC ";
 	
 	private static String createOrderedItem = 
-		"INSERT INTO Item (item_status, notes, bring_first) "+
+		"INSERT INTO Item (notes, item_status, bring_first) "+
 		"VALUES( ? , ? , ? ) ";
 	
 	private static String createOrderRelation =
