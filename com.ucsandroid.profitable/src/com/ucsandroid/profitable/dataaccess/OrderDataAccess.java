@@ -70,7 +70,6 @@ public class OrderDataAccess extends MainDataAccess {
 			"oi.cust_id = ? and "+
 			"oi.item_id = i.item_id and "+
 			"oi.menu_id = mi.menu_id and "+
-			"i.item_id = ow.item_id and "+
 			"ow.attr_id = fa.attr_id "+
 		"order by "+
 			"item_id ASC ";
