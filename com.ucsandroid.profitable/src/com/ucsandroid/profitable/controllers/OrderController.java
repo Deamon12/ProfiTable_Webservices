@@ -18,13 +18,17 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.ucsandroid.profitable.entities.Customer;
 import com.ucsandroid.profitable.entities.FoodAddition;
+import com.ucsandroid.profitable.entities.Location;
 import com.ucsandroid.profitable.entities.MenuItem;
 import com.ucsandroid.profitable.entities.OrderedItem;
+import com.ucsandroid.profitable.entities.Tab;
 import com.ucsandroid.profitable.service.EmployeeService;
 import com.ucsandroid.profitable.service.OrderService;
 
 @Path ("/orders")
 public class OrderController {
+	
+	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
 	//TODO - instead of returning unable to find for tables without an order, 
 	//return a better message
@@ -54,7 +58,10 @@ public class OrderController {
 			) {
 		String status = OrderService.getInstance().updateOrderedItem(
 				ordered_item_id, "cooking"); 
-		EmployeeService.getInstance().updateFoodPrep(1, 3);
+		OrderedItem oi = new OrderedItem();
+		oi.setOrderedItemId(ordered_item_id);
+		oi.setOrderedItemStatus("cooking");
+		EmployeeService.getInstance().updateFoodPrep(1, 3, gson.toJson(oi));
 		return status;
 	}
 	
@@ -66,7 +73,10 @@ public class OrderController {
 			) {
 		String status = OrderService.getInstance().updateOrderedItem(
 				ordered_item_id, "ready");
-		EmployeeService.getInstance().updateWaitStaff(1, 3);
+		OrderedItem oi = new OrderedItem();
+		oi.setOrderedItemId(ordered_item_id);
+		oi.setOrderedItemStatus("ready");
+		EmployeeService.getInstance().updateWaitStaff(1, 3, gson.toJson(oi));
 		return status;
 	}
 	
@@ -78,7 +88,10 @@ public class OrderController {
 			) {
 		String status = OrderService.getInstance().updateOrderedItem(
 				ordered_item_id, "delivered");
-		EmployeeService.getInstance().updateWaitStaff(1, 3);
+		OrderedItem oi = new OrderedItem();
+		oi.setOrderedItemId(ordered_item_id);
+		oi.setOrderedItemStatus("delivered");
+		EmployeeService.getInstance().updateWaitStaff(1, 3, gson.toJson(oi));
 		return status;
 	}
 	
@@ -102,7 +115,10 @@ public class OrderController {
 			) {
 		String status = OrderService.getInstance().seatTable(location_id,
 				employee_id);
-		EmployeeService.getInstance().updateWaitStaff(1, 1);
+		Location l = new Location();
+		l.setId(location_id);
+		l.setStatus("occupied");
+		EmployeeService.getInstance().updateWaitStaff(1, 1, gson.toJson(l));
 		return status;
 	}
 	
@@ -116,8 +132,14 @@ public class OrderController {
 			) {
 		String status = OrderService.getInstance().closeTab(location_id,
 				tab_id);
-		EmployeeService.getInstance().updateWaitStaff(1, 1);
-		EmployeeService.getInstance().updateWaitStaff(1, 3);
+		Location l = new Location();
+		l.setId(location_id);
+		l.setStatus("available");
+		Tab t = new Tab();
+		t.setTabId(tab_id);
+		t.setTabStatus("completed");
+		EmployeeService.getInstance().updateWaitStaff(1, 1, gson.toJson(l));
+		EmployeeService.getInstance().updateWaitStaff(1, 3, gson.toJson(t));
 		return status;
 	}
 	
@@ -134,8 +156,16 @@ public class OrderController {
 	public String postOrder(
 			@QueryParam("customers") String customers
 			) {
-		String status = OrderService.getInstance().orderPost(customers); 
-		EmployeeService.getInstance().updateFoodPrep(1, 2);
+		String status = OrderService.getInstance().orderPost(customers);
+		Type collectionType = new TypeToken<Collection<Customer>>(){}.getType();
+		Collection<Customer> custs = gson.fromJson(customers, collectionType);
+		if (custs.size()>0){
+			Customer[] custArray = custs.toArray(new Customer[0]);
+			Tab t = new Tab();
+			t.setTabId(custArray[0].getTabId());
+			t.setTabStatus("inprogress");
+			EmployeeService.getInstance().updateFoodPrep(1, 2, gson.toJson(t));
+		}
 		return status;
 	}
 	

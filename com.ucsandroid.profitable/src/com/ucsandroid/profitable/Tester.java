@@ -15,7 +15,7 @@ public class Tester {
 		devices.add(s7Token);
 		
 		try {
-			GoogleCloudMessaging.sendFireBaseMessage(1, devices);
+			GoogleCloudMessaging.sendFireBaseMessage(1, "shhh...", devices);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

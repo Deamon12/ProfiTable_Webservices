@@ -56,7 +56,8 @@ public class EmployeeDataAccess extends MainDataAccess {
 	private static String getEmployees = 
 			"SELECT * FROM employee "+
 			"WHERE "+
-			"restaurant = ? ";
+				"restaurant = ? "+
+			"ORDER BY emp_type ASC, account_name ASC";
 	
 	private static String getDevices =
 			"select curr_device from employee "+

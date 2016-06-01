@@ -27,23 +27,23 @@ public class AdditionsDataAccess extends MainDataAccess {
 		"WHERE attr_id = ? and restaurant = ?";
 	
 	private static String getStatement = 
-			"SELECT distinct "+
-				" * "+
-			"FROM "+
-				"food_attribute fa "+
-			"WHERE "+
-				"fa.restaurant= ? "+
-				"ORDER BY fa.attr_id ASC ";
+		"SELECT distinct "+
+			" * "+
+		"FROM "+
+			"food_attribute fa "+
+		"WHERE "+
+			"fa.restaurant= ? "+
+		"ORDER BY fa.attribute ASC ";
 	
 	private static String getStatement2 = 
-			"SELECT distinct "+
-				" * "+
-			"FROM "+
-				"food_attribute fa "+
-			"WHERE "+
-				"fa.restaurant = ? "+
-				"and fa.available = ? "+
-				"ORDER BY fa.attr_id ASC ";
+		"SELECT distinct "+
+			" * "+
+		"FROM "+
+			"food_attribute fa "+
+		"WHERE "+
+			"fa.restaurant = ? "+
+			"and fa.available = ? "+
+		"ORDER BY fa.attribute ASC ";
 
 	private static AdditionsDataAccess additionsDataAccess = 
 			new AdditionsDataAccess();

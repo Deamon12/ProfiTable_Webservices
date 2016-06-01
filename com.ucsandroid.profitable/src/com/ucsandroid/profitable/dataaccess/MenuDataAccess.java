@@ -49,7 +49,7 @@ public class MenuDataAccess extends MainDataAccess {
 			"mi.menu_id=hs.menu_id "+
 			"and c.cat_id=hs.cat_id "+
 			"and mi.restaurant = ? "+
-			"ORDER BY category_name ASC";
+		"ORDER BY category_name ASC";
 	
 	private static String getMenuItemsByCategory = 
 		"SELECT "+
@@ -61,7 +61,8 @@ public class MenuDataAccess extends MainDataAccess {
 		"WHERE "+
 			"mi.menu_id=hc.menu_id "+
 			"and mi.restaurant = ? "+
-			"and hc.cat_id= ? ";
+			"and hc.cat_id= ? "+
+		"order by mi.menu_name asc";
 	
 	private static String getMenuItemsByCategoryAvailable =
 		"SELECT "+
@@ -74,7 +75,8 @@ public class MenuDataAccess extends MainDataAccess {
 			"mi.menu_id=hc.menu_id "+
 			"and mi.restaurant = ? "+
 			"and hc.cat_id = ? "+
-			"and mi.available = ? ";
+			"and mi.available = ? "+
+		"order by mi.menu_name asc";
 	
 	private static String getMenuItemSingle = 
 		"SELECT "+
@@ -93,7 +95,8 @@ public class MenuDataAccess extends MainDataAccess {
 		"FROM "+
 			"menu_item mi "+
 		"WHERE "+
-			"mi.restaurant = ? ";
+			"mi.restaurant = ? "+
+		"ORDER BY mi.menu_name ASC";
 	
 	private static String getMenuItemsAvailable = 
 		"SELECT "+
@@ -103,13 +106,15 @@ public class MenuDataAccess extends MainDataAccess {
 			"menu_item mi "+
 		"WHERE "+
 			"mi.restaurant = ? "+
-			"and mi.available = ? ";
+			"and mi.available = ? "+
+		"ORDER BY mi.menu_name ASC";
 	
 	private static String getAdditionsForAnItem =
 		"SELECT fa.attr_id, fa.attribute, fa.price_mod, "
 		+ "fa.available, ha.default_incl "+
 		"FROM food_attribute fa, has_attr ha "+
-		"WHERE ha.menu_id = ? and ha.attr_id=fa.attr_id";
+		"WHERE ha.menu_id = ? and ha.attr_id=fa.attr_id "+
+		"ORDER BY fa.attribute ASC";
 	
 	public StandardResult getMenuItem(int restaurant, int menuItem) {
 		StandardResult sr = new StandardResult(false, null);

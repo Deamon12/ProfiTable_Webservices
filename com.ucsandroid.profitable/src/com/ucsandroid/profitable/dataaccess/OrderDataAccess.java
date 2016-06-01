@@ -35,7 +35,8 @@ public class OrderDataAccess extends MainDataAccess {
 		"WHERE "+
 			"l.curr_tab = t.tab_id and "+
 			"ho.order_id=t.tab_id and "+
-			"l.restaurant = ?";
+			"l.restaurant = ? "+
+			"order by time_in asc";
 	
 	private static String getOrder = 
 		"SELECT "+
@@ -52,10 +53,12 @@ public class OrderDataAccess extends MainDataAccess {
 	private static String getDiscount =
 		"select d.* "+
 		"from has_disc hd, discount d "+
-		"where hd.order_id=? and hd.disc_id=d.disc_id";
+		"where hd.order_id=? and hd.disc_id=d.disc_id "+
+		"order by disc_type ASC";
 	
 	private static String getCustomersOnOrder = 
-		"select * from customer where order_id = ?";
+		"select * from customer where order_id = ? "+
+		"order by cust_id asc";
 	
 	private static String getCustomerOrder =
 		"select "+

@@ -41,22 +41,28 @@ public class EmployeeService {
 				updateDevice(device_id, emp_id));
 	}
 	
-	public void updateWaitStaff(int rest_id, int updateType){
+	public void updateWaitStaff(int rest_id, int updateType,
+			String jsonNotice){
 		List<String> waitstaff = EmployeeService.
 				getInstance().getWaitDevices(rest_id);
 		List<String> managers = EmployeeService.
 				getInstance().getManagerDevices(rest_id);
-		System.out.println(GoogleCloudMessaging.sendFireBaseMessage(updateType, waitstaff));
-		System.out.println(GoogleCloudMessaging.sendFireBaseMessage(updateType, managers));
+		System.out.println(GoogleCloudMessaging.
+				sendFireBaseMessage(updateType, jsonNotice, waitstaff));
+		System.out.println(GoogleCloudMessaging.
+				sendFireBaseMessage(updateType, jsonNotice, managers));
 	}
 	
-	public void updateFoodPrep(int rest_id, int updateType){
+	public void updateFoodPrep(int rest_id, int updateType,
+			String jsonNotice){
 		List<String> foodPrep = EmployeeService.
 				getInstance().getFoodDevices(rest_id);
 		List<String> managers = EmployeeService.
 				getInstance().getManagerDevices(rest_id);
-		System.out.println(GoogleCloudMessaging.sendFireBaseMessage(updateType, foodPrep));
-		System.out.println(GoogleCloudMessaging.sendFireBaseMessage(updateType, managers));
+		System.out.println(GoogleCloudMessaging.
+				sendFireBaseMessage(updateType, jsonNotice, foodPrep));
+		System.out.println(GoogleCloudMessaging.
+				sendFireBaseMessage(updateType, jsonNotice, managers));
 	}
 	
 	@SuppressWarnings("unchecked")

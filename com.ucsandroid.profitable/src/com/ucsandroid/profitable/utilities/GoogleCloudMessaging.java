@@ -76,7 +76,8 @@ public class GoogleCloudMessaging {
 	 * @throws IOException
 	 * @throws JSONException
 	 */
-	public static String sendFireBaseMessage(int messageType, List<String> devices){
+	public static String sendFireBaseMessage(int messageType, 
+			String jsonNotice, List<String> devices){
 		
 		String responseString = "";
 		InputStream is=null;
@@ -102,7 +103,7 @@ public class GoogleCloudMessaging {
 	
 		    // HTTP request
 		    JSONObject jsonToSend = new JSONObject();
-		    JSONObject jsonData = new JSONObject();
+		    JSONObject jsonData = new JSONObject(jsonNotice);
 		    jsonData.put("type", messageType+"");
 		    jsonToSend.put("data", jsonData);
 		    jsonToSend.put("registration_ids", devices); //These are device tokens

@@ -32,7 +32,8 @@ public class LocationsDataAccess extends MainDataAccess {
 			"l.loc_cat=lc.loccat_id and "+
 			"lc.restaurant = ? "+
 		"ORDER BY "+
-			"lc.name ASC ";
+			"lc.name ASC, "+
+			"l.name ASC";
 	
 	private static String insertStatement = 
 		"INSERT INTO location "+
