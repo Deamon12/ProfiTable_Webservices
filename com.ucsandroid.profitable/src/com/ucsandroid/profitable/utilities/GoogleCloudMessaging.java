@@ -19,12 +19,12 @@ import com.google.android.gcm.server.Sender;
 public class GoogleCloudMessaging {
 
 	//GCM API Key
-	private static String senderId = "418685242715";
-	private static String GCM_API_KEY = "AIzaSyAhwbFKIDlDCHVHUB6D4TSCnGlXc-yeX-0";
-	private static int RETRIES = 5;
-	private static String serverKey = "AIzaSyCOL5ThhdXu3O3Qz-oLZSwW4GhjC7_nH4E";
-	private static String jsonType = "application/json";
-	private static String fcmUrl = "https://fcm.googleapis.com/fcm/send";
+	private static final String senderId = "418685242715";
+	private static final String GCM_API_KEY = "AIzaSyAhwbFKIDlDCHVHUB6D4TSCnGlXc-yeX-0";
+	private static final int RETRIES = 5;
+	private static final String serverKey = "AIzaSyCOL5ThhdXu3O3Qz-oLZSwW4GhjC7_nH4E";
+	private static final String jsonType = "application/json";
+	private static final String fcmUrl = "https://fcm.googleapis.com/fcm/send";
 	
 	/**
 	 * DEPRECATED: Use sendFireBaseMessage()
