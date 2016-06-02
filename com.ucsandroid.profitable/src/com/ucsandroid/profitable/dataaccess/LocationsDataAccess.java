@@ -21,7 +21,7 @@ public class LocationsDataAccess extends MainDataAccess {
 		return locationsDataAccess;
 	}
 	
-	private static String getLocations = 
+	private static final String getLocations = 
 		"SELECT "+
 			"l.loc_id, l.loc_status, l.name as location, "
 			+ "lc.loccat_id, lc.name as loccatname, "+
@@ -35,12 +35,12 @@ public class LocationsDataAccess extends MainDataAccess {
 			"lc.name ASC, "+
 			"l.name ASC";
 	
-	private static String insertStatement = 
+	private static final String insertStatement = 
 		"INSERT INTO location "+
 		"(loc_status, name,restaurant,loc_cat) "+ 
 		" VALUES(?,?,?,?)";
 	
-	private static String updateStatement =
+	private static final String updateStatement =
 		"UPDATE "+
 			"location "+
 		"SET "+
@@ -50,7 +50,7 @@ public class LocationsDataAccess extends MainDataAccess {
 		"WHERE "+
 			"loc_id = ?";
 	
-	private static String updateCurrTabStatement =
+	private static final String updateCurrTabStatement =
 		"UPDATE "+
 			"location "+
 		"SET "+
@@ -58,12 +58,15 @@ public class LocationsDataAccess extends MainDataAccess {
 		"WHERE "+
 			"loc_id = ?";
 	
-	private static String deleteStatement =
+	private static final String deleteStatement =
 		"DELETE FROM location "+
 		"WHERE loc_id = ? and restaurant = ?";
 	
-	private static String updateLocStatus =
+	private static final String updateLocStatus =
 		"update location set loc_status = ? where loc_id = ? ";
+	
+	private static final String getLocationDetails =
+		"select * from location where loc_id = ? ";
 	
 	public StandardResult updateLocationStatus(int locId, String status) {
 		StandardResult sr = new StandardResult(false, null);
@@ -242,6 +245,37 @@ public class LocationsDataAccess extends MainDataAccess {
 	        } 
 	        
 	        return successReturnSR(sr, locationCategories);
+		} catch (Exception e) {
+			return catchErrorAndSetSR(sr, e);
+		} finally {
+			sqlCleanup(pstmt,results,conn);
+		}
+	}
+	
+	public StandardResult getLocationDetails(int location) {
+		StandardResult sr = new StandardResult(false, null);
+		ResultSet results = null;
+		try {
+			conn = connUtil.getConnection();
+	        pstmt = conn.prepareStatement(getLocationDetails);
+	        pstmt.setInt(1, location);
+	        results = pstmt.executeQuery();
+	        Location loc=null;
+	        
+	        if (results.next()) {
+	        	int loc_id = results.getInt("loc_id");
+	        	int restId = results.getInt("restaurant");
+	        	int curr_tab = results.getInt("curr_tab");
+	        	String loc_status = results.getString("loc_status");
+	        	String name = results.getString("name");
+	        	Tab t = new Tab();
+	        	t.setTabId(curr_tab);
+	        	
+	        	loc = new Location(loc_id,loc_status,name,
+	        			t,restId);
+	        }
+	        
+	        return successReturnSR(sr, loc);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
 		} finally {

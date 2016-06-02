@@ -9,9 +9,12 @@ import javax.ws.rs.core.MediaType;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ucsandroid.profitable.StandardResult;
+import com.ucsandroid.profitable.dataaccess.LocationsDataAccess;
 import com.ucsandroid.profitable.entities.Location;
 import com.ucsandroid.profitable.service.EmployeeService;
 import com.ucsandroid.profitable.service.LocationsService;
+import com.ucsandroid.profitable.service.OrderService;
 
 @Path ("/location")
 public class LocationsController {
@@ -49,6 +52,23 @@ public class LocationsController {
 			) {
 		String status = LocationsService.getInstance().updateLocationStatus(
 				location_id, "available");
+		StandardResult sr = LocationsDataAccess.getInstance().getLocationDetails(location_id);
+		if (sr.getSuccess()){
+			Location temp = (Location) sr.getResult();
+			try {
+				int order_id = temp.getCurrentTab().getTabId();
+				
+				if (order_id>0){
+					System.out.println("Closing order: "+order_id+"\n"+
+							OrderService.getInstance().
+							closeTab(location_id, order_id));
+				}
+				
+			}catch (Exception e) { 
+				//swallow exception, if not correct shouldn't halt other progress}
+				System.out.println(e.getMessage());
+			}
+		}
 		Location l = new Location();
 		l.setId(location_id);
 		l.setStatus("available");

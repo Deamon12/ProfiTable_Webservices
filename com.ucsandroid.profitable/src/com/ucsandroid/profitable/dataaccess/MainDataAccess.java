@@ -33,7 +33,8 @@ public class MainDataAccess {
 		sr.setSuccess(false);
 		sr.setMessage("Error: internal database issue:  "+
 			e.getMessage());
-		System.out.println(e.getStackTrace());
+		System.out.println(e.getStackTrace().toString());
+		e.printStackTrace();
 		return sr;
 	}
 	

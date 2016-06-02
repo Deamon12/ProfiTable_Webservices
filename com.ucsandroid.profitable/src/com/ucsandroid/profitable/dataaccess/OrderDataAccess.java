@@ -27,7 +27,7 @@ public class OrderDataAccess extends MainDataAccess {
 		return orderDataAccess;
 	}
 	
-	private static String getActiveOrders =
+	private static final String getActiveOrders =
 		"SELECT "+
 			"t.* "+
 		"FROM "+
@@ -38,7 +38,7 @@ public class OrderDataAccess extends MainDataAccess {
 			"l.restaurant = ? "+
 			"order by time_in asc";
 	
-	private static String getOrder = 
+	private static final String getOrder = 
 		"SELECT "+
 			"t.*, l.*, e.* "+
 		"FROM "+
@@ -50,17 +50,17 @@ public class OrderDataAccess extends MainDataAccess {
 			"l.restaurant = ? and "+
 			"l.loc_id = ? ";
 	
-	private static String getDiscount =
+	private static final String getDiscount =
 		"select d.* "+
 		"from has_disc hd, discount d "+
 		"where hd.order_id=? and hd.disc_id=d.disc_id "+
 		"order by disc_type ASC";
 	
-	private static String getCustomersOnOrder = 
+	private static final String getCustomersOnOrder = 
 		"select * from customer where order_id = ? "+
 		"order by cust_id asc";
 	
-	private static String getCustomerOrder =
+	private static final String getCustomerOrder =
 		"select "+
 			"i.*, mi.* "+
 		"from  "+
@@ -72,32 +72,32 @@ public class OrderDataAccess extends MainDataAccess {
 		"order by "+
 			"item_id ASC ";
 	
-	private static String getItemAdditions =
+	private static final String getItemAdditions =
 		"select fa.* "+
 		"from ordered_with ow, food_attribute fa "+
 		"where ow.attr_id=fa.attr_id and ow.item_id = ? ";
 	
-	private static String createOrderedItem = 
+	private static final String createOrderedItem = 
 		"INSERT INTO Item (notes, item_status, bring_first) "+
 		"VALUES( ? , ? , ? ) ";
 	
-	private static String createOrderRelation =
+	private static final String createOrderRelation =
 		"INSERT INTO Ordered_item (item_id, menu_id, cust_id) "+
 		"VALUES( ? , ? , ? ) ";
 	
-	private static String createOrderAddition = 
+	private static final String createOrderAddition = 
 		"INSERT INTO Ordered_with (item_id, attr_id) "+
 		"VALUES( ? , ? ) ";
 	
-	private static String createOrder = 
+	private static final String createOrder = 
 		"INSERT INTO Tab (tab_status, time_in) "+
 		"VALUES( ? , ? ) ";
 	
-	private static String createOrderLocationRelation = 
+	private static final String createOrderLocationRelation = 
 		"INSERT INTO Has_order (loc_id, order_id, emp_id) "+
 		"VALUES( ? , ? , ? ) ";
 	
-	private static String updateStatementFull =
+	private static final String updateStatementFull =
 		"UPDATE "+
 			"tab "+
 		"SET "+
@@ -106,7 +106,7 @@ public class OrderDataAccess extends MainDataAccess {
 		"WHERE "+
 			"tab_id = ?";
 	
-	private static String updateTabClose =
+	private static final String updateTabClose =
 		"UPDATE "+
 			"tab "+
 		"SET "+
@@ -114,11 +114,11 @@ public class OrderDataAccess extends MainDataAccess {
 		"WHERE "+
 			"tab_id = ?";
 	
-	private static String deleteStatement =
+	private static final String deleteStatement =
 			"DELETE FROM tab "+
 			"WHERE tab_id = ? ";
 	
-	private static String updateOrderedItemStatus =
+	private static final String updateOrderedItemStatus =
 		"update item set item_status = ? where item_id = ? ";
 	
 	public StandardResult updateOrderedItemStatus(int itemId, String status) {
