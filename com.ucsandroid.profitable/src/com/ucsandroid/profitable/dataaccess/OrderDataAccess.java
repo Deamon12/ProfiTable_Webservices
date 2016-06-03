@@ -425,43 +425,38 @@ public class OrderDataAccess extends MainDataAccess {
 			        MenuItem mi = new MenuItem();
 			        while (results2.next()) {
 		        		String item_status = results2.getString("item_status");
-		        		//if item delivered, ignore it
-		        		if (item_status.equalsIgnoreCase("delivered")){
-		        			//donothing
-		        		}
-		        		else {
-		        			int item_id = results2.getInt("item_id");
-			        		String notes = results2.getString("notes");
-			        		boolean bring_first = results2.getBoolean("bring_first");
-			        		
-			        		oi = new OrderedItem(item_id, notes, 
-			        				item_status, bring_first);
-			        		
-			        		int menu_id = results2.getInt("menu_id");
-			        		String menu_name = results2.getString("menu_name");
-				        	String description = results2.getString("description");
-				        	boolean available = results2.getBoolean("available");
-				        	int price = results2.getInt("price");
+		        		
+	        			int item_id = results2.getInt("item_id");
+		        		String notes = results2.getString("notes");
+		        		boolean bring_first = results2.getBoolean("bring_first");
+		        		
+		        		oi = new OrderedItem(item_id, notes, 
+		        				item_status, bring_first);
+		        		
+		        		int menu_id = results2.getInt("menu_id");
+		        		String menu_name = results2.getString("menu_name");
+			        	String description = results2.getString("description");
+			        	boolean available = results2.getBoolean("available");
+			        	int price = results2.getInt("price");
+			        	
+			        	mi = new MenuItem(menu_id, menu_name, 
+			        			description,price,available);
+			        				        	
+			        	oi.setMenuItem(mi);
+		        		c.addItem(oi);
+		        		pstmt = conn.prepareStatement(getItemAdditions); 
+				        pstmt.setInt(1, item_id);
+				        ResultSet results3 = pstmt.executeQuery();
+				        while (results3.next()) {
+				        	String attribute = results3.getString("attribute");
+				        	int price_mod = results3.getInt("price_mod");
+				        	int attrId = results3.getInt("attr_id");
 				        	
-				        	mi = new MenuItem(menu_id, menu_name, 
-				        			description,price,available);
-				        				        	
-				        	oi.setMenuItem(mi);
-			        		c.addItem(oi);
-			        		pstmt = conn.prepareStatement(getItemAdditions); 
-					        pstmt.setInt(1, item_id);
-					        ResultSet results3 = pstmt.executeQuery();
-					        while (results3.next()) {
-					        	String attribute = results3.getString("attribute");
-					        	int price_mod = results3.getInt("price_mod");
-					        	int attrId = results3.getInt("attr_id");
-					        	
-					        	FoodAddition fa = new FoodAddition(attribute,
-					        			price_mod, attrId);
-					        	oi.addAddition(fa);
-					        }//end results3
-					        results3.close();
-		        		} //end else - checking for non-delivered items
+				        	FoodAddition fa = new FoodAddition(attribute,
+				        			price_mod, attrId);
+				        	oi.addAddition(fa);
+				        }//end results3
+				        results3.close();
 			        } //end results2
 			        results2.close();
 		        } //end results
@@ -512,7 +507,6 @@ public class OrderDataAccess extends MainDataAccess {
 	        	String tab_status = results.getString("tab_status");
 	        	Tab t = new Tab(tabId, tab_status, time_in, time_out);
 	        	
-	        	activeTabs.add(t);
 	        	
 	        	//Check for any customers on this tab
 	        	pstmt = conn.prepareStatement(getCustomersOnOrder);
@@ -573,6 +567,18 @@ public class OrderDataAccess extends MainDataAccess {
 			        results2.close();
 		        } //end results1
 		        results1.close();
+		        
+		        boolean activeOrder = false;
+
+	        	for (Customer custo : t.getCustomers()) {
+	        		if (custo.getOrder().size()>0) {
+	        			activeOrder=true;
+	        		}
+	        	}
+		        
+		        if (activeOrder) {
+		        	activeTabs.add(t);
+		        }
         	} 
 	        results.close();
 	        return successReturnSR(sr, activeTabs);
