@@ -16,6 +16,8 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.ucsandroid.profitable.StandardResult;
+import com.ucsandroid.profitable.dataaccess.LocationsDataAccess;
 import com.ucsandroid.profitable.entities.Customer;
 import com.ucsandroid.profitable.entities.FoodAddition;
 import com.ucsandroid.profitable.entities.Location;
@@ -73,10 +75,32 @@ public class OrderController {
 			) {
 		String status = OrderService.getInstance().updateOrderedItem(
 				ordered_item_id, "ready");
-		OrderedItem oi = new OrderedItem();
-		oi.setOrderedItemId(ordered_item_id);
-		oi.setOrderedItemStatus("ready");
-		EmployeeService.getInstance().updateWaitStaff(1, 3, gson.toJson(oi));
+		
+		StandardResult sr = LocationsDataAccess.getInstance().
+				getLocationFromOrderedItem(ordered_item_id);
+		int location_id=0;
+		Location temp = new Location();;
+		if (sr.getSuccess()){
+			temp = (Location) sr.getResult();
+			try {
+				location_id = temp.getId();
+				
+				if (location_id>0){
+					EmployeeService.getInstance().updateWaitStaff(1, 3, gson.toJson(temp));
+					System.out.println("Sending message to waitstaff about location: "+
+							gson.toJson(temp));
+				}
+				
+			}catch (Exception e) { 
+				//swallow exception, if not correct shouldn't halt other progress}
+				System.out.println(e.getMessage());
+			}
+		}
+		
+		//OrderedItem oi = new OrderedItem();
+		//oi.setOrderedItemId(ordered_item_id);
+		//oi.setOrderedItemStatus("ready");
+		
 		return status;
 	}
 	

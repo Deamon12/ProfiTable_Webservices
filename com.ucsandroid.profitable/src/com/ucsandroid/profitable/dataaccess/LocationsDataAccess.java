@@ -68,6 +68,14 @@ public class LocationsDataAccess extends MainDataAccess {
 	private static final String getLocationDetails =
 		"select * from location where loc_id = ? ";
 	
+	private static final String getLocationFromOrderedItem = 
+		"select	ho.loc_id from "+
+			"ordered_item oi, customer c, has_order ho "+
+		"where "+
+			"oi.cust_id = c.cust_id and "+
+			"c.order_id = ho.order_id and "+
+			"oi.item_id = ? ";
+	
 	public StandardResult updateLocationStatus(int locId, String status) {
 		StandardResult sr = new StandardResult(false, null);
 		try {
@@ -273,6 +281,33 @@ public class LocationsDataAccess extends MainDataAccess {
 	        	
 	        	loc = new Location(loc_id,loc_status,name,
 	        			t,restId);
+	        }
+	        
+	        return successReturnSR(sr, loc);
+		} catch (Exception e) {
+			return catchErrorAndSetSR(sr, e);
+		} finally {
+			sqlCleanup(pstmt,results,conn);
+		}
+	}
+	
+	public StandardResult getLocationFromOrderedItem(int orderedItem) {
+		StandardResult sr = new StandardResult(false, null);
+		ResultSet results = null;
+		try {
+			conn = connUtil.getConnection();
+	        pstmt = conn.prepareStatement(getLocationFromOrderedItem);
+	        pstmt.setInt(1, orderedItem);
+	        results = pstmt.executeQuery();
+	        
+	        Location loc=null;
+	        
+	        if (results.next()) {
+	        	int loc_id = results.getInt("loc_id");
+
+	        	
+	        	loc = new Location();
+	        	loc.setId(loc_id);
 	        }
 	        
 	        return successReturnSR(sr, loc);
