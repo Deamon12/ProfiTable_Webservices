@@ -86,9 +86,15 @@ public class OrderController {
 				location_id = temp.getId();
 				
 				if (location_id>0){
-					EmployeeService.getInstance().updateWaitStaff(1, 3, gson.toJson(temp));
+					String manualJSONhackiness=
+						"{ \n"+
+						  "\"locationId\": "+location_id+",\n"+
+						  "\"status\": \"ready\" \n"+
+						"} ";
+					
+					EmployeeService.getInstance().updateWaitStaff(1, 3, manualJSONhackiness);
 					System.out.println("Sending message to waitstaff about location: "+
-							gson.toJson(temp));
+							manualJSONhackiness);
 				}
 				
 			}catch (Exception e) { 
@@ -112,10 +118,38 @@ public class OrderController {
 			) {
 		String status = OrderService.getInstance().updateOrderedItem(
 				ordered_item_id, "delivered");
-		OrderedItem oi = new OrderedItem();
-		oi.setOrderedItemId(ordered_item_id);
-		oi.setOrderedItemStatus("delivered");
-		EmployeeService.getInstance().updateWaitStaff(1, 3, gson.toJson(oi));
+		
+		StandardResult sr = LocationsDataAccess.getInstance().
+				getLocationFromOrderedItem(ordered_item_id);
+		int location_id=0;
+		Location temp = new Location();;
+		if (sr.getSuccess()){
+			temp = (Location) sr.getResult();
+			try {
+				location_id = temp.getId();
+				
+				if (location_id>0){
+					String manualJSONhackiness=
+							"{ \n"+
+							  "\"locationId\": "+location_id+",\n"+
+							  "\"status\": \"delivered\" \n"+
+							"} ";
+						
+						EmployeeService.getInstance().updateWaitStaff(1, 3, manualJSONhackiness);
+						System.out.println("Sending message to waitstaff about location: "+
+								manualJSONhackiness);
+				}
+				
+			}catch (Exception e) { 
+				//swallow exception, if not correct shouldn't halt other progress}
+				System.out.println(e.getMessage());
+			}
+		}
+		
+		//OrderedItem oi = new OrderedItem();
+		//oi.setOrderedItemId(ordered_item_id);
+		//oi.setOrderedItemStatus("ready");
+		
 		return status;
 	}
 	
