@@ -127,17 +127,24 @@ public class OrderDataAccess extends MainDataAccess {
 			// Open the connection
 			conn = connUtil.getConnection();
 			// Begin transaction
-	        conn.setAutoCommit(false);
+	        //conn.setAutoCommit(false);
 	        // Create the prepared statement
 	        pstmt = conn.prepareStatement(updateOrderedItemStatus);
 	        // Set the variable parameters
 	        int i = 1;
 	        pstmt.setString(i++, status);
 	        pstmt.setInt(i++, itemId);
+	        
+	      //hacky update to try and resolve update lock issues
+	        pstmt.executeUpdate();
+	        sr.setMessage("Update successful");
+        	sr.setResult(null);
+	        sr.setSuccess(true);
+	        return sr;
 
 	        // Validate for expected and return status
-	        return updateHelper(pstmt.executeUpdate(), 
-	        		1, conn, sr);
+	        //return updateHelper(pstmt.executeUpdate(), 
+	        		//1, conn, sr);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
 		} finally {
@@ -152,7 +159,7 @@ public class OrderDataAccess extends MainDataAccess {
 			// Open the connection
 			conn = connUtil.getConnection();
 			// Begin transaction
-	        conn.setAutoCommit(false);
+	        //conn.setAutoCommit(false);
 	        // Create the prepared statement
 	        pstmt = conn.prepareStatement(updateStatementFull);
 	        // Set the variable parameters
@@ -161,10 +168,17 @@ public class OrderDataAccess extends MainDataAccess {
 	        pstmt.setTimestamp(i++, time_in);
 	        pstmt.setTimestamp(i++, time_out);
 	        pstmt.setInt(i++, tabId);
+	        
+	        //hacky update to try and resolve update lock issues
+	        pstmt.executeUpdate();
+	        sr.setMessage("Update successful");
+        	sr.setResult(null);
+	        sr.setSuccess(true);
+	        return sr;
 
 	        // Validate for expected and return status
-	        return updateHelper(pstmt.executeUpdate(), 
-	        		1, conn, sr);
+	        //return updateHelper(pstmt.executeUpdate(), 
+	        		//1, conn, sr);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
 		} finally {
@@ -179,7 +193,7 @@ public class OrderDataAccess extends MainDataAccess {
 			// Open the connection
 			conn = connUtil.getConnection();
 			// Begin transaction
-	        conn.setAutoCommit(false);
+	        //conn.setAutoCommit(false);
 	        // Create the prepared statement
 	        pstmt = conn.prepareStatement(updateTabClose);
 	        // Set the variable parameters
@@ -187,10 +201,17 @@ public class OrderDataAccess extends MainDataAccess {
 	        pstmt.setString(i++, status);
 	        pstmt.setTimestamp(i++, time_out);
 	        pstmt.setInt(i++, tabId);
+	        
+	        //hacky update to try and resolve update lock issues
+	        pstmt.executeUpdate();
+	        sr.setMessage("Update successful");
+        	sr.setResult(null);
+	        sr.setSuccess(true);
+	        return sr;
 
 	        // Validate for expected and return status
-	        return updateHelper(pstmt.executeUpdate(), 
-	        		1, conn, sr);
+	        //return updateHelper(pstmt.executeUpdate(), 
+	        		//1, conn, sr);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
 		} finally {

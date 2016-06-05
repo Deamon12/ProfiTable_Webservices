@@ -82,17 +82,24 @@ public class LocationsDataAccess extends MainDataAccess {
 			// Open the connection
 			conn = connUtil.getConnection();
 			// Begin transaction
-	        conn.setAutoCommit(false);
+	        //conn.setAutoCommit(false);
 	        // Create the prepared statement
 	        pstmt = conn.prepareStatement(updateLocStatus);
 	        // Set the variable parameters
 	        int i = 1;
 	        pstmt.setString(i++, status);
 	        pstmt.setInt(i++, locId);
+	        
+	        //hacky update to try and resolve update lock issues
+	        pstmt.executeUpdate();
+	        sr.setMessage("Update successful");
+        	sr.setResult(null);
+	        sr.setSuccess(true);
+	        return sr;
 
 	        // Validate for expected and return status
-	        return updateHelper(pstmt.executeUpdate(), 
-	        		1, conn, sr);
+	        //return updateHelper(pstmt.executeUpdate(), 
+	        		//1, conn, sr);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
 		} finally {
@@ -158,7 +165,7 @@ public class LocationsDataAccess extends MainDataAccess {
 			// Open the connection
 			conn = connUtil.getConnection();
 			// Begin transaction
-	        conn.setAutoCommit(false);
+	        //conn.setAutoCommit(false);
 	        // Create the prepared statement
 	        pstmt = conn.prepareStatement(updateStatement);
 	        // Set the variable parameters
@@ -173,10 +180,17 @@ public class LocationsDataAccess extends MainDataAccess {
 	        	pstmt.setNull(i++, Types.BIGINT);
 	        }
 	        pstmt.setInt(i++, locId);
+	        
+	        //hacky update to try and resolve update lock issues
+	        pstmt.executeUpdate();
+	        sr.setMessage("Update successful");
+        	sr.setResult(null);
+	        sr.setSuccess(true);
+	        return sr;
 
 	        // Validate for expected and return status
-	        return updateHelper(pstmt.executeUpdate(), 
-	        		1, conn, sr);
+	        //return updateHelper(pstmt.executeUpdate(), 
+	        		//1, conn, sr);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
 		} finally {
@@ -190,7 +204,7 @@ public class LocationsDataAccess extends MainDataAccess {
 			// Open the connection
 			conn = connUtil.getConnection();
 			// Begin transaction
-	        conn.setAutoCommit(false);
+	        //conn.setAutoCommit(false);
 	        // Create the prepared statement
 	        pstmt = conn.prepareStatement(updateCurrTabStatement);
 	        // Set the variable parameters
@@ -201,10 +215,17 @@ public class LocationsDataAccess extends MainDataAccess {
 	        	pstmt.setNull(i++, Types.BIGINT);
 	        }
 	        pstmt.setInt(i++, locId);
+	        
+	      //hacky update to try and resolve update lock issues
+	        pstmt.executeUpdate();
+	        sr.setMessage("Update successful");
+        	sr.setResult(null);
+	        sr.setSuccess(true);
+	        return sr;
 
 	        // Validate for expected and return status
-	        return updateHelper(pstmt.executeUpdate(), 
-	        		1, conn, sr);
+	        //return updateHelper(pstmt.executeUpdate(), 
+	        		//1, conn, sr);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
 		} finally {

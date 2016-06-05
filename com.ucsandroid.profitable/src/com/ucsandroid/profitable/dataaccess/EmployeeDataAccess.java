@@ -73,17 +73,24 @@ public class EmployeeDataAccess extends MainDataAccess {
 			// Open the connection
 			conn = connUtil.getConnection();
 			// Begin transaction
-	        conn.setAutoCommit(false);
+	        //conn.setAutoCommit(false);
 	        // Create the prepared statement
 	        pstmt = conn.prepareStatement(updateDevice);
 	        // Set the variable parameters
 	        int i = 1;
 	        pstmt.setString(i++, deviceId);
 	        pstmt.setInt(i++, emp_id);
+	        
+	        //hacky update to try and resolve update lock issues
+	        pstmt.executeUpdate();
+	        sr.setMessage("Update successful");
+        	sr.setResult(null);
+	        sr.setSuccess(true);
+	        return sr;
 
 	        // Validate for expected and return status
-	        return updateHelper(pstmt.executeUpdate(), 
-	        		1, conn, sr);
+	        //return updateHelper(pstmt.executeUpdate(), 
+	        		//1, conn, sr);
 		} catch (Exception e) {
 			return catchErrorAndSetSR(sr, e);
 		} finally {
